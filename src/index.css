@@ -18,7 +18,7 @@ html, body {
 }
 
 .bento {
-    @apply p-5 bg-white w-full rounded-lg drop-shadow-md h-full;
+    @apply p-5 bg-white rounded-lg drop-shadow-md h-full;
 }
 
 .fi {

@@ -3,6 +3,7 @@ import BentoLayout from "./components/BentoLayout";
 import Credits from "./components/Credits";
 import Hero from "./components/Hero";
 import DestinationLayout from "./components/DestinationInfo";
+import Inclusions from "./components/Inclusions";
 
 const Page: React.FC = () => {
     const [scrollPosition, setScrollPosition] = useState(0);
@@ -20,6 +21,7 @@ const Page: React.FC = () => {
             <Hero scrollPosition={scrollPosition} />
             <BentoLayout />
             <DestinationLayout />
+            <Inclusions />
             <Credits />
         </div>
     );

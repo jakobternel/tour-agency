@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-const image = require("../images/castle.jpg");
-const logo = require("../images/logo_white.png");
+const image = require("../images/germany/castle.jpg");
+const logo = require("../images/shared/logo_white.png");
 
 const Hero: React.FC<{ scrollPosition: number }> = ({ scrollPosition }) => {
     useEffect(() => {
