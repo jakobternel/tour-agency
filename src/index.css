@@ -10,7 +10,7 @@
 @tailwind utilities;
 
 html, body {
-    @apply w-full h-full p-0 m-0;
+    @apply w-full h-full p-0 m-0 bg-red-50;
 }
 
 .changePageBtn {
