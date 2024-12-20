@@ -1,0 +1,42 @@
+{
+    "0": {
+        "country": "Germany",
+        "city": "Munich",
+        "heroContent": {
+            "name": "Germany",
+            "heroImageFolderRoute": "germany",
+            "heroImageNames": [
+                "germany_layer1.png",
+                "germany_layer2.png",
+                "germany_layer3.png",
+                "germany_layer4.png",
+                "germany_layer5.png"
+            ]
+        },
+        "bentoContent": {
+            "itinerary": {
+                "0": {
+                    "icon": "fi-sr-plane-arrival",
+                    "content": "Arrive in Munich"
+                },
+                "1": {
+                    "icon": "fi-sr-camera",
+                    "content": "Explore the City"
+                },
+                "2": {
+                    "icon": "fi-sr-castle",
+                    "content": "Visit the Castle"
+                },
+                "3": {
+                    "icon": "fi-sr-car-journey",
+                    "content": "Day Trip"
+                },
+                "4": {
+                    "icon": "fi-sr-plane-departure",
+                    "content": "Final Day"
+                }
+            },
+            "arrAirport": "MUC"
+        }
+    }
+}

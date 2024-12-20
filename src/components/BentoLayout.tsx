@@ -1,4 +1,59 @@
-const BentoLayout: React.FC = () => {
+const BentoLayout: React.FC<{
+    data: {
+        arrAirport: string;
+        itinerary: { [key: string]: { icon: string; content: string } };
+    };
+}> = ({ data }) => {
+    const generateItinerary = () => {
+        const itineraryItems = Object.values(data["itinerary"]);
+        const itineraryLength = itineraryItems.length;
+
+        const generateItineraryItem = (
+            data: {
+                icon: string;
+                content: string;
+            },
+            index: number
+        ): JSX.Element => {
+            return (
+                <div className="flex flex-col items-center gap-2 w-1/5">
+                    <div className="rounded-full bg-primary">
+                        <i
+                            className={`fi ${data.icon} p-5 text-white text-2xl`}
+                        ></i>
+                    </div>
+                    <div className="text-center">
+                        <p className="text-sm font-bold mb-1">
+                            Day {index + 1}
+                        </p>
+                        <p className="text-xs">{data.content}</p>
+                    </div>
+                </div>
+            );
+        };
+
+        const itemsToShow = itineraryLength > 5 ? 4 : itineraryLength;
+        const items: JSX.Element[] = itineraryItems
+            .slice(0, itemsToShow)
+            .map((item, index) => generateItineraryItem(item, index));
+
+        if (itineraryLength > 5) {
+            items.push(
+                <div
+                    className="flex flex-col items-center w-1/5"
+                    key="more-button"
+                >
+                    <div className="bg-primary hover:bg-primaryOff transition-all text-white font-montserrat font-semibold rounded-full h-16 w-16 flex flex-col justify-center items-center cursor-pointer">
+                        <p className="text-sm">More</p>
+                        <i className="fi fi-rr-arrow-right"></i>
+                    </div>
+                </div>
+            );
+        }
+
+        return items;
+    };
+
     return (
         <div
             className="h-screen w-full py-40 px-20 -mt-10 flex flex-row flex-wrap bg-red-50"
@@ -8,67 +63,7 @@ const BentoLayout: React.FC = () => {
                 <div className="bento flex gap-3 justify-between flex-col">
                     <p className="font-bold font-montserrat">Itinerary</p>
                     <div className="flex flex-row justify-between">
-                        <div className="flex flex-col items-center gap-2 w-1/5">
-                            <div className="rounded-full bg-primary">
-                                <i className="fi fi-sr-plane-arrival p-5 text-white text-2xl"></i>
-                            </div>
-                            <div className="text-center">
-                                <p className="text-sm font-bold mb-1">
-                                    Day One
-                                </p>
-                                <p className="text-xs">Arrive in Munich</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center gap-2 w-1/5">
-                            <div className="rounded-full bg-primary">
-                                <i className="fi fi-sr-camera p-5 text-white text-2xl"></i>
-                            </div>
-                            <div className="text-center">
-                                <p className="text-sm font-bold mb-1">
-                                    Day Two
-                                </p>
-                                <p className="text-xs">Explore the City</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center gap-2 w-1/5">
-                            <div className="rounded-full bg-primary">
-                                <i className="fi fi-sr-castle p-5 text-white text-2xl"></i>
-                            </div>
-                            <div className="text-center">
-                                <p className="text-sm font-bold mb-1">
-                                    Day Three
-                                </p>
-                                <p className="text-xs">Visit the Castle</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center gap-2 w-1/5">
-                            <div className="rounded-full bg-primary">
-                                <i className="fi fi-sr-car-journey p-5 text-white text-2xl"></i>
-                            </div>
-                            <div className="text-center">
-                                <p className="text-sm font-bold mb-1">
-                                    Day Four
-                                </p>
-                                <p className="text-xs">Day Trip</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center gap-2 w-1/5">
-                            <div className="rounded-full bg-primary">
-                                <i className="fi fi-sr-plane-departure p-5 text-white text-2xl"></i>
-                            </div>
-                            <div className="text-center">
-                                <p className="text-sm font-bold mb-1">
-                                    Day Five
-                                </p>
-                                <p className="text-xs">Final Day</p>
-                            </div>
-                        </div>
-                        {/* <div className="flex flex-col items-center w-1/5">
-                            <div className="bg-primary hover:bg-primaryOff transition-all text-white font-montserrat font-semibold rounded-full h-16 w-16 flex flex-col justify-center items-center cursor-pointer">
-                                <p className="text-sm">More</p>
-                                <i className="fi fi-rr-arrow-right"></i>
-                            </div>
-                        </div> */}
+                        {generateItinerary()}
                     </div>
                 </div>
             </div>
@@ -93,7 +88,7 @@ const BentoLayout: React.FC = () => {
                         <div className="text-sm flex flex-row items-center gap-2">
                             <span>MEL</span>
                             <i className="fi fi-rr-arrow-right"></i>
-                            <span>MUC</span>
+                            <span>{data.arrAirport}</span>
                         </div>
                         <button className="bg-primary text-white py-1 px-5 rounded-full font-montserrat transition-colors hover:bg-primaryOff">
                             Book

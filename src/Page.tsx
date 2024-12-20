@@ -6,6 +6,8 @@ import DestinationLayout from "./components/DestinationInfo";
 import Inclusions from "./components/Inclusions";
 import Itinerary from "./components/Itinerary";
 
+import tourData from "./tourData.json";
+
 const Page: React.FC = () => {
     const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -20,7 +22,7 @@ const Page: React.FC = () => {
     return (
         <div className="bg-red-50">
             <Hero scrollPosition={scrollPosition} />
-            <BentoLayout />
+            <BentoLayout data={tourData[0].bentoContent} />
             <DestinationLayout />
             <Itinerary />
             <Inclusions />
