@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import BentoLayout from "./components/BentoLayout";
-import Credits from "./components/Credits";
+
 import Hero from "./components/Hero";
+import BentoLayout from "./components/BentoLayout";
 import DestinationLayout from "./components/DestinationInfo";
-import Inclusions from "./components/Inclusions";
 import Itinerary from "./components/Itinerary";
+import Inclusions from "./components/Inclusions";
+import Testimonials from "./components/Testimonials";
+import Credits from "./components/Credits";
 
 import tourData from "./tourData.json";
 
@@ -29,6 +31,7 @@ const Page: React.FC = () => {
             <DestinationLayout data={tourData[0].destinationInfoContent} />
             <Itinerary data={tourData[0].itineraryContent} />
             <Inclusions />
+            <Testimonials />
             <Credits />
         </div>
     );
