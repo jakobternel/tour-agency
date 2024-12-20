@@ -1,18 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 
-const layer_1 = require("../images/germany/germany_layer1.png");
-const layer_2 = require("../images/germany/germany_layer2.png");
-const layer_3 = require("../images/germany/germany_layer3.png");
-const layer_4 = require("../images/germany/germany_layer4.png");
-const layer_5 = require("../images/germany/germany_layer5.png");
-
 const logo = require("../images/shared/logo_white.png");
 
-const Hero: React.FC<{ scrollPosition: number }> = ({ scrollPosition }) => {
+const Hero: React.FC<{
+    data: {
+        name: string;
+        heroImageFolderRoute: string;
+        heroImageNames: string[];
+    };
+    scrollPosition: number;
+}> = ({ data, scrollPosition }) => {
     const [mousePosition, setMousePosition] = useState<[number, number]>([
         window.innerWidth / 2,
         window.innerHeight / 2,
     ]);
+    const [parallaxImages, setParallaxImages] = useState<string[] | null>();
     const parallaxRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -33,6 +35,14 @@ const Hero: React.FC<{ scrollPosition: number }> = ({ scrollPosition }) => {
         return () => element?.removeEventListener("mousemove", handleMouseMove);
     }, []);
 
+    useEffect(() => {
+        const images = data.heroImageNames.map((imageRoute: string) => {
+            return require(`../images/${data.heroImageFolderRoute}/${imageRoute}`);
+        });
+
+        setParallaxImages(images);
+    }, [data]);
+
     const node = (
         <span className="cursor-pointer bg-none border-white rounded-full border-2 h-4 w-4"></span>
     );
@@ -43,6 +53,7 @@ const Hero: React.FC<{ scrollPosition: number }> = ({ scrollPosition }) => {
         return (
             <div
                 className="w-full h-full absolute bg-cover bg-center scale-[1.1] brightness-50"
+                key={index}
                 style={{
                     backgroundImage: `url(${image})`,
                     zIndex: index,
@@ -83,11 +94,15 @@ const Hero: React.FC<{ scrollPosition: number }> = ({ scrollPosition }) => {
                 }}
             >
                 <div className="w-full h-full">
-                    {parallaxElement(layer_1, 5)}
-                    {parallaxElement(layer_2, 4)}
-                    {parallaxElement(layer_3, 3)}
-                    {parallaxElement(layer_4, 2)}
-                    {parallaxElement(layer_5, 1)}
+                    {parallaxImages &&
+                        parallaxImages
+                            .reverse()
+                            .map((imageSrc, index) =>
+                                parallaxElement(
+                                    imageSrc,
+                                    parallaxImages.length - index
+                                )
+                            )}
                 </div>
 
                 <div
@@ -108,7 +123,7 @@ const Hero: React.FC<{ scrollPosition: number }> = ({ scrollPosition }) => {
                     <p className="flex flex-row gap-3 items-center text-white">
                         <span className="font-lobster text-6xl">Jet</span>
                         <span className="text-4xl font-montserrat font-medium">
-                            to Germany
+                            to {data.name}
                         </span>
                     </p>
                     <button className="bg-primary w-min text-nowrap px-7 py-1 rounded-3xl font-montserrat font-medium transition-colors hover:bg-primaryOff">

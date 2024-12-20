@@ -21,7 +21,10 @@ const Page: React.FC = () => {
 
     return (
         <div className="bg-red-50">
-            <Hero scrollPosition={scrollPosition} />
+            <Hero
+                data={tourData[0].heroContent}
+                scrollPosition={scrollPosition}
+            />
             <BentoLayout data={tourData[0].bentoContent} />
             <DestinationLayout data={tourData[0].destinationInfoContent} />
             <Itinerary data={tourData[0].itineraryContent} />
