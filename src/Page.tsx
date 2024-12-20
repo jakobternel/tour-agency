@@ -23,7 +23,7 @@ const Page: React.FC = () => {
         <div className="bg-red-50">
             <Hero scrollPosition={scrollPosition} />
             <BentoLayout data={tourData[0].bentoContent} />
-            <DestinationLayout />
+            <DestinationLayout data={tourData[0].destinationInfoContent} />
             <Itinerary />
             <Inclusions />
             <Credits />

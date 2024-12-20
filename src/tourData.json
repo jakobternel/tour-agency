@@ -1,7 +1,5 @@
 {
     "0": {
-        "country": "Germany",
-        "city": "Munich",
         "heroContent": {
             "name": "Germany",
             "heroImageFolderRoute": "germany",
@@ -37,6 +35,33 @@
                 }
             },
             "arrAirport": "MUC"
+        },
+        "destinationInfoContent": {
+            "country": "Germany",
+            "city": "Munich",
+            "tagline": "Where tradition meets tomorrow!",
+            "description": [
+                "Munich, the vibrant capital of Bavaria, is a city where history, culture, and innovation seamlessly blend. Known for its stunning architecture, centuries-old traditions, and warm hospitality, Munich invites visitors to stroll through its iconic Marienplatz, explore the majestic Nymphenburg Palace, or raise a glass at a bustling beer garden. With its rich history dating back to 1158, the city preserves its heritage while embracing modernity, creating an unforgettable experience for travelers.",
+                "Beyond its historic charm, Munich is a hub of art, culture, and nature. Explore world-renowned museums like the Deutsches Museum and Alte Pinakothek, or relax in the sprawling greenery of the English Garden, one of the largest urban parks in the world. As the home of Oktoberfest, Munich celebrates its famous beer culture with pride, while its markets and festivals showcase Bavarian traditions year-round. Whether you're wandering through cobblestone streets or shopping at Viktualienmarkt, Munich is alive with sights, sounds, and flavors to savor."
+            ],
+            "destinationImages": {
+                "0": {
+                    "size": "tall",
+                    "fileSrc": "https://images.pexels.com/photos/29721184/pexels-photo-29721184/free-photo-of-majestic-new-town-hall-tower-in-munich.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                },
+                "1": {
+                    "size": "short",
+                    "fileSrc": "https://images.pexels.com/photos/187854/pexels-photo-187854.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                },
+                "2": {
+                    "size": "short",
+                    "fileSrc": "https://images.pexels.com/photos/221519/pexels-photo-221519.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                },
+                "3": {
+                    "size": "tall",
+                    "fileSrc": "https://images.pexels.com/photos/29719841/pexels-photo-29719841/free-photo-of-frauenkirche-in-munich-with-festive-lights.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                }
+            }
         }
     }
 }
