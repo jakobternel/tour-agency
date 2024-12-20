@@ -62,6 +62,83 @@
                     "fileSrc": "https://images.pexels.com/photos/29719841/pexels-photo-29719841/free-photo-of-frauenkirche-in-munich-with-festive-lights.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 }
             }
+        },
+        "itineraryContent": {
+            "0": {
+                "title": "Arrive in Munich",
+                "description": [
+                    "Welcome to Munich, where your journey begins with a warm and relaxing start. After your arrival, settle into your accommodations and take a moment to soak in the charm of this vibrant city. The first day is all about easing into your adventure — perhaps enjoy a leisurely stroll around the nearby streets, savor a traditional Bavarian meal, or simply unwind after your travels. It's the perfect way to prepare for the exciting days ahead while taking in Munich's inviting atmosphere at your own pace."
+                ],
+                "inclusions": [
+                    "Airport Transfers",
+                    "Free Time",
+                    "Group Dinner"
+                ],
+                "suggestions": ["BMW Museum Tour", "Bar Crawl"],
+                "accomodation": "Private Room in 4* Bavaria Luxe Retreat",
+                "meals": "Breakfast, Lunch, Dinner",
+                "budget": "$50-$75"
+            },
+            "1": {
+                "title": "Explore Munich",
+                "description": [
+                    "After settling in and getting a feel for Munich, take some time to explore the city's unique character at your own pace. Wander through the Altstadt, where the lively streets and stunning architecture invite discovery. Join a guided walking tour to uncover the stories behind Munich's historic landmarks and visit one of the city's renowned museums for a fascinating glimpse into science and innovation. It's a perfect way to ease into the rhythm of the city."
+                ],
+                "inclusions": [
+                    "Walking Tour",
+                    "Deutsches Museum Tour",
+                    "Traditional Bavarian Lunch",
+                    "Visit to an Artisan Workshop"
+                ],
+                "suggestions": ["Bavarian Cooking Class", "Football Match"],
+                "accomodation": "Private Room in 4* Bavaria Luxe Retreat",
+                "meals": "Breakfast, Dinner",
+                "budget": "$50-$75"
+            },
+            "2": {
+                "title": "Visit Neuschwanstein Castle",
+                "description": [
+                    "On your journey through Bavaria, a visit to the stunning Neuschwanstein Castle is a must. Nestled in the Bavarian Alps, this fairy-tale castle offers breathtaking views of the surrounding mountains and lakes. As you explore its grand halls and towers, you'll be transported back in time to the era of King Ludwig II, whose vision brought this architectural masterpiece to life. Whether you choose to hike up to the castle or take a scenic horse-drawn carriage ride, the experience promises to be unforgettable. Don't forget to snap a photo at the iconic vantage point, where you can capture the full beauty of the castle against the backdrop of the picturesque landscape."
+                ],
+                "inclusions": [
+                    "Private Bus Transfer",
+                    "Neuschwanstein Castle Entry Tickets",
+                    "Lunch at a Local Cafe"
+                ],
+                "suggestions": ["Brewery Tour", "Horse Drawn Carriage"],
+                "accomodation": "Private Room in 4* Bavaria Luxe Retreat",
+                "meals": "Breakfast, Lunch",
+                "budget": "$75-$100"
+            },
+            "3": {
+                "title": "Visit Nuremberg",
+                "description": [
+                    "A visit to Nuremberg offers a fascinating glimpse into Germany's rich history and culture. This medieval city, known for its well-preserved architecture, is home to the iconic Nuremberg Castle, where you can explore centuries of history and enjoy panoramic views of the city. Stroll through the charming old town, with its narrow streets and half-timbered houses, and visit the Germanisches Nationalmuseum to discover extensive exhibits on art, history, and culture. Don't miss a visit to the Documentation Center Nazi Party Rally Grounds, which provides a thought-provoking look at Nuremberg's role in the 20th century."
+                ],
+                "inclusions": [
+                    "Private Bus Transfer",
+                    "Walking Tour",
+                    "Explore Nuremberg Castle",
+                    "Visit the Documentation Center Nazi Party Rally Grounds",
+                    "Germanisches Nationalmuseum Tour"
+                ],
+                "suggestions": [
+                    "Boat Tour on the River Pegnitz",
+                    "Visit Nuremberg Zoo"
+                ],
+                "accomodation": "Private Room in 4* Bavaria Luxe Retreat",
+                "meals": "Breakfast",
+                "budget": "$75-$100"
+            },
+            "4": {
+                "title": "Departure",
+                "description": [
+                    "As your time in Munich comes to a close, take a moment to reflect on the memories made during your stay. From exploring the city's historic landmarks and vibrant neighborhoods to discovering the beauty of its parks and museums, Munich has certainly left a lasting impression. Before you depart, enjoy a final stroll through the picturesque streets or a relaxing coffee at a local café, soaking in the last moments of the city's charm. Whether you're heading to your next destination or returning home, Munich's blend of culture, history, and modernity will remain a highlight of your travels. Safe travels and until next time!"
+                ],
+                "inclusions": ["Free Time", "Airport Transfers"],
+                "meals": "Breakfast",
+                "budget": "$50"
+            }
         }
     }
 }

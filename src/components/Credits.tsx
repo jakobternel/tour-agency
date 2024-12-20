@@ -7,6 +7,7 @@ const Credits: React.FC = () => {
                 <a
                     className="underline hover:text-primary hover:font-bold cursor-pointer transition-all"
                     target="_blank"
+                    rel="noreferrer"
                     href="https://github.com/jakobternel/tour-agency"
                 >
                     GitHub

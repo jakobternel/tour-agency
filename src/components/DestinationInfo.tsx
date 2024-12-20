@@ -26,7 +26,7 @@ const DestinationLayout: React.FC<{
                                     <img
                                         className="w-[calc((100%/2)-12px)] h-[calc(100%/3-12px)] rounded-xl object-cover shadow-lg"
                                         src={image.fileSrc}
-                                        alt={`image ${index}`}
+                                        alt={`germany ${index}`}
                                     />
                                 );
                             } else if (image.size === "tall") {
@@ -34,7 +34,7 @@ const DestinationLayout: React.FC<{
                                     <img
                                         className="w-[calc((100%/2)-12px)] h-[calc(100%/1.5-12px)] rounded-xl object-cover shadow-lg"
                                         src={image.fileSrc}
-                                        alt={`image ${index}`}
+                                        alt={`germany ${index}`}
                                     />
                                 );
                             }

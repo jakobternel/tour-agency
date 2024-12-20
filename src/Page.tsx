@@ -24,7 +24,7 @@ const Page: React.FC = () => {
             <Hero scrollPosition={scrollPosition} />
             <BentoLayout data={tourData[0].bentoContent} />
             <DestinationLayout data={tourData[0].destinationInfoContent} />
-            <Itinerary />
+            <Itinerary data={tourData[0].itineraryContent} />
             <Inclusions />
             <Credits />
         </div>
