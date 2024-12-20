@@ -32,32 +32,43 @@ const BentoLayout: React.FC = () => {
                         </div>
                         <div className="flex flex-col items-center gap-2 w-1/5">
                             <div className="rounded-full bg-primary">
-                                <i className="fi fi-sr-tour-guide-people p-5 text-white text-2xl"></i>
+                                <i className="fi fi-sr-castle p-5 text-white text-2xl"></i>
                             </div>
                             <div className="text-center">
                                 <p className="text-sm font-bold mb-1">
                                     Day Three
                                 </p>
-                                <p className="text-xs">Guided Tour</p>
+                                <p className="text-xs">Visit the Castle</p>
                             </div>
                         </div>
                         <div className="flex flex-col items-center gap-2 w-1/5">
                             <div className="rounded-full bg-primary">
-                                <i className="fi fi-sr-castle p-5 text-white text-2xl"></i>
+                                <i className="fi fi-sr-car-journey p-5 text-white text-2xl"></i>
                             </div>
                             <div className="text-center">
                                 <p className="text-sm font-bold mb-1">
                                     Day Four
                                 </p>
-                                <p className="text-xs">Visit the Castle</p>
+                                <p className="text-xs">Day Trip</p>
                             </div>
                         </div>
-                        <div className="flex flex-col items-center w-1/5">
+                        <div className="flex flex-col items-center gap-2 w-1/5">
+                            <div className="rounded-full bg-primary">
+                                <i className="fi fi-sr-plane-departure p-5 text-white text-2xl"></i>
+                            </div>
+                            <div className="text-center">
+                                <p className="text-sm font-bold mb-1">
+                                    Day Five
+                                </p>
+                                <p className="text-xs">Final Day</p>
+                            </div>
+                        </div>
+                        {/* <div className="flex flex-col items-center w-1/5">
                             <div className="bg-primary hover:bg-primaryOff transition-all text-white font-montserrat font-semibold rounded-full h-16 w-16 flex flex-col justify-center items-center cursor-pointer">
                                 <p className="text-sm">More</p>
                                 <i className="fi fi-rr-arrow-right"></i>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

@@ -56,7 +56,7 @@ const DestinationLayout: React.FC = () => {
                         and flavors to savor.
                     </p>
                     <span className="flex-grow"></span>
-                    <button className="border-primary border-2 w-min whitespace-nowrap py-1 px-5 rounded-xl hover:bg-red-100 font-semibold font-montserrat transition-all">
+                    <button className="border-primary border-2 w-min whitespace-nowrap py-2 px-5 rounded-xl hover:bg-red-100 font-semibold font-montserrat transition-all">
                         Book Now!
                     </button>
                 </div>
