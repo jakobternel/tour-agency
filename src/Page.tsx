@@ -5,6 +5,7 @@ import BentoLayout from "./components/BentoLayout";
 import DestinationLayout from "./components/DestinationInfo";
 import Itinerary from "./components/Itinerary";
 import Inclusions from "./components/Inclusions";
+import Booking from "./components/Booking";
 import Testimonials from "./components/Testimonials";
 import Credits from "./components/Credits";
 
@@ -31,6 +32,7 @@ const Page: React.FC = () => {
             <DestinationLayout data={tourData[0].destinationInfoContent} />
             <Itinerary data={tourData[0].itineraryContent} />
             <Inclusions />
+            <Booking />
             <Testimonials />
             <Credits />
         </div>
