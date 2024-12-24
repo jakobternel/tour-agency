@@ -24,6 +24,7 @@ const DestinationLayout: React.FC<{
                             if (image.size === "short") {
                                 return (
                                     <img
+                                        key={index}
                                         className="w-[calc((100%/2)-12px)] h-[calc(100%/3-12px)] rounded-xl object-cover shadow-lg"
                                         src={image.fileSrc}
                                         alt={`${data.country} ${index}`}
@@ -32,6 +33,7 @@ const DestinationLayout: React.FC<{
                             } else if (image.size === "tall") {
                                 return (
                                     <img
+                                        key={index}
                                         className="w-[calc((100%/2)-12px)] h-[calc(100%/1.5-12px)] rounded-xl object-cover shadow-lg"
                                         src={image.fileSrc}
                                         alt={`germany ${index}`}

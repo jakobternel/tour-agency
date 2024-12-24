@@ -36,9 +36,12 @@ const Testimonials: React.FC = () => {
     ];
 
     const testimonials = () => {
-        return testimonialData.map((testimonial) => {
+        return testimonialData.map((testimonial, index) => {
             return (
-                <div className="bg-white rounded-2xl shadow-lg p-5 pt-12 w-1/4 relative flex flex-col items-center gap-5">
+                <div
+                    key={index}
+                    className="bg-white rounded-2xl shadow-lg p-5 pt-12 w-1/4 relative flex flex-col items-center gap-5"
+                >
                     <img
                         src={testimonial.image}
                         alt={testimonial.name}

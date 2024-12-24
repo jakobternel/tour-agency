@@ -44,14 +44,15 @@ const Itinerary: React.FC<{
 
     const generateListSection = (listHeading: string, listData: string[]) => {
         return (
-            <p className="text-sm">
+            <div className="text-sm">
                 <span className="font-bold">{listHeading}:</span>
+
                 <ul className="list-disc ml-6">
-                    {listData.map((dataItem) => {
-                        return <li>{dataItem}</li>;
+                    {listData.map((dataItem, index) => {
+                        return <li key={index}>{dataItem}</li>;
                     })}
                 </ul>
-            </p>
+            </div>
         );
     };
 
@@ -60,10 +61,10 @@ const Itinerary: React.FC<{
         inlineData: string
     ) => {
         return (
-            <p className="text-sm inline-flex gap-1">
+            <span className="text-sm inline-flex gap-1">
                 <span className="font-bold">{inlineHeading}:</span>
                 <p>{inlineData}</p>
-            </p>
+            </span>
         );
     };
 
@@ -96,7 +97,7 @@ const Itinerary: React.FC<{
                             index: number
                         ) => {
                             return (
-                                <div className="relative">
+                                <div key={index} className="relative">
                                     <div className="flex flex-row gap-3 sticky top-0 bg-white z-10">
                                         <div className="relative">
                                             <div className="h-6 w-6 bg-none border-primary border-2 rounded-full"></div>
@@ -111,17 +112,18 @@ const Itinerary: React.FC<{
                                             <div className="h-full w-1 border-primary border-dashed border-2"></div>
                                         </div>
                                         <div className="flex-grow py-4 flex flex-col gap-3">
-                                            <p className="text-sm">
-                                                {data.description.map(
-                                                    (description) => {
-                                                        return (
-                                                            <p className="text-sm">
-                                                                {description}
-                                                            </p>
-                                                        );
-                                                    }
-                                                )}
-                                            </p>
+                                            {data.description.map(
+                                                (description, index) => {
+                                                    return (
+                                                        <p
+                                                            key={index}
+                                                            className="text-sm"
+                                                        >
+                                                            {description}
+                                                        </p>
+                                                    );
+                                                }
+                                            )}
                                             {data.inclusions &&
                                                 generateListSection(
                                                     "What's Included",

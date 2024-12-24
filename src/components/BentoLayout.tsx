@@ -16,7 +16,10 @@ const BentoLayout: React.FC<{
             index: number
         ): JSX.Element => {
             return (
-                <div className="flex flex-col items-center gap-2 w-1/5">
+                <div
+                    key={index}
+                    className="flex flex-col items-center gap-2 w-1/5"
+                >
                     <div className="rounded-full bg-primary">
                         <i
                             className={`fi ${data.icon} p-5 text-white text-2xl`}
