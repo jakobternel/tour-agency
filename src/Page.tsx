@@ -9,7 +9,7 @@ import Booking from "./components/Booking";
 import Testimonials from "./components/Testimonials";
 import Credits from "./components/Credits";
 
-import tourData from "./tourData.json";
+import tourData from "./data/tourData.json";
 
 const Page: React.FC = () => {
     const [scrollPosition, setScrollPosition] = useState(0);
@@ -32,7 +32,10 @@ const Page: React.FC = () => {
             <DestinationLayout data={tourData[0].destinationInfoContent} />
             <Itinerary data={tourData[0].itineraryContent} />
             <Inclusions />
-            <Booking />
+            <Booking
+                itineraryContent={tourData[0].itineraryContent}
+                bookingContent={tourData[0].bookingContent}
+            />
             <Testimonials />
             <Credits />
         </div>

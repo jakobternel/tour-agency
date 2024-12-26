@@ -139,6 +139,24 @@
                 "meals": "Breakfast",
                 "budget": "$50"
             }
+        },
+        "bookingContent": {
+            "basePrice": 1350,
+            "defaultHotel": 0,
+            "hotelContent": {
+                "0": {
+                    "name": "Basic Private Room",
+                    "dailyAdditionalPrice": 0
+                },
+                "1": {
+                    "name": "Premier Private Room",
+                    "dailyAdditionalPrice": 50
+                },
+                "2": {
+                    "name": "Private Suite",
+                    "dailyAdditionalPrice": 100
+                }
+            }
         }
     }
 }
