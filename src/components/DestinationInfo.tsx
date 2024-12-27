@@ -40,6 +40,7 @@ const DestinationLayout: React.FC<{
                                     />
                                 );
                             }
+                            return <></>;
                         }
                     )}
                 </div>

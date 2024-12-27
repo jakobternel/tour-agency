@@ -24,3 +24,17 @@ html, body {
 .fi {
     @apply flex;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+select::-ms-expand {
+    display: none;
+}
+

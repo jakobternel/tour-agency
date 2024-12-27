@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+import getUnicodeFlagIcon from "country-flag-icons/unicode";
+import searchAirports from "../utils/airportSearch";
+
 const Booking: React.FC<{
     itineraryContent: {
         [key: string]: {
@@ -24,6 +27,11 @@ const Booking: React.FC<{
     };
 }> = ({ itineraryContent, bookingContent }) => {
     const [departureDate, setDepartureDate] = useState<Date | null>();
+    const [searchInput, setSearchInput] = useState<string>("");
+    const [searchActive, setSearchActive] = useState<boolean>(false);
+    const [fuzzySearchResults, setFuzzySearchResults] = useState<
+        { code: string; city: string; country: string }[]
+    >([]);
     const [flightSurcharge, setFlightSurcharge] = useState<number>(0);
     const [roomSelection, setRoomSelection] = useState<string>(
         String(bookingContent.defaultHotel)
@@ -32,6 +40,24 @@ const Booking: React.FC<{
     const [tourLength] = useState<number>(
         Object.values(itineraryContent).length
     );
+
+    useEffect(() => {
+        const getFuzzySearchResults = async () => {
+            const results = await searchAirports(searchInput);
+
+            const airports = results.map((airport) => {
+                return {
+                    code: airport.item.iata_code,
+                    city: airport.item.municipality,
+                    country: airport.item.iso_country,
+                };
+            });
+
+            setFuzzySearchResults(airports);
+        };
+
+        getFuzzySearchResults();
+    }, [searchInput]);
 
     useEffect(() => {
         setRoomSurcharge(
@@ -64,18 +90,61 @@ const Booking: React.FC<{
                         <div className="text-gray-300">Payment</div>
                     </div>
                     <div>
-                        <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center">
+                        <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center relative">
                             <p className="w-1/2">
                                 Step 1 - Select Departure Airport
                             </p>
-                            <input
-                                type="text"
-                                className="w-1/2 border-2 border-primary p-1 focus:outline-none"
-                            />
+                            <div className="relative w-1/2">
+                                <input
+                                    type="text"
+                                    className="w-full border-2 border-primary p-1 focus:outline-none overflow-ellipsis pr-6"
+                                    onFocus={() => setSearchActive(true)}
+                                    onBlur={() => {
+                                        setTimeout(
+                                            () => setSearchActive(false),
+                                            150
+                                        );
+                                    }}
+                                    onChange={(e) => {
+                                        setSearchInput(e.target.value);
+                                    }}
+                                    value={searchInput}
+                                />
+                                {searchActive &&
+                                    fuzzySearchResults.length !== 0 && (
+                                        <div className="bg-red-50 w-full absolute z-10 border-2 border-primary border-t-0 flex flex-col">
+                                            {fuzzySearchResults.map(
+                                                (searchResult, index) => {
+                                                    return (
+                                                        <span
+                                                            key={index}
+                                                            onClick={() => {
+                                                                setSearchInput(
+                                                                    `${searchResult.code} - ${searchResult.city}, ${searchResult.country}`
+                                                                );
+                                                            }}
+                                                            className="bg-red-50 hover:bg-red-100 p-1 font-montserrat text-sm border-red-200 cursor-pointer [&:not(:last-child)]:border-b-2 flex flex-row justify-between"
+                                                        >
+                                                            <p>
+                                                                {`${searchResult.code} - ${searchResult.city}, ${searchResult.country}`}
+                                                            </p>
+                                                            <p>
+                                                                {getUnicodeFlagIcon(
+                                                                    searchResult.country
+                                                                )}
+                                                            </p>
+                                                        </span>
+                                                    );
+                                                }
+                                            )}
+                                        </div>
+                                    )}
+                                <i className="fi fi-br-search absolute top-1/2 -translate-y-1/2 right-2 text-primary"></i>
+                            </div>
                         </div>
-                        <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center">
+                        <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center relative">
                             <p className="w-1/2">
-                                Step 2 - Select Arrival Dates
+                                Step 2 - Select Arrival Date
                             </p>
                             <input
                                 type="date"
@@ -100,9 +169,10 @@ const Booking: React.FC<{
                                         .split("T")[0]
                                 }
                             />
+                            <i className="fi fi-br-calendar-day absolute right-5 text-primary"></i>
                         </div>
 
-                        <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center">
+                        <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center relative">
                             <p className="w-1/2">
                                 Step 3 - Select Accomodation Type
                             </p>
@@ -134,6 +204,7 @@ const Booking: React.FC<{
                                     }
                                 )}
                             </select>
+                            <i className="fi fi-br-angle-down absolute right-5 text-primary"></i>
                         </div>
 
                         <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex gap-1 items-center">
