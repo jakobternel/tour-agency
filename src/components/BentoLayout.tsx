@@ -1,9 +1,35 @@
+import { useEffect, useState } from "react";
+
+import { getClosestAirport } from "../utils/airportSearch";
+import { AirportDataType } from "../types/AirportData";
+
 const BentoLayout: React.FC<{
     data: {
         arrAirport: string;
         itinerary: { [key: string]: { icon: string; content: string } };
     };
 }> = ({ data }) => {
+    const [closestAirport, setClosestAirport] = useState<string | null>();
+
+    useEffect(() => {
+        const initClosestAirport = async () => {
+            const result: AirportDataType | {} | null =
+                await getClosestAirport();
+
+            if (
+                result !== null &&
+                Object.keys(result).length !== 0 &&
+                "iata_code" in result
+            ) {
+                setClosestAirport(result.iata_code);
+            } else {
+                setClosestAirport("LHR");
+            }
+        };
+
+        initClosestAirport();
+    }, []);
+
     const generateItinerary = () => {
         const itineraryItems = Object.values(data["itinerary"]);
         const itineraryLength = itineraryItems.length;
@@ -89,7 +115,7 @@ const BentoLayout: React.FC<{
                     </div>
                     <div className="flex flex-row justify-between items-center">
                         <div className="text-sm flex flex-row items-center gap-2">
-                            <span>MEL</span>
+                            <span>{closestAirport}</span>
                             <i className="fi fi-rr-arrow-right"></i>
                             <span>{data.arrAirport}</span>
                         </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
-import searchAirports from "../utils/airportSearch";
+import { searchAirports } from "../utils/airportSearch";
 
 const Booking: React.FC<{
     itineraryContent: {
