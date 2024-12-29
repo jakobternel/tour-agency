@@ -24,6 +24,10 @@ const Booking: React.FC<{
                 dailyAdditionalPrice: number;
             };
         };
+        optionalActivities: {
+            name: string;
+            cost: number;
+        }[];
     };
 }> = ({ itineraryContent, bookingContent }) => {
     const [departureDate, setDepartureDate] = useState<Date | null>();
@@ -40,6 +44,8 @@ const Booking: React.FC<{
     const [tourLength] = useState<number>(
         Object.values(itineraryContent).length
     );
+    const [optionalActivities, setOptionalActivities] = useState<number[]>([]);
+    const [activitiesSurcharge, setActivitiesSurcharge] = useState<number>(0);
 
     useEffect(() => {
         const getFuzzySearchResults = async () => {
@@ -65,6 +71,17 @@ const Booking: React.FC<{
                 (tourLength - 1)
         );
     }, [roomSelection]);
+
+    useEffect(() => {
+        let activitiesTotal = 0;
+
+        optionalActivities.forEach((activityIndex) => {
+            activitiesTotal +=
+                bookingContent.optionalActivities[activityIndex].cost;
+        });
+
+        setActivitiesSurcharge(activitiesTotal);
+    });
 
     const formatDollarAmount = (amount: number) => {
         return Intl.NumberFormat("en-US", {
@@ -207,10 +224,57 @@ const Booking: React.FC<{
                             <i className="fi fi-br-angle-down absolute right-5 text-primary"></i>
                         </div>
 
-                        <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex gap-1 items-center">
+                        <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex gap-1 flex-col">
                             <p className="w-1/2">
                                 Step 4 - Select Additional Activities
                             </p>
+                            <div className="flex flex-wrap mt-2 gap-3">
+                                {bookingContent.optionalActivities.map(
+                                    (activity, index) => {
+                                        return (
+                                            <p
+                                                className={`border-2 rounded-full border-primary py-1 px-3 text-sm cursor-pointer w-min text-nowrap transition-all ${
+                                                    optionalActivities.includes(
+                                                        index
+                                                    )
+                                                        ? "bg-red-100"
+                                                        : ""
+                                                }`}
+                                                onClick={() => {
+                                                    let newActivitiesArray: number[] =
+                                                        [];
+                                                    if (
+                                                        optionalActivities.includes(
+                                                            index
+                                                        )
+                                                    ) {
+                                                        newActivitiesArray =
+                                                            optionalActivities.filter(
+                                                                (item) =>
+                                                                    item !==
+                                                                    index
+                                                            );
+                                                    } else {
+                                                        newActivitiesArray = [
+                                                            ...optionalActivities,
+                                                            index,
+                                                        ];
+                                                    }
+
+                                                    setOptionalActivities(
+                                                        newActivitiesArray
+                                                    );
+                                                }}
+                                            >
+                                                <span className="font-bold">
+                                                    ${activity.cost}
+                                                </span>{" "}
+                                                {activity.name}
+                                            </p>
+                                        );
+                                    }
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="flex justify-end gap-6 items-center pr-6 mt-3">
@@ -262,7 +326,7 @@ const Booking: React.FC<{
                                                 )}
                                             </p>
                                         </div>
-                                        {flightSurcharge >= 1 && (
+                                        {flightSurcharge > 0 && (
                                             <div className="flex flex-row justify-between">
                                                 <p className="font-montserrat">
                                                     Flight Surcharge
@@ -304,19 +368,43 @@ const Booking: React.FC<{
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <p className="font-montserrat font-semibold mb-1">
-                            Activities
-                        </p>
-                        <div className="ml-3">
+                    {activitiesSurcharge > 0 && (
+                        <div>
                             <div className="flex flex-row justify-between">
-                                <p className="font-montserrat">Test</p>
-                                <p className="text-gray-500 font-mono">
-                                    + $100
+                                <p className="font-montserrat font-semibold">
+                                    Activities Surcharge:
+                                </p>
+                                <p className="font-mono">
+                                    + {formatDollarAmount(activitiesSurcharge)}
                                 </p>
                             </div>
+                            <div className="ml-3">
+                                {optionalActivities.map((activity) => {
+                                    return (
+                                        <div className="flex flex-row justify-between">
+                                            <p className="font-montserrat">
+                                                {
+                                                    bookingContent
+                                                        .optionalActivities[
+                                                        activity
+                                                    ].name
+                                                }
+                                            </p>
+                                            <p className="text-gray-500 font-mono">
+                                                +{" "}
+                                                {formatDollarAmount(
+                                                    bookingContent
+                                                        .optionalActivities[
+                                                        activity
+                                                    ].cost
+                                                )}
+                                            </p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
+                    )}
                     <div className="flex-grow"></div>
                     <div className="flex justify-between">
                         <p className="font-montserrat font-semibold">
@@ -326,7 +414,8 @@ const Booking: React.FC<{
                             {formatDollarAmount(
                                 bookingContent.basePrice +
                                     flightSurcharge +
-                                    roomSurcharge
+                                    roomSurcharge +
+                                    activitiesSurcharge
                             )}
                         </p>
                     </div>

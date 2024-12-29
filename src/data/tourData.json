@@ -156,7 +156,17 @@
                     "name": "Private Suite",
                     "dailyAdditionalPrice": 100
                 }
-            }
+            },
+            "optionalActivities": [
+                { "name": "BMW Museum Tour", "cost": 25 },
+                { "name": "Bar Crawl", "cost": 0 },
+                { "name": "Bavarian Cooking Class", "cost": 50 },
+                { "name": "Football Match", "cost": 50 },
+                { "name": "Brewery Tour", "cost": 10 },
+                { "name": "Horse Drawn Carriage", "cost": 20 },
+                { "name": "Boat Tour on the River Pegnitz", "cost": 50 },
+                { "name": "Nuremberg Zoo", "cost": 25 }
+            ]
         }
     }
 }
