@@ -3,7 +3,7 @@ import { searchAirports } from "../../utils/airportSearch";
 
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 
-const Itinerary_Booking: React.FC<{
+const Booking_Itinerary: React.FC<{
     bookingContent: {
         basePrice: number;
         defaultHotel: number;
@@ -64,7 +64,7 @@ const Itinerary_Booking: React.FC<{
                 <div className="relative w-1/2">
                     <input
                         type="text"
-                        className="w-full border-2 border-primary p-1 focus:outline-none overflow-ellipsis pr-6"
+                        className="w-full border-2 border-primary py-1 focus:outline-none overflow-ellipsis pr-6 pl-2"
                         onFocus={() => setSearchActive(true)}
                         onBlur={() => {
                             setTimeout(() => setSearchActive(false), 150);
@@ -107,7 +107,7 @@ const Itinerary_Booking: React.FC<{
                 <p className="w-1/2">Step 2 - Select Arrival Date</p>
                 <input
                     type="date"
-                    className="w-1/2 border-2 border-primary p-1 focus:outline-none"
+                    className="w-1/2 border-2 border-primary py-1 focus:outline-none pl-2"
                     onChange={(e) => {
                         setDepartureDate(new Date(e.target.value));
                     }}
@@ -130,7 +130,7 @@ const Itinerary_Booking: React.FC<{
             <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center relative">
                 <p className="w-1/2">Step 3 - Select Accomodation Type</p>
                 <select
-                    className="w-1/2 border-2 border-primary p-1 focus:outline-none"
+                    className="w-1/2 border-2 border-primary py-1 focus:outline-none pl-2"
                     onChange={(e) => {
                         setRoomSelection(e.target.value);
                     }}
@@ -199,4 +199,4 @@ const Itinerary_Booking: React.FC<{
     );
 };
 
-export default Itinerary_Booking;
+export default Booking_Itinerary;

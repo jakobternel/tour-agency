@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
-import Itinerary_Booking from "./booking/Itinerary_Booking";
+import Itinerary_Booking from "./booking/Booking_Itinerary";
+import Booking_Contact from "./booking/Booking_Contact";
+import Booking_Payment from "./booking/Booking_Payment";
 
 const Booking: React.FC<{
     itineraryContent: {
@@ -38,7 +40,25 @@ const Booking: React.FC<{
     const [optionalActivities, setOptionalActivities] = useState<number[]>([]);
     const [activitiesSurcharge, setActivitiesSurcharge] = useState<number>(0);
 
+    const [departureDateError, setDepartureDateError] = useState<string>();
+
     const tourLength = Object.values(itineraryContent).length;
+
+    const [currentBookingComponent, setCurrentBookingComponent] =
+        useState<number>(0);
+
+    const bookingComponents = [
+        <Itinerary_Booking
+            bookingContent={bookingContent}
+            optionalActivities={optionalActivities}
+            roomSelection={roomSelection}
+            setDepartureDate={setDepartureDate}
+            setRoomSelection={setRoomSelection}
+            setOptionalActivities={setOptionalActivities}
+        />,
+        <Booking_Contact />,
+        <Booking_Payment />,
+    ];
 
     useEffect(() => {
         setRoomSurcharge(
@@ -75,27 +95,83 @@ const Booking: React.FC<{
                         Booking
                     </p>
                     <div className="flex gap-3 w-1/2 items-center">
-                        <div className="text-primary font-bold">Itinerary</div>
-                        <div className="flex-grow bg-gray-300 h-1 rounded-full"></div>
-                        <div className="text-gray-300">Contact Info</div>
-                        <div className="flex-grow bg-gray-300 h-1 rounded-full"></div>
-                        <div className="text-gray-300">Payment</div>
+                        <div
+                            className={`text-primary transition-all ${
+                                currentBookingComponent === 0 ? "font-bold" : ""
+                            }`}
+                        >
+                            Itinerary
+                        </div>
+                        <div
+                            className={`flex-grow h-1 rounded-full transition-all ${
+                                currentBookingComponent >= 1
+                                    ? "bg-primary"
+                                    : "bg-gray-300"
+                            }`}
+                        ></div>
+                        <div
+                            className={`transition-all ${
+                                currentBookingComponent >= 1
+                                    ? "text-primary"
+                                    : "text-gray-300"
+                            } ${
+                                currentBookingComponent === 1 ? "font-bold" : ""
+                            }`}
+                        >
+                            Contact Info
+                        </div>
+                        <div
+                            className={`flex-grow h-1 rounded-full transition-all ${
+                                currentBookingComponent === 2
+                                    ? "bg-primary"
+                                    : "bg-gray-300"
+                            }`}
+                        ></div>
+                        <div
+                            className={`transition-all ${
+                                currentBookingComponent === 2
+                                    ? "text-primary font-bold"
+                                    : "text-gray-300"
+                            }`}
+                        >
+                            Payment
+                        </div>
                     </div>
-                    <Itinerary_Booking
-                        bookingContent={bookingContent}
-                        optionalActivities={optionalActivities}
-                        roomSelection={roomSelection}
-                        setDepartureDate={setDepartureDate}
-                        setRoomSelection={setRoomSelection}
-                        setOptionalActivities={setOptionalActivities}
-                    />
-                    <div className="flex justify-end gap-6 items-center pr-6 mt-3">
-                        <p className="text-gray-500 hover:text-primary transition-all hover:underline cursor-pointer">
-                            Previous
-                        </p>
-                        <p className="px-6 py-2 bg-primary hover:bg-primaryOff transition-all rounded-lg text-white cursor-pointer">
-                            Next
-                        </p>
+                    {bookingComponents[currentBookingComponent]}
+                    <span className="flex-grow"></span>
+                    <div className="flex justify-end gap-6 items-center pr-6">
+                        {currentBookingComponent > 0 && (
+                            <p
+                                className="py-2 text-gray-500 hover:text-primary transition-all hover:underline cursor-pointer"
+                                onClick={() =>
+                                    setCurrentBookingComponent(
+                                        (currentBookingComponent) =>
+                                            (currentBookingComponent -
+                                                1 +
+                                                bookingComponents.length) %
+                                            bookingComponents.length
+                                    )
+                                }
+                            >
+                                Previous
+                            </p>
+                        )}
+                        {currentBookingComponent < 2 && (
+                            <p
+                                className="px-6 py-2 bg-primary hover:bg-primaryOff transition-all rounded-lg text-white cursor-pointer"
+                                onClick={() => {
+                                    setCurrentBookingComponent(
+                                        (currentBookingComponent) =>
+                                            (currentBookingComponent +
+                                                1 +
+                                                bookingComponents.length) %
+                                            bookingComponents.length
+                                    );
+                                }}
+                            >
+                                Next
+                            </p>
+                        )}
                     </div>
                 </div>
                 <div className="w-1/3 border-l-2 border-gray-200 pl-6 flex flex-col gap-3">
