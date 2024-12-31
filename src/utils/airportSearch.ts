@@ -3,6 +3,7 @@ import Fuse from "fuse.js";
 
 import csvFile from "../data/airports.csv";
 import { AirportDataType } from "../types/AirportData";
+import { getIPData } from "./getIPData";
 
 let airportData: AirportDataType[] | null = null;
 let csvLoaded: Promise<void> | null = null;
@@ -85,7 +86,9 @@ export const searchAirports = async (searchTerm: string) => {
 };
 
 // Get closest airport to user's location from IP address
-export const getClosestAirport = async (): Promise<AirportDataType | {} | null> => {
+export const getClosestAirport = async (): Promise<
+    AirportDataType | {} | null
+> => {
     await loadAndParseCSV();
 
     if (!airportData) {
@@ -182,14 +185,9 @@ export const getClosestAirport = async (): Promise<AirportDataType | {} | null> 
 
     try {
         // Get IP address data and estimated lat lon coordinates. Throw error if API call unsuccessful
-        const request = await fetch("http://ip-api.com/json/");
-        const data = await request.json();
+        const ipData = await getIPData();
 
-        if (data.status === "fail") {
-            throw new Error(data.message);
-        }
-
-        return await getClosestAirport(data.lat, data.lon);
+        return await getClosestAirport(ipData.lat, ipData.lon);
     } catch (error: any) {
         console.error(
             "Error getting user lat, lon coordinates: ",

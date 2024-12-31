@@ -159,6 +159,7 @@ const Booking_Itinerary: React.FC<{
                         (activity, index) => {
                             return (
                                 <p
+                                    key={index}
                                     className={`border-2 rounded-full border-primary py-1 px-3 text-sm cursor-pointer w-min text-nowrap transition-all ${
                                         optionalActivities.includes(index)
                                             ? "bg-red-100"

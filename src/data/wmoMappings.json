@@ -1,0 +1,47 @@
+{
+    "clear": {
+        "wmoCodes": [0],
+        "icon": "fi-rr-sun",
+        "description": "Clear"
+    },
+    "cloudSmall": {
+        "wmoCodes": [1],
+        "icon": "fi-rr-cloud-sun",
+        "description": "Mostly Clear"
+    },
+    "cloudMedium": {
+        "wmoCodes": [2],
+        "icon": "fi-rr-cloud",
+        "description": "Cloudy"
+    },
+    "cloudLarge": {
+        "wmoCodes": [3],
+        "icon": "fi-rr-clouds",
+        "description": "Heavy Clouds"
+    },
+    "rain": {
+        "wmoCodes": [51, 53, 80, 61],
+        "icon": "fi-rr-cloud-rain",
+        "description": "Rain"
+    },
+    "heavyRain": {
+        "wmoCodes": [81, 63, 55, 82, 65],
+        "icon": "fi-rr-cloud-showers-heavy",
+        "description": "Heavy Rain"
+    },
+    "thunderstorms": {
+        "wmoCodes": [95, 96, 99],
+        "icon": "fi-rr-thunderstorm",
+        "description": "Storms"
+    },
+    "snow": {
+        "wmoCodes": [71, 73, 75, 77, 85, 86],
+        "icon": "fi-rr-cloud-snow",
+        "description": "Snow"
+    },
+    "fog": {
+        "wmoCodes": [45, 48],
+        "icon": "fi-rr-fog",
+        "description": "Fog"
+    }
+}
