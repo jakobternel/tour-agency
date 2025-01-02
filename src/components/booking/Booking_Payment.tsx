@@ -362,7 +362,7 @@ const Booking_Payment: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="flex flex-col gap-1 relative w-1/5">
+                            <div className="flex flex-col gap-1 relative w-[calc(25%-9px)]">
                                 <p>Expiry Date</p>
                                 <input
                                     type="text"
@@ -371,7 +371,7 @@ const Booking_Payment: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="flex flex-col gap-1 relative w-1/5">
+                            <div className="flex flex-col gap-1 relative w-[calc(25%-9px)]">
                                 <div className="flex flex-row justify-between items-center">
                                     <p>CVC</p>
                                     <div className="relative">
