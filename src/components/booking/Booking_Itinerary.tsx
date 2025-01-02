@@ -64,7 +64,7 @@ const Booking_Itinerary: React.FC<{
                 <div className="relative w-1/2">
                     <input
                         type="text"
-                        className="w-full border-2 border-primary py-1 focus:outline-none overflow-ellipsis pr-6 pl-2"
+                        className="w-full border-2 border-red-200 py-1 focus:outline-none overflow-ellipsis pr-6 pl-2"
                         onFocus={() => setSearchActive(true)}
                         onBlur={() => {
                             setTimeout(() => setSearchActive(false), 150);
@@ -107,7 +107,7 @@ const Booking_Itinerary: React.FC<{
                 <p className="w-1/2">Step 2 - Select Arrival Date</p>
                 <input
                     type="date"
-                    className="w-1/2 border-2 border-primary py-1 focus:outline-none pl-2"
+                    className="w-1/2 border-2 border-red-200 py-1 focus:outline-none pl-2"
                     onChange={(e) => {
                         setDepartureDate(new Date(e.target.value));
                     }}

@@ -156,10 +156,11 @@ const Booking: React.FC<{
                                 Previous
                             </p>
                         )}
-                        {currentBookingComponent < 2 && (
-                            <p
-                                className="px-6 py-2 bg-primary hover:bg-primaryOff transition-all rounded-lg text-white cursor-pointer"
-                                onClick={() => {
+
+                        <p
+                            className="px-6 py-2 bg-primary hover:bg-primaryOff transition-all rounded-lg text-white cursor-pointer"
+                            onClick={() => {
+                                currentBookingComponent < 2 &&
                                     setCurrentBookingComponent(
                                         (currentBookingComponent) =>
                                             (currentBookingComponent +
@@ -167,11 +168,12 @@ const Booking: React.FC<{
                                                 bookingComponents.length) %
                                             bookingComponents.length
                                     );
-                                }}
-                            >
-                                Next
-                            </p>
-                        )}
+                            }}
+                        >
+                            {currentBookingComponent === 2
+                                ? "Make Payment"
+                                : "Next"}
+                        </p>
                     </div>
                 </div>
                 <div className="w-1/3 border-l-2 border-gray-200 pl-6 flex flex-col gap-3">

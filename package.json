@@ -4,6 +4,8 @@
     "private": true,
     "dependencies": {
         "@flaticon/flaticon-uicons": "^3.3.1",
+        "@fortawesome/free-brands-svg-icons": "^6.7.2",
+        "@fortawesome/react-fontawesome": "^0.2.2",
         "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
@@ -14,6 +16,7 @@
         "@types/react-dom": "^18.3.1",
         "autoprefixer": "^10.4.20",
         "country-flag-icons": "^1.5.13",
+        "country-state-city": "^3.2.1",
         "fuse.js": "^7.0.0",
         "mapbox-gl": "^3.8.0",
         "papaparse": "^5.4.1",
