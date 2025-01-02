@@ -27,9 +27,10 @@ const Booking_Payment: React.FC = () => {
         | "default"
     >("default");
     const [cardNumberInput, setCardNumberInput] = useState<string>("");
+    const [cardCVCInput, setCardCVCInput] = useState<string>("");
 
     const handleCardNumberInput = (input: string) => {
-        const digits = input.replace(/\s+/g, "");
+        const digits = input.replace(/\D+/g, "");
 
         let detectedCardType: keyof typeof cardTypes | "default" = "default";
 
@@ -373,12 +374,41 @@ const Booking_Payment: React.FC = () => {
                             <div className="flex flex-col gap-1 relative w-1/5">
                                 <div className="flex flex-row justify-between items-center">
                                     <p>CVC</p>
-                                    <i className="fi fi-rr-question-square cursor-pointer"></i>
+                                    <div className="relative">
+                                        <i className="peer fi fi-rr-question-square cursor-pointer"></i>
+                                        <div className="peer-hover:opacity-100 opacity-0 transition-all absolute top-1/2 -translate-y-1/2 left-[calc(100%+0.5em)] w-72 bg-gray-200 rounded-lg border-2 border-black p-2">
+                                            <p className="text-xs">
+                                                The 3-digit security code
+                                                located on the back of your
+                                                card. For American Express
+                                                cards, this is a 4-digit code on
+                                                the front.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <input
                                     type="text"
-                                    placeholder="000"
+                                    placeholder={
+                                        cardType === "amex" ? "0000" : "000"
+                                    }
                                     className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow"
+                                    value={cardCVCInput}
+                                    onChange={(e) => {
+                                        const digits = e.target.value.replace(
+                                            /\D+/g,
+                                            ""
+                                        );
+
+                                        if (
+                                            (cardType === "amex" &&
+                                                digits.length <= 4) ||
+                                            (cardType !== "amex" &&
+                                                digits.length <= 3)
+                                        ) {
+                                            setCardCVCInput(digits);
+                                        }
+                                    }}
                                 />
                             </div>
                             <div className="flex flex-row gap-1 items-center w-full">
