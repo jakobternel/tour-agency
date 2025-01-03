@@ -9,6 +9,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Segment';
+    src: url('../public/DS-DIGII.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 html, body {
     @apply w-full h-full p-0 m-0 bg-red-50;
 }
@@ -37,4 +44,3 @@ select {
 select::-ms-expand {
     display: none;
 }
-

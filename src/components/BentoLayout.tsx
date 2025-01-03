@@ -26,6 +26,26 @@ const BentoLayout: React.FC<{
     const [destinationCurrentDay, setDestinationCurrentDay] = useState<string>(
         new Date().toDateString()
     );
+    const [timezone, setTimezone] = useState<string>("Australia/Melbourne");
+    const [time, setTime] = useState<[string, string]>(
+        new Date().toTimeString().split(":").slice(0, 2) as [string, string]
+    );
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            const date = new Date();
+            const formattedTime = new Intl.DateTimeFormat("en-US", {
+                timeZone: timezone,
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+            }).format(date);
+
+            setTime(formattedTime.split(":") as [string, string]);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [timezone]);
 
     useEffect(() => {
         const initClosestAirport = async () => {
@@ -49,6 +69,7 @@ const BentoLayout: React.FC<{
             const data = await getWeather(destinationCoords);
 
             if (data) {
+                setTimezone(data.timezone);
                 setCurrentWeather(data.current);
 
                 const weatherForecast: WeatherForecastType = {};
@@ -205,7 +226,12 @@ const BentoLayout: React.FC<{
                             <i className="fi fi-ss-plane text-3xl text-primary"></i>
                         </div>
                         <div className="text-sm">
-                            <p className="font-mono font-bold">$8,999</p>
+                            <div className="text-sm flex flex-row items-center gap-2">
+                                <span>{closestAirport}</span>
+                                <i className="fi fi-rr-arrow-right"></i>
+                                <span>{data.arrAirport}</span>
+                            </div>
+
                             <p className="">
                                 24hr 30min{" "}
                                 <span className="font-[r1em] text-gray-400">
@@ -216,11 +242,10 @@ const BentoLayout: React.FC<{
                         </div>
                     </div>
                     <div className="flex flex-row justify-between items-center">
-                        <div className="text-sm flex flex-row items-center gap-2">
-                            <span>{closestAirport}</span>
-                            <i className="fi fi-rr-arrow-right"></i>
-                            <span>{data.arrAirport}</span>
-                        </div>
+                        <p className="text-sm">
+                            Starting from{" "}
+                            <span className="font-mono font-bold">$8,999</span>
+                        </p>
                         <button className="bg-primary text-white py-1 px-5 rounded-full font-montserrat transition-colors hover:bg-primaryOff">
                             Book
                         </button>
@@ -240,7 +265,6 @@ const BentoLayout: React.FC<{
                                     } text-3xl text-primary flex items-center`}
                                 ></i>
                             )}
-
                             <div className="flex flex-col justify-between">
                                 <p className="text-xs">
                                     {currentWeather &&
@@ -316,7 +340,67 @@ const BentoLayout: React.FC<{
                 <div className="bento"></div>
             </div>
             <div className="w-1/4 h-1/2 p-3">
-                <div className="bento"></div>
+                <div className="bento flex flex-col items-center justify-center gap-3">
+                    <div>
+                        <p className="font-xs font-montserrat">
+                            Munich, Germany
+                        </p>
+                    </div>
+                    <div className="py-2 pl-3 pr-4 bg-gray-600 rounded-lg border-2 border-gray-800 shadow-md">
+                        <p className="w-36 z-20 text-[4em] leading-none text-primary font-segment absolute left-1/2 -translate-x-[calc(50%+2px)] flex flex-row *:text-right *:flex-none *:w-1/5">
+                            {time[0].split("").map((digit, index) => {
+                                return (
+                                    <span
+                                        key={index}
+                                        className={`${
+                                            digit === "1"
+                                                ? "translate-x-[5px]"
+                                                : ""
+                                        }`}
+                                    >
+                                        {digit}
+                                    </span>
+                                );
+                            })}
+                            <span className="text-right flex-none w-1/5 animate-blink">
+                                :
+                            </span>
+                            {time[1].split("").map((digit, index) => {
+                                return (
+                                    <span
+                                        key={index}
+                                        className={`${
+                                            digit === "1"
+                                                ? "translate-x-[5px]"
+                                                : ""
+                                        }`}
+                                    >
+                                        {digit}
+                                    </span>
+                                );
+                            })}
+                        </p>
+
+                        <p className="w-36 z-10 text-[4em] leading-none text-red-300 opacity-25 font-segment flex flex-row *:text-right *:flex-none *:w-1/5">
+                            <span>8</span>
+                            <span>8</span>
+                            <span>:</span>
+                            <span>8</span>
+                            <span>8</span>
+                        </p>
+                    </div>
+                    <p className="text-xs">
+                        {new Date(destinationCurrentDay).toLocaleDateString(
+                            "en-GB",
+                            {
+                                weekday: "long",
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                            }
+                        )}
+                    </p>
+                </div>
             </div>
         </div>
     );

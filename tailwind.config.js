@@ -5,6 +5,7 @@ module.exports = {
             fontFamily: {
                 lobster: ["Lobster", "Helvetica Neue", "arial"],
                 montserrat: ["Montserrat"],
+                segment: ["Segment", "monospace"],
             },
             colors: {
                 primary: "#ff4d6d",
@@ -24,10 +25,16 @@ module.exports = {
                         transform: "translate(-50%, 0.5rem)",
                     },
                 },
+                blink: {
+                    "0%": { opacity: "0" },
+                    "50%": { opacity: "1" },
+                    "100%": { opacity: "0" },
+                },
             },
             animation: {
                 scroll: "3s infinite scroll",
                 spin: "spin 2.5s linear infinite",
+                blink: "2s steps(1, end) infinite blink",
             },
         },
     },
