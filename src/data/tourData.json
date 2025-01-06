@@ -34,6 +34,38 @@
                     "content": "Final Day"
                 }
             },
+            "destinationSuggestions": [
+                {
+                    "title": "Biergarten",
+                    "icon": "fi-rr-beer",
+                    "description": "Munich's traditional beer gardens (Biergarten) are a major part of Bavarian life. One popular feature of these beer gardens is that you can bring your own food, as long as you buy drinks from the beer hall."
+                },
+                {
+                    "title": "Englischer Garten",
+                    "icon": "fi-rr-bench-tree",
+                    "description": "Munich boasts the Englischer Garten, one of the largest urban parks in the world. It's even bigger than New York City's Central Park, covering over 900 acres."
+                },
+                {
+                    "title": "Weißwurst",
+                    "icon": "fi-rr-sausage",
+                    "description": "Munich is famous for its Weißwurst (white sausage), made of minced veal and pork back bacon, flavored with parsley, lemon, mace, and cardamom."
+                },
+                {
+                    "title": "BMW Museum",
+                    "icon": "fi-rr-car-side",
+                    "description": "For car enthusiasts, a visit to the BMW Museum and the BMW Welt is a must. The museum showcases the evolution of one of Germany's most iconic automobile brands."
+                },
+                {
+                    "title": "Hellabrunn Zoo",
+                    "icon": "fi-rr-lion",
+                    "description": "Hellabrunn Zoo offers a fascinating look at wildlife from around the world, with beautifully designed animal enclosures that mimic the natural environments of the animals."
+                },
+                {
+                    "title": "Bavarian Alps",
+                    "icon": "fi-rr-hiking",
+                    "description": "Just a short drive from Munich, the Bavarian Alps provide plenty of outdoor activities, including hiking, skiing, and snowboarding in the winter."
+                }
+            ],
             "arrAirport": "MUC",
             "destinationCoords": [48.137154, 11.576124]
         },

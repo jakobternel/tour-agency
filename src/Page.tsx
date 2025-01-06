@@ -28,7 +28,10 @@ const Page: React.FC = () => {
                 data={tourData[0].heroContent}
                 scrollPosition={scrollPosition}
             />
-            <BentoLayout data={tourData[0].bentoContent} />
+            <BentoLayout
+                data={tourData[0].bentoContent}
+                destinationName={`${tourData[0].destinationInfoContent.city}, ${tourData[0].destinationInfoContent.country}`}
+            />
             <DestinationLayout data={tourData[0].destinationInfoContent} />
             <Itinerary data={tourData[0].itineraryContent} />
             <Inclusions />

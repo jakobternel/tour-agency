@@ -11,9 +11,15 @@ const BentoLayout: React.FC<{
     data: {
         arrAirport: string;
         itinerary: { [key: string]: { icon: string; content: string } };
+        destinationSuggestions: {
+            title: string;
+            icon: string;
+            description: string;
+        }[];
         destinationCoords: number[];
     };
-}> = ({ data }) => {
+    destinationName: string;
+}> = ({ data, destinationName }) => {
     const [closestAirport, setClosestAirport] = useState<string | null>(null);
     const [currentWeather, setCurrentWeather] = useState<{
         time: string;
@@ -30,6 +36,7 @@ const BentoLayout: React.FC<{
     const [time, setTime] = useState<[string, string]>(
         new Date().toTimeString().split(":").slice(0, 2) as [string, string]
     );
+    const [carouselIndex, setCarouselIndex] = useState<number>(0);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -243,7 +250,7 @@ const BentoLayout: React.FC<{
                     </div>
                     <div className="flex flex-row justify-between items-center">
                         <p className="text-sm">
-                            Starting from{" "}
+                            Package starting from{" "}
                             <span className="font-mono font-bold">$8,999</span>
                         </p>
                         <button className="bg-primary text-white py-1 px-5 rounded-full font-montserrat transition-colors hover:bg-primaryOff">
@@ -337,13 +344,72 @@ const BentoLayout: React.FC<{
                 </div>
             </div>
             <div className="w-2/4 h-1/2 p-3">
-                <div className="bento"></div>
+                <div className="bento flex flex-col gap-1">
+                    <p className="font-bold font-montserrat">
+                        Destination Highlights
+                    </p>
+                    <div className="w-full h-full flex flex-row justify-between items-center gap-3">
+                        <i
+                            className="fi fi-rr-angle-circle-left text-xl cursor-pointer transition-all hover:text-primaryOff"
+                            onClick={() =>
+                                setCarouselIndex(
+                                    (carouselIndex +
+                                        data.destinationSuggestions.length -
+                                        2) %
+                                        (data.destinationSuggestions.length - 1)
+                                )
+                            }
+                        ></i>
+                        <div className="overflow-hidden h-full w-full">
+                            <div
+                                className="flex h-full flex-grow transition-all"
+                                style={{
+                                    transform: `translateX(-${
+                                        carouselIndex * 50
+                                    }%)`,
+                                }}
+                            >
+                                {data.destinationSuggestions.map(
+                                    (element, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="flex-shrink-0 w-1/2 p-2 h-full flex flex-col gap-2"
+                                            >
+                                                <div className="flex flex-row gap-3 items-center">
+                                                    <i
+                                                        className={`fi ${element.icon} text-3xl text-primary`}
+                                                    ></i>
+                                                    <p className="font-montserrat">
+                                                        {element.title}
+                                                    </p>
+                                                </div>
+                                                <p className="text-xs">
+                                                    {element.description}
+                                                </p>
+                                            </div>
+                                        );
+                                    }
+                                )}
+                            </div>
+                        </div>
+                        <i
+                            className="fi fi-rr-angle-circle-right text-xl cursor-pointer transition-all hover:text-primaryOff"
+                            onClick={() =>
+                                setCarouselIndex(
+                                    (carouselIndex + 1) %
+                                        (data.destinationSuggestions.length - 1)
+                                )
+                            }
+                        ></i>
+                    </div>
+                </div>
             </div>
             <div className="w-1/4 h-1/2 p-3">
                 <div className="bento flex flex-col items-center justify-center gap-3">
                     <div>
                         <p className="font-xs font-montserrat">
-                            Munich, Germany
+                            {destinationName}
                         </p>
                     </div>
                     <div className="py-2 pl-3 pr-4 bg-gray-600 rounded-lg border-2 border-gray-800 shadow-md">
