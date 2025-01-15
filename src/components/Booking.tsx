@@ -5,6 +5,8 @@ import Booking_Contact from "./booking/Booking_Contact";
 import Booking_Payment from "./booking/Booking_Payment";
 import Booking_Confirmation from "./booking/Booking_Confirmation";
 
+import { FormInputType } from "../types/FormInput";
+
 const Booking: React.FC<{
     itineraryContent: {
         [key: string]: {
@@ -32,53 +34,100 @@ const Booking: React.FC<{
         }[];
     };
 }> = ({ itineraryContent, bookingContent }) => {
+    const [formInputs, setFormInputs] = useState<FormInputType>({
+        itinerary: {
+            departureDate: undefined,
+            departureAirport: undefined,
+            roomSelection: String(bookingContent.defaultHotel),
+            optionalActivities: [],
+        },
+        contact: {
+            firstName: undefined,
+            lastName: undefined,
+            email: undefined,
+            emailConfirm: undefined,
+            countryCode: undefined,
+            phoneNumber: undefined,
+            country: undefined,
+            specialRequests: undefined,
+        },
+        payment: {
+            email: undefined,
+            phoneNumber: undefined,
+            addressLine1: undefined,
+            addressLine2: undefined,
+            postcode: undefined,
+            city: undefined,
+            country: undefined,
+            state: undefined,
+            cardNo: undefined,
+            cardholder: undefined,
+            expiry: undefined,
+            cvc: undefined,
+            consent: false,
+        },
+    });
+
     const [departureDate, setDepartureDate] = useState<Date | null>();
     const [flightSurcharge, setFlightSurcharge] = useState<number>(0);
-    const [roomSelection, setRoomSelection] = useState<string>(
-        String(bookingContent.defaultHotel)
-    );
-    const [roomSurcharge, setRoomSurcharge] = useState<number>(0);
-    const [optionalActivities, setOptionalActivities] = useState<number[]>([]);
-    const [activitiesSurcharge, setActivitiesSurcharge] = useState<number>(0);
 
-    const [departureDateError, setDepartureDateError] = useState<string>();
+    const [roomSurcharge, setRoomSurcharge] = useState<number>(0);
+    const [activitiesSurcharge, setActivitiesSurcharge] = useState<number>(0);
 
     const tourLength = Object.values(itineraryContent).length;
 
     const [currentBookingComponent, setCurrentBookingComponent] =
         useState<number>(0);
 
+    const handleInputChange = <T extends keyof FormInputType>(
+        section: T,
+        field: keyof FormInputType[T],
+        value: FormInputType[T][keyof FormInputType[T]]
+    ) => {
+        setFormInputs((prevInputs: FormInputType) => ({
+            ...prevInputs,
+            [section]: {
+                ...prevInputs[section],
+                [field]: value,
+            },
+        }));
+    };
+
     const bookingComponents = [
         <Itinerary_Booking
+            formInputs={formInputs}
+            handleInputChange={handleInputChange}
             bookingContent={bookingContent}
-            optionalActivities={optionalActivities}
-            roomSelection={roomSelection}
-            setDepartureDate={setDepartureDate}
-            setRoomSelection={setRoomSelection}
-            setOptionalActivities={setOptionalActivities}
         />,
-        <Booking_Contact />,
-        <Booking_Payment />,
+        <Booking_Contact
+            formInputs={formInputs}
+            handleInputChange={handleInputChange}
+        />,
+        <Booking_Payment
+            formInputs={formInputs}
+            handleInputChange={handleInputChange}
+        />,
         <Booking_Confirmation />,
     ];
 
     useEffect(() => {
         setRoomSurcharge(
-            bookingContent.hotelContent[roomSelection].dailyAdditionalPrice *
+            bookingContent.hotelContent[formInputs.itinerary.roomSelection]
+                .dailyAdditionalPrice *
                 (tourLength - 1)
         );
-    }, [roomSelection]);
+    }, [formInputs.itinerary.roomSelection]);
 
     useEffect(() => {
         let activitiesTotal = 0;
 
-        optionalActivities.forEach((activityIndex) => {
+        formInputs.itinerary.optionalActivities.forEach((activityIndex) => {
             activitiesTotal +=
                 bookingContent.optionalActivities[activityIndex].cost;
         });
 
         setActivitiesSurcharge(activitiesTotal);
-    }, [optionalActivities]);
+    }, [formInputs.itinerary.optionalActivities]);
 
     const formatDollarAmount = (amount: number) => {
         return Intl.NumberFormat("en-US", {
@@ -190,8 +239,9 @@ const Booking: React.FC<{
                 {currentBookingComponent !== 3 && (
                     <div className="w-1/3 flex-none border-l-2 border-gray-200 pl-6 flex flex-col gap-3">
                         <div>
-                            {departureDate &&
-                                String(departureDate) !== "Invalid Date" && (
+                            {formInputs.itinerary.departureDate &&
+                                String(formInputs.itinerary.departureDate) !==
+                                    "Invalid Date" && (
                                     <>
                                         <p className="font-montserrat font-semibold mb-1">
                                             Trip Dates
@@ -203,7 +253,7 @@ const Booking: React.FC<{
                                                 </p>
                                                 <p className="text-gray-500 font-mono">
                                                     {String(
-                                                        departureDate.toLocaleDateString(
+                                                        formInputs.itinerary.departureDate.toLocaleDateString(
                                                             "en-GB"
                                                         )
                                                     )}
@@ -216,7 +266,7 @@ const Booking: React.FC<{
                                                 <p className="text-gray-500 font-mono">
                                                     {String(
                                                         new Date(
-                                                            departureDate.getTime() +
+                                                            formInputs.itinerary.departureDate.getTime() +
                                                                 (tourLength -
                                                                     1) *
                                                                     24 *
@@ -263,7 +313,8 @@ const Booking: React.FC<{
                                     <p className="font-montserrat">
                                         {
                                             bookingContent.hotelContent[
-                                                roomSelection
+                                                formInputs.itinerary
+                                                    .roomSelection
                                             ].name
                                         }
                                     </p>
@@ -287,29 +338,31 @@ const Booking: React.FC<{
                                     </p>
                                 </div>
                                 <div className="ml-3">
-                                    {optionalActivities.map((activity) => {
-                                        return (
-                                            <div className="flex flex-row justify-between">
-                                                <p className="font-montserrat">
-                                                    {
-                                                        bookingContent
-                                                            .optionalActivities[
-                                                            activity
-                                                        ].name
-                                                    }
-                                                </p>
-                                                <p className="text-gray-500 font-mono">
-                                                    +{" "}
-                                                    {formatDollarAmount(
-                                                        bookingContent
-                                                            .optionalActivities[
-                                                            activity
-                                                        ].cost
-                                                    )}
-                                                </p>
-                                            </div>
-                                        );
-                                    })}
+                                    {formInputs.itinerary.optionalActivities.map(
+                                        (activity) => {
+                                            return (
+                                                <div className="flex flex-row justify-between">
+                                                    <p className="font-montserrat">
+                                                        {
+                                                            bookingContent
+                                                                .optionalActivities[
+                                                                activity
+                                                            ].name
+                                                        }
+                                                    </p>
+                                                    <p className="text-gray-500 font-mono">
+                                                        +{" "}
+                                                        {formatDollarAmount(
+                                                            bookingContent
+                                                                .optionalActivities[
+                                                                activity
+                                                            ].cost
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            );
+                                        }
+                                    )}
                                 </div>
                             </div>
                         )}

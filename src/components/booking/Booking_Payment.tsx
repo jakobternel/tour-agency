@@ -11,12 +11,20 @@ import {
     faCcVisa,
 } from "@fortawesome/free-brands-svg-icons";
 
-const Booking_Payment: React.FC = () => {
+import { FormInputType } from "../../types/FormInput";
+
+const Booking_Payment: React.FC<{
+    formInputs: FormInputType;
+    handleInputChange: <T extends keyof FormInputType>(
+        section: T,
+        field: keyof FormInputType[T],
+        value: FormInputType[T][keyof FormInputType[T]]
+    ) => void;
+}> = ({ formInputs, handleInputChange }) => {
     const [openPaymentSection, setOpenPaymentSection] = useState<number | null>(
         0
     );
     const [completedSections, setCompletedSections] = useState<number[]>([]);
-    const [selectedCountry, setSelectedCountry] = useState<string[]>([]);
     const [cardType, setCardType] = useState<
         | "visa"
         | "mastercard"
@@ -26,11 +34,10 @@ const Booking_Payment: React.FC = () => {
         | "discover"
         | "default"
     >("default");
-    const [cardNumberInput, setCardNumberInput] = useState<string>("");
-    const [cardCVCInput, setCardCVCInput] = useState<string>("");
+    const [backspacePressed, setBackspacePressed] = useState<boolean>(false);
 
-    const handleCardNumberInput = (input: string) => {
-        const digits = input.replace(/\D+/g, "");
+    const handleCardNumberInput = (input: string): string => {
+        const digits: string = input.replace(/\D+/g, "");
 
         let detectedCardType: keyof typeof cardTypes | "default" = "default";
 
@@ -42,13 +49,10 @@ const Booking_Payment: React.FC = () => {
         }
         setCardType(detectedCardType);
 
-        if (
-            detectedCardType !== "default" &&
-            digits.length <= cardTypes[detectedCardType].maxDigits
-        ) {
-            setCardNumberInput(digits);
-        } else if (detectedCardType === "default") {
-            setCardNumberInput(digits);
+        if (detectedCardType !== "default") {
+            return digits.slice(0, cardTypes[detectedCardType].maxDigits);
+        } else {
+            return digits;
         }
     };
 
@@ -116,16 +120,48 @@ const Booking_Payment: React.FC = () => {
                             <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
                                 <p>Email Address</p>
                                 <input
+                                    value={
+                                        formInputs.payment.email
+                                            ? formInputs.payment.email
+                                            : formInputs.contact.email
+                                    }
+                                    onChange={(e) => {
+                                        handleInputChange(
+                                            "payment",
+                                            "email",
+                                            e.target.value
+                                        );
+                                    }}
                                     type="email"
-                                    className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow"
+                                    className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
+                                        formInputs.payment.email
+                                            ? "border-primary"
+                                            : "border-red-200"
+                                    }`}
                                 />
                             </div>
 
                             <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
                                 <p>Phone Number</p>
                                 <input
+                                    value={
+                                        formInputs.payment.phoneNumber
+                                            ? formInputs.payment.phoneNumber
+                                            : formInputs.contact.phoneNumber
+                                    }
+                                    onChange={(e) => {
+                                        handleInputChange(
+                                            "payment",
+                                            "phoneNumber",
+                                            e.target.value
+                                        );
+                                    }}
                                     type="tel"
-                                    className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow"
+                                    className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
+                                        formInputs.payment.phoneNumber
+                                            ? "border-primary"
+                                            : "border-red-200"
+                                    }`}
                                 />
                             </div>
                         </div>
@@ -181,42 +217,100 @@ const Booking_Payment: React.FC = () => {
                             <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
                                 <p>Address Line 1</p>
                                 <input
+                                    value={formInputs.payment.addressLine1}
+                                    onChange={(e) => {
+                                        handleInputChange(
+                                            "payment",
+                                            "addressLine1",
+                                            e.target.value
+                                        );
+                                    }}
                                     type="text"
-                                    className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow"
+                                    className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
+                                        formInputs.payment.addressLine1
+                                            ? "border-primary"
+                                            : "border-red-200"
+                                    }`}
                                 />
                             </div>
 
                             <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
                                 <p>Address Line 2</p>
                                 <input
+                                    value={formInputs.payment.addressLine2}
+                                    onChange={(e) => {
+                                        handleInputChange(
+                                            "payment",
+                                            "addressLine2",
+                                            e.target.value
+                                        );
+                                    }}
                                     type="text"
-                                    className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow"
+                                    className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
+                                        formInputs.payment.addressLine2
+                                            ? "border-primary"
+                                            : "border-red-200"
+                                    }`}
                                 />
                             </div>
 
                             <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
                                 <p>Postcode</p>
                                 <input
+                                    value={formInputs.payment.postcode}
+                                    onChange={(e) => {
+                                        handleInputChange(
+                                            "payment",
+                                            "postcode",
+                                            e.target.value
+                                        );
+                                    }}
                                     type="text"
-                                    className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow"
+                                    className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
+                                        formInputs.payment.postcode
+                                            ? "border-primary"
+                                            : "border-red-200"
+                                    }`}
                                 />
                             </div>
                             <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
                                 <p>City</p>
                                 <input
+                                    value={formInputs.payment.city}
+                                    onChange={(e) => {
+                                        handleInputChange(
+                                            "payment",
+                                            "city",
+                                            e.target.value
+                                        );
+                                    }}
                                     type="text"
-                                    className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow"
+                                    className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
+                                        formInputs.payment.city
+                                            ? "border-primary"
+                                            : "border-red-200"
+                                    }`}
                                 />
                             </div>
                             <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
                                 <p>Country</p>
                                 <div className="relative">
                                     <select
-                                        className="border-2 border-red-200 py-1 pl-2 focus:outline-none w-full"
-                                        defaultValue="select"
+                                        className={`border-2 py-1 focus:outline-none pl-2 w-full outline-none transition-all focus:border-primary ${
+                                            formInputs.payment.country
+                                                ? "border-primary"
+                                                : "border-red-200"
+                                        }`}
+                                        defaultValue={
+                                            formInputs.payment.country
+                                                ? formInputs.payment.country
+                                                : "select"
+                                        }
                                         onChange={(e) => {
-                                            setSelectedCountry(
-                                                e.target.value.split("-")
+                                            handleInputChange(
+                                                "payment",
+                                                "country",
+                                                e.target.value
                                             );
                                         }}
                                     >
@@ -228,7 +322,7 @@ const Booking_Payment: React.FC = () => {
                                                 return (
                                                     <option
                                                         key={country.isoCode}
-                                                        value={`${country.isoCode}-${country.name}`}
+                                                        value={country.isoCode}
                                                     >
                                                         {country.name}
                                                     </option>
@@ -243,15 +337,30 @@ const Booking_Payment: React.FC = () => {
                                 <p>State/Province</p>
                                 <div className="relative">
                                     <select
-                                        className="border-2 border-red-200 py-1 pl-2 focus:outline-none w-full"
-                                        defaultValue="select"
+                                        className={`border-2 py-1 focus:outline-none pl-2 w-full outline-none transition-all focus:border-primary ${
+                                            formInputs.payment.state
+                                                ? "border-primary"
+                                                : "border-red-200"
+                                        }`}
+                                        defaultValue={
+                                            formInputs.payment.state
+                                                ? formInputs.payment.state
+                                                : "select"
+                                        }
+                                        onChange={(e) => {
+                                            handleInputChange(
+                                                "payment",
+                                                "state",
+                                                e.target.value
+                                            );
+                                        }}
                                     >
                                         <option value="select" disabled={true}>
                                             Select State
                                         </option>
-                                        {selectedCountry[0] &&
+                                        {formInputs.payment.country &&
                                             State.getStatesOfCountry(
-                                                selectedCountry[0]
+                                                formInputs.payment.country
                                             ).map((state) => {
                                                 return (
                                                     <option
@@ -320,11 +429,15 @@ const Booking_Payment: React.FC = () => {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis w-full"
+                                        className={`border-2 py-1 focus:outline-none pl-2 w-full outline-none transition-all focus:border-primary ${
+                                            formInputs.payment.cardNo
+                                                ? "border-primary"
+                                                : "border-red-200"
+                                        }`}
                                         placeholder="4000 0000 0000 0000"
                                         value={
-                                            cardNumberInput
-                                                ? cardNumberInput
+                                            formInputs.payment.cardNo
+                                                ? formInputs.payment.cardNo
                                                       .replace(
                                                           /(\d{4})(?=\d)/g,
                                                           "$1 "
@@ -333,8 +446,12 @@ const Booking_Payment: React.FC = () => {
                                                 : ""
                                         }
                                         onChange={(e) => {
-                                            handleCardNumberInput(
-                                                e.target.value
+                                            handleInputChange(
+                                                "payment",
+                                                "cardNo",
+                                                handleCardNumberInput(
+                                                    e.target.value
+                                                )
                                             );
                                         }}
                                     />
@@ -356,18 +473,85 @@ const Booking_Payment: React.FC = () => {
                             <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
                                 <p>Cardholder's Name</p>
                                 <input
+                                    value={formInputs.payment.cardholder}
+                                    onChange={(e) => {
+                                        handleInputChange(
+                                            "payment",
+                                            "cardholder",
+                                            e.target.value
+                                        );
+                                    }}
                                     type="text"
                                     placeholder="John Smith"
-                                    className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis"
+                                    className={`border-2 py-1 focus:outline-none pl-2 w-full outline-none transition-all focus:border-primary ${
+                                        formInputs.payment.cardholder
+                                            ? "border-primary"
+                                            : "border-red-200"
+                                    }`}
                                 />
                             </div>
 
                             <div className="flex flex-col gap-1 relative w-[calc(25%-9px)]">
                                 <p>Expiry Date</p>
                                 <input
+                                    onKeyDown={(
+                                        e: React.KeyboardEvent<HTMLInputElement>
+                                    ) => {
+                                        e.key === "Backspace"
+                                            ? setBackspacePressed(true)
+                                            : setBackspacePressed(false);
+                                    }}
+                                    onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                    ) => {
+                                        let value = e.target.value.replace(
+                                            /[^0-9/]/g,
+                                            ""
+                                        );
+                                        const slashCount = (
+                                            value.match(/\//g) || []
+                                        ).length;
+
+                                        if (slashCount > 1) {
+                                            return;
+                                        }
+
+                                        if (
+                                            value.length === 3 &&
+                                            backspacePressed
+                                        ) {
+                                            value = value.slice(0, 2);
+                                        }
+
+                                        if (
+                                            value.length >= 2 &&
+                                            !backspacePressed &&
+                                            !value.includes("/")
+                                        ) {
+                                            value = `${value.slice(
+                                                0,
+                                                2
+                                            )}/${value.slice(2)}`;
+                                        }
+
+                                        if (value.length > 7) {
+                                            value = value.slice(0, 7);
+                                        }
+
+                                        handleInputChange(
+                                            "payment",
+                                            "expiry",
+                                            value
+                                        );
+                                    }}
                                     type="text"
+                                    value={formInputs.payment.expiry}
                                     placeholder="01/2027"
-                                    className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow"
+                                    className={`border-2 py-1 focus:outline-none pl-2 w-full outline-none transition-all focus:border-primary ${
+                                        formInputs.payment.expiry
+                                            ? "border-primary"
+                                            : "border-red-200"
+                                    }`}
                                 />
                             </div>
 
@@ -392,8 +576,12 @@ const Booking_Payment: React.FC = () => {
                                     placeholder={
                                         cardType === "amex" ? "0000" : "000"
                                     }
-                                    className="border-2 border-red-200 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow"
-                                    value={cardCVCInput}
+                                    className={`border-2 py-1 focus:outline-none pl-2 w-full outline-none transition-all focus:border-primary ${
+                                        formInputs.payment.cvc
+                                            ? "border-primary"
+                                            : "border-red-200"
+                                    }`}
+                                    value={formInputs.payment.cvc}
                                     onChange={(e) => {
                                         const digits = e.target.value.replace(
                                             /\D+/g,
@@ -406,13 +594,25 @@ const Booking_Payment: React.FC = () => {
                                             (cardType !== "amex" &&
                                                 digits.length <= 3)
                                         ) {
-                                            setCardCVCInput(digits);
+                                            handleInputChange(
+                                                "payment",
+                                                "cvc",
+                                                digits
+                                            );
                                         }
                                     }}
                                 />
                             </div>
                             <div className="flex flex-row gap-1 items-center w-full">
                                 <input
+                                    onChange={() =>
+                                        handleInputChange(
+                                            "payment",
+                                            "consent",
+                                            !formInputs.payment.consent
+                                        )
+                                    }
+                                    checked={formInputs.payment.consent}
                                     type="checkbox"
                                     name="consent"
                                     id="consent"

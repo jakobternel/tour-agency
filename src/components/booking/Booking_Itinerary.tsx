@@ -3,7 +3,15 @@ import { searchAirports } from "../../utils/airportSearch";
 
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 
+import { FormInputType } from "../../types/FormInput";
+
 const Booking_Itinerary: React.FC<{
+    formInputs: FormInputType;
+    handleInputChange: <T extends keyof FormInputType>(
+        section: T,
+        field: keyof FormInputType[T],
+        value: FormInputType[T][keyof FormInputType[T]]
+    ) => void;
     bookingContent: {
         basePrice: number;
         defaultHotel: number;
@@ -18,22 +26,7 @@ const Booking_Itinerary: React.FC<{
             cost: number;
         }[];
     };
-    optionalActivities: number[];
-    roomSelection: string;
-    setDepartureDate: React.Dispatch<
-        React.SetStateAction<Date | null | undefined>
-    >;
-    setRoomSelection: React.Dispatch<React.SetStateAction<string>>;
-    setOptionalActivities: React.Dispatch<React.SetStateAction<number[]>>;
-}> = ({
-    bookingContent,
-    optionalActivities,
-    roomSelection,
-    setDepartureDate,
-    setRoomSelection,
-    setOptionalActivities,
-}) => {
-    const [searchInput, setSearchInput] = useState<string>("");
+}> = ({ formInputs, handleInputChange, bookingContent }) => {
     const [searchActive, setSearchActive] = useState<boolean>(false);
     const [fuzzySearchResults, setFuzzySearchResults] = useState<
         { code: string; city: string; country: string }[]
@@ -41,7 +34,9 @@ const Booking_Itinerary: React.FC<{
 
     useEffect(() => {
         const getFuzzySearchResults = async () => {
-            const results = await searchAirports(searchInput);
+            const results = await searchAirports(
+                formInputs.itinerary.departureAirport || ""
+            );
 
             const airports = results.map((airport) => {
                 return {
@@ -55,7 +50,7 @@ const Booking_Itinerary: React.FC<{
         };
 
         getFuzzySearchResults();
-    }, [searchInput]);
+    }, [formInputs.itinerary.departureAirport]);
 
     return (
         <div>
@@ -64,15 +59,23 @@ const Booking_Itinerary: React.FC<{
                 <div className="relative w-1/2">
                     <input
                         type="text"
-                        className="w-full border-2 border-red-200 py-1 focus:outline-none overflow-ellipsis pr-6 pl-2"
+                        className={`w-full border-2 py-1 focus:outline-none outline-none overflow-ellipsis pr-6 pl-2 transition-all focus:border-primary ${
+                            formInputs.itinerary.departureAirport
+                                ? "border-primary"
+                                : "border-red-200"
+                        }`}
                         onFocus={() => setSearchActive(true)}
                         onBlur={() => {
                             setTimeout(() => setSearchActive(false), 150);
                         }}
                         onChange={(e) => {
-                            setSearchInput(e.target.value);
+                            handleInputChange(
+                                "itinerary",
+                                "departureAirport",
+                                e.target.value
+                            );
                         }}
-                        value={searchInput}
+                        value={formInputs.itinerary.departureAirport}
                     />
                     {searchActive && fuzzySearchResults.length !== 0 && (
                         <div className="bg-red-50 w-full absolute z-10 border-2 border-primary border-t-0 flex flex-col">
@@ -81,7 +84,9 @@ const Booking_Itinerary: React.FC<{
                                     <span
                                         key={index}
                                         onClick={() => {
-                                            setSearchInput(
+                                            handleInputChange(
+                                                "itinerary",
+                                                "departureAirport",
                                                 `${searchResult.code} - ${searchResult.city}, ${searchResult.country}`
                                             );
                                         }}
@@ -107,9 +112,24 @@ const Booking_Itinerary: React.FC<{
                 <p className="w-1/2">Step 2 - Select Arrival Date</p>
                 <input
                     type="date"
-                    className="w-1/2 border-2 border-red-200 py-1 focus:outline-none pl-2"
+                    className={`w-1/2 border-2 py-1 pl-2 focus:outline-none outline-none transition-all focus:border-primary ${
+                        formInputs.itinerary.departureDate
+                            ? "border-primary"
+                            : "border-red-200"
+                    }`}
+                    value={
+                        formInputs.itinerary.departureDate
+                            ? formInputs.itinerary.departureDate
+                                  .toISOString()
+                                  .split("T")[0]
+                            : ""
+                    }
                     onChange={(e) => {
-                        setDepartureDate(new Date(e.target.value));
+                        handleInputChange(
+                            "itinerary",
+                            "departureDate",
+                            new Date(e.target.value)
+                        );
                     }}
                     min={
                         new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
@@ -132,9 +152,13 @@ const Booking_Itinerary: React.FC<{
                 <select
                     className="w-1/2 border-2 border-primary py-1 focus:outline-none pl-2"
                     onChange={(e) => {
-                        setRoomSelection(e.target.value);
+                        handleInputChange(
+                            "itinerary",
+                            "roomSelection",
+                            e.target.value
+                        );
                     }}
-                    value={roomSelection}
+                    value={formInputs.itinerary.roomSelection}
                 >
                     {Object.keys(bookingContent.hotelContent).map((key) => {
                         return (
@@ -161,27 +185,34 @@ const Booking_Itinerary: React.FC<{
                                 <p
                                     key={index}
                                     className={`border-2 rounded-full border-primary py-1 px-3 text-sm cursor-pointer w-min text-nowrap transition-all ${
-                                        optionalActivities.includes(index)
+                                        formInputs.itinerary.optionalActivities.includes(
+                                            index
+                                        )
                                             ? "bg-red-100"
                                             : ""
                                     }`}
                                     onClick={() => {
                                         let newActivitiesArray: number[] = [];
                                         if (
-                                            optionalActivities.includes(index)
+                                            formInputs.itinerary.optionalActivities.includes(
+                                                index
+                                            )
                                         ) {
                                             newActivitiesArray =
-                                                optionalActivities.filter(
+                                                formInputs.itinerary.optionalActivities.filter(
                                                     (item) => item !== index
                                                 );
                                         } else {
                                             newActivitiesArray = [
-                                                ...optionalActivities,
+                                                ...formInputs.itinerary
+                                                    .optionalActivities,
                                                 index,
                                             ];
                                         }
 
-                                        setOptionalActivities(
+                                        handleInputChange(
+                                            "itinerary",
+                                            "optionalActivities",
                                             newActivitiesArray
                                         );
                                     }}
