@@ -1,19 +1,10 @@
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import { useEffect, useRef } from "react";
+import { ItineraryContent } from "../types/InputData";
 
 const Itinerary: React.FC<{
-    data: {
-        [key: string]: {
-            title: string;
-            description: string[];
-            inclusions?: string[];
-            suggestions?: string[];
-            accomodation?: string;
-            meals?: string;
-            budget?: string;
-        };
-    };
+    data: ItineraryContent;
 }> = ({ data }) => {
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
     const mapRef = useRef<mapboxgl.Map | null>(null);

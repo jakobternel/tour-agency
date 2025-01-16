@@ -1,38 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import Itinerary_Booking from "./booking/Booking_Itinerary";
-import Booking_Contact from "./booking/Booking_Contact";
-import Booking_Payment from "./booking/Booking_Payment";
-import Booking_Confirmation from "./booking/Booking_Confirmation";
+import ItineraryBooking from "./booking/BookingItinerary";
+import BookingContact from "./booking/BookingContact";
+import BookingPayment from "./booking/BookingPayment";
+import BookingConfirmation from "./booking/BookingConfirmation";
+import BookingDetails from "./booking/BookingDetails";
 
 import { FormInputType } from "../types/FormInput";
+import { BookingContent, ItineraryContent } from "../types/InputData";
 
 const Booking: React.FC<{
-    itineraryContent: {
-        [key: string]: {
-            title: string;
-            description: string[];
-            inclusions?: string[];
-            suggestions?: string[];
-            accomodation?: string;
-            meals?: string;
-            budget?: string;
-        };
-    };
-    bookingContent: {
-        basePrice: number;
-        defaultHotel: number;
-        hotelContent: {
-            [key: string]: {
-                name: string;
-                dailyAdditionalPrice: number;
-            };
-        };
-        optionalActivities: {
-            name: string;
-            cost: number;
-        }[];
-    };
+    itineraryContent: ItineraryContent;
+    bookingContent: BookingContent;
 }> = ({ itineraryContent, bookingContent }) => {
     const [formInputs, setFormInputs] = useState<FormInputType>({
         itinerary: {
@@ -68,14 +47,6 @@ const Booking: React.FC<{
         },
     });
 
-    const [departureDate, setDepartureDate] = useState<Date | null>();
-    const [flightSurcharge, setFlightSurcharge] = useState<number>(0);
-
-    const [roomSurcharge, setRoomSurcharge] = useState<number>(0);
-    const [activitiesSurcharge, setActivitiesSurcharge] = useState<number>(0);
-
-    const tourLength = Object.values(itineraryContent).length;
-
     const [currentBookingComponent, setCurrentBookingComponent] =
         useState<number>(0);
 
@@ -94,49 +65,21 @@ const Booking: React.FC<{
     };
 
     const bookingComponents = [
-        <Itinerary_Booking
+        <ItineraryBooking
             formInputs={formInputs}
             handleInputChange={handleInputChange}
             bookingContent={bookingContent}
         />,
-        <Booking_Contact
+        <BookingContact
             formInputs={formInputs}
             handleInputChange={handleInputChange}
         />,
-        <Booking_Payment
+        <BookingPayment
             formInputs={formInputs}
             handleInputChange={handleInputChange}
         />,
-        <Booking_Confirmation />,
+        <BookingConfirmation />,
     ];
-
-    useEffect(() => {
-        setRoomSurcharge(
-            bookingContent.hotelContent[formInputs.itinerary.roomSelection]
-                .dailyAdditionalPrice *
-                (tourLength - 1)
-        );
-    }, [formInputs.itinerary.roomSelection]);
-
-    useEffect(() => {
-        let activitiesTotal = 0;
-
-        formInputs.itinerary.optionalActivities.forEach((activityIndex) => {
-            activitiesTotal +=
-                bookingContent.optionalActivities[activityIndex].cost;
-        });
-
-        setActivitiesSurcharge(activitiesTotal);
-    }, [formInputs.itinerary.optionalActivities]);
-
-    const formatDollarAmount = (amount: number) => {
-        return Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        }).format(amount);
-    };
 
     return (
         <div className="bg-primary w-full h-full py-20 flex justify-center">
@@ -236,152 +179,12 @@ const Booking: React.FC<{
                         </>
                     )}
                 </div>
-                {currentBookingComponent !== 3 && (
-                    <div className="w-1/3 flex-none border-l-2 border-gray-200 pl-6 flex flex-col gap-3">
-                        <div>
-                            {formInputs.itinerary.departureDate &&
-                                String(formInputs.itinerary.departureDate) !==
-                                    "Invalid Date" && (
-                                    <>
-                                        <p className="font-montserrat font-semibold mb-1">
-                                            Trip Dates
-                                        </p>
-                                        <div className="ml-3">
-                                            <div className="flex flex-row justify-between">
-                                                <p className="font-montserrat">
-                                                    Start
-                                                </p>
-                                                <p className="text-gray-500 font-mono">
-                                                    {String(
-                                                        formInputs.itinerary.departureDate.toLocaleDateString(
-                                                            "en-GB"
-                                                        )
-                                                    )}
-                                                </p>
-                                            </div>
-                                            <div className="flex flex-row justify-between">
-                                                <p className="font-montserrat">
-                                                    End
-                                                </p>
-                                                <p className="text-gray-500 font-mono">
-                                                    {String(
-                                                        new Date(
-                                                            formInputs.itinerary.departureDate.getTime() +
-                                                                (tourLength -
-                                                                    1) *
-                                                                    24 *
-                                                                    60 *
-                                                                    60 *
-                                                                    1000
-                                                        ).toLocaleDateString(
-                                                            "en-GB"
-                                                        )
-                                                    )}
-                                                </p>
-                                            </div>
-                                            {flightSurcharge > 0 && (
-                                                <div className="flex flex-row justify-between">
-                                                    <p className="font-montserrat">
-                                                        Flight Surcharge
-                                                    </p>
-                                                    <p className="text-gray-500 font-mono">
-                                                        +{" "}
-                                                        {formatDollarAmount(
-                                                            flightSurcharge
-                                                        )}
-                                                    </p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </>
-                                )}
-                        </div>
-
-                        <div>
-                            <div className="flex justify-between">
-                                <p className="font-montserrat font-semibold">
-                                    Base Price:
-                                </p>
-                                <p className="font-mono">
-                                    {formatDollarAmount(
-                                        bookingContent.basePrice
-                                    )}
-                                </p>
-                            </div>
-                            <div className="ml-3">
-                                <div className="flex flex-row justify-between">
-                                    <p className="font-montserrat">
-                                        {
-                                            bookingContent.hotelContent[
-                                                formInputs.itinerary
-                                                    .roomSelection
-                                            ].name
-                                        }
-                                    </p>
-                                    <p className="text-gray-500 font-mono">
-                                        + {formatDollarAmount(roomSurcharge)}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        {activitiesSurcharge > 0 && (
-                            <div>
-                                <div className="flex flex-row justify-between">
-                                    <p className="font-montserrat font-semibold">
-                                        Activities Surcharge:
-                                    </p>
-                                    <p className="font-mono">
-                                        +{" "}
-                                        {formatDollarAmount(
-                                            activitiesSurcharge
-                                        )}
-                                    </p>
-                                </div>
-                                <div className="ml-3">
-                                    {formInputs.itinerary.optionalActivities.map(
-                                        (activity) => {
-                                            return (
-                                                <div className="flex flex-row justify-between">
-                                                    <p className="font-montserrat">
-                                                        {
-                                                            bookingContent
-                                                                .optionalActivities[
-                                                                activity
-                                                            ].name
-                                                        }
-                                                    </p>
-                                                    <p className="text-gray-500 font-mono">
-                                                        +{" "}
-                                                        {formatDollarAmount(
-                                                            bookingContent
-                                                                .optionalActivities[
-                                                                activity
-                                                            ].cost
-                                                        )}
-                                                    </p>
-                                                </div>
-                                            );
-                                        }
-                                    )}
-                                </div>
-                            </div>
-                        )}
-                        <div className="flex-grow"></div>
-                        <div className="flex justify-between">
-                            <p className="font-montserrat font-semibold">
-                                Total Price:
-                            </p>
-                            <p className="font-mono font-bold">
-                                {formatDollarAmount(
-                                    bookingContent.basePrice +
-                                        flightSurcharge +
-                                        roomSurcharge +
-                                        activitiesSurcharge
-                                )}
-                            </p>
-                        </div>
-                    </div>
-                )}
+                <BookingDetails
+                    itineraryContent={itineraryContent}
+                    bookingContent={bookingContent}
+                    formInputs={formInputs}
+                    currentBookingComponent={currentBookingComponent}
+                />
             </div>
         </div>
     );

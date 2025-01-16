@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import { HeroContent } from "../types/InputData";
 
 const logo = require("../images/shared/logo_white.png");
 
 const Hero: React.FC<{
-    data: {
-        name: string;
-        heroImageFolderRoute: string;
-        heroImageNames: string[];
-    };
+    data: HeroContent;
     scrollPosition: number;
 }> = ({ data, scrollPosition }) => {
     const [mousePosition, setMousePosition] = useState<[number, number]>([

@@ -1,16 +1,7 @@
+import { DestinationContent } from "../types/InputData";
+
 const DestinationLayout: React.FC<{
-    data: {
-        country: string;
-        city: string;
-        tagline: string;
-        description: string[];
-        destinationImages: {
-            [key: string]: {
-                size: string;
-                fileSrc: string;
-            };
-        };
-    };
+    data: DestinationContent;
 }> = ({ data }) => {
     return (
         <div className="h-screen w-full bg-primary px-20 py-20">

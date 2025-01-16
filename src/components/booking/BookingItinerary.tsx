@@ -5,7 +5,7 @@ import getUnicodeFlagIcon from "country-flag-icons/unicode";
 
 import { FormInputType } from "../../types/FormInput";
 
-const Booking_Itinerary: React.FC<{
+const BookingItinerary: React.FC<{
     formInputs: FormInputType;
     handleInputChange: <T extends keyof FormInputType>(
         section: T,
@@ -231,4 +231,4 @@ const Booking_Itinerary: React.FC<{
     );
 };
 
-export default Booking_Itinerary;
+export default BookingItinerary;

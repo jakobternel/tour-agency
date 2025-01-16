@@ -6,18 +6,10 @@ import { getWeather } from "../utils/getWeather";
 import { AirportDataType } from "../types/AirportData";
 import { WeatherForecastType } from "../types/WeatherForecastType";
 import WMOMappings from "../data/wmoMappings.json";
+import { BentoContent } from "../types/InputData";
 
 const BentoLayout: React.FC<{
-    data: {
-        arrAirport: string;
-        itinerary: { [key: string]: { icon: string; content: string } };
-        destinationSuggestions: {
-            title: string;
-            icon: string;
-            description: string;
-        }[];
-        destinationCoords: number[];
-    };
+    data: BentoContent;
     destinationName: string;
 }> = ({ data, destinationName }) => {
     const [closestAirport, setClosestAirport] = useState<string | null>(null);

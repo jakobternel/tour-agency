@@ -5,7 +5,7 @@ import { Country } from "country-state-city";
 
 import { FormInputType } from "../../types/FormInput";
 
-const Booking_Contact: React.FC<{
+const BookingContact: React.FC<{
     formInputs: FormInputType;
     handleInputChange: <T extends keyof FormInputType>(
         section: T,
@@ -139,7 +139,6 @@ const Booking_Contact: React.FC<{
                             }}
                         />
                     </div>
-                    ;
                     {codeSelectActive && (
                         <div className="z-10 w-full rounded-b-md border-2 border-t-0 border-primary absolute overflow-y-auto max-h-48">
                             {Country.getAllCountries().map((country) => {
@@ -252,4 +251,4 @@ const Booking_Contact: React.FC<{
     );
 };
 
-export default Booking_Contact;
+export default BookingContact;

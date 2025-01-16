@@ -1,4 +1,4 @@
-const Booking_Confirmation: React.FC = () => {
+const BookingConfirmation: React.FC = () => {
     return (
         <div className="w-full h-64 flex flex-col items-center justify-center">
             <div className="relative size-32 flex justify-center items-center">
@@ -25,4 +25,4 @@ const Booking_Confirmation: React.FC = () => {
     );
 };
 
-export default Booking_Confirmation;
+export default BookingConfirmation;
