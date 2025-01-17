@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import { Country } from "country-state-city";

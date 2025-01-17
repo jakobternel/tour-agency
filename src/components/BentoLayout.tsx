@@ -7,11 +7,13 @@ import { AirportDataType } from "../types/AirportData";
 import { WeatherForecastType } from "../types/WeatherForecastType";
 import WMOMappings from "../data/wmoMappings.json";
 import { BentoContent } from "../types/InputData";
+import { getTotalFlightCost } from "../utils/flightCost";
 
 const BentoLayout: React.FC<{
     data: BentoContent;
     destinationName: string;
-}> = ({ data, destinationName }) => {
+    basePrice: number;
+}> = ({ data, destinationName, basePrice }) => {
     const [closestAirport, setClosestAirport] = useState<string | null>(null);
     const [currentWeather, setCurrentWeather] = useState<{
         time: string;
@@ -24,11 +26,40 @@ const BentoLayout: React.FC<{
     const [destinationCurrentDay, setDestinationCurrentDay] = useState<string>(
         new Date().toDateString()
     );
+    const [startingPrice, setStartingPrice] = useState<number>(0);
+    const [departFlightData, setDepartFlightData] = useState<any>(null);
     const [timezone, setTimezone] = useState<string>("Australia/Melbourne");
     const [time, setTime] = useState<[string, string]>(
         new Date().toTimeString().split(":").slice(0, 2) as [string, string]
     );
     const [carouselIndex, setCarouselIndex] = useState<number>(0);
+
+    useEffect(() => {
+        const getFlightData = async () => {
+            const flightData = await getTotalFlightCost(
+                closestAirport!,
+                data.arrAirport,
+                "2025-06-06",
+                Object.keys(data.itinerary).length,
+                true
+            );
+
+            if (flightData) {
+                setStartingPrice(
+                    Math.trunc(
+                        basePrice +
+                            Number(flightData[0].price.grandTotal) +
+                            Number(flightData[1].price.grandTotal)
+                    )
+                );
+                setDepartFlightData(flightData[0]);
+            }
+        };
+
+        if (closestAirport) {
+            getFlightData();
+        }
+    }, [data.arrAirport, closestAirport]);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -243,7 +274,9 @@ const BentoLayout: React.FC<{
                     <div className="flex flex-row justify-between items-center">
                         <p className="text-sm">
                             Package starting from{" "}
-                            <span className="font-mono font-bold">$8,999</span>
+                            <span className="font-mono font-bold">
+                                ${startingPrice}
+                            </span>
                         </p>
                         <button className="bg-primary text-white py-1 px-5 rounded-full font-montserrat transition-colors hover:bg-primaryOff">
                             Book

@@ -31,6 +31,7 @@ const Page: React.FC = () => {
             <BentoLayout
                 data={tourData[0].bentoContent}
                 destinationName={`${tourData[0].destinationInfoContent.city}, ${tourData[0].destinationInfoContent.country}`}
+                basePrice={tourData[0].bookingContent.basePrice}
             />
             <DestinationLayout data={tourData[0].destinationInfoContent} />
             <Itinerary data={tourData[0].itineraryContent} />
