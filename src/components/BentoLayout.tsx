@@ -35,6 +35,10 @@ const BentoLayout: React.FC<{
     const [carouselIndex, setCarouselIndex] = useState<number>(0);
 
     useEffect(() => {
+        console.log(departFlightData);
+    }, [departFlightData]);
+
+    useEffect(() => {
         const getFlightData = async () => {
             const flightData = await getTotalFlightCost(
                 closestAirport!,
@@ -263,14 +267,27 @@ const BentoLayout: React.FC<{
                             </div>
 
                             <p className="">
-                                24hr 30min{" "}
+                                {departFlightData
+                                    ? departFlightData.itineraries[0].duration.replace(
+                                          /PT(?:(\d+)H)?(?:(\d+)M)?/,
+                                          (_: string, h: string, m: string) =>
+                                              `${h || 0}hr ${m || 0}min`
+                                      )
+                                    : "0"}{" "}
                                 <span className="font-[r1em] text-gray-400">
                                     ●
                                 </span>{" "}
-                                1 stop
+                                {departFlightData
+                                    ? `${
+                                          departFlightData.itineraries[0]
+                                              .segments.length - 1
+                                      } `
+                                    : `non-`}{" "}
+                                stop
                             </p>
                         </div>
                     </div>
+                    {/* hr min */}
                     <div className="flex flex-row justify-between items-center">
                         <p className="text-sm">
                             Package starting from{" "}
