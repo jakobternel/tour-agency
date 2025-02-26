@@ -1,17 +1,28 @@
+/* TODO 3 - Optional optimization. Only load images for n+1 and n-1 parallax. Keep loaded images in array or change format to use object format. Only store images as needed to reduce load times and prioritise current destination
+
+{0: [], (Initial View) 
+1: [],
+...n-1: null,
+n: []}
+
+*/
+
 import { useEffect, useRef, useState } from "react";
 import { HeroContent } from "../types/InputData";
 
 const logo = require("../images/shared/logo_white.png");
 
 const Hero: React.FC<{
-    data: HeroContent;
+    data: HeroContent[];
     scrollPosition: number;
-}> = ({ data, scrollPosition }) => {
+    changePage: (input: number) => void;
+    currentPage: number;
+}> = ({ data, scrollPosition, changePage, currentPage }) => {
     const [mousePosition, setMousePosition] = useState<[number, number]>([
         window.innerWidth / 2,
         window.innerHeight / 2,
     ]);
-    const [parallaxImages, setParallaxImages] = useState<string[] | null>();
+    const [parallaxImages, setParallaxImages] = useState<string[][] | null>();
     const parallaxRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -33,8 +44,10 @@ const Hero: React.FC<{
     }, []);
 
     useEffect(() => {
-        const images = data.heroImageNames.map((imageRoute: string) => {
-            return require(`../images/${data.heroImageFolderRoute}/${imageRoute}`);
+        const images = data.map((locationData) => {
+            return locationData.heroImageNames.map((imageRoute: string) => {
+                return require(`../images/${locationData.heroImageFolderRoute}/${imageRoute}`);
+            });
         });
 
         setParallaxImages(images);
@@ -46,20 +59,62 @@ const Hero: React.FC<{
     const connnection = (
         <span className="bg-white w-4 h-0.5 rounded-full"></span>
     );
-    const parallaxElement = (image: any, index: number) => {
+    const parallaxElement = (image: any, index: number, pageId: number) => {
         return (
             <div
-                className="w-full h-full absolute bg-cover bg-center scale-[1.1] brightness-50"
-                key={index}
+                className={`w-full h-screen flex-shrink-0 absolute ${
+                    pageId !== currentPage ? "overflow-hidden" : ""
+                }`}
                 style={{
-                    backgroundImage: `url(${image})`,
                     zIndex: index,
-                    left: index * mousePosition[0] * 0.01,
-                    top: index * mousePosition[1] * 0.01,
+                    left:
+                        currentPage === pageId
+                            ? index * mousePosition[0] * 0.01
+                            : 0,
+                    top:
+                        currentPage === pageId
+                            ? index * mousePosition[1] * 0.01
+                            : 0,
                     transition: "all 0.1s ease",
                 }}
-            ></div>
+            >
+                <div
+                    className="w-full h-full bg-cover bg-center scale-[1.1] brightness-50"
+                    key={index}
+                    style={{
+                        backgroundImage: `url(${image})`,
+                    }}
+                ></div>
+            </div>
         );
+    };
+
+    const generateParallaxSections = () => {
+        return data.map((_, locationIndex) => {
+            return (
+                <div
+                    className="absolute w-full h-screen overflow-hidden transition-transform duration-500 ease-in-out"
+                    style={{
+                        transform: `translateX(${
+                            (locationIndex - currentPage) * 100
+                        }%)`,
+                    }}
+                >
+                    <div className="flex  h-full w-full">
+                        {parallaxImages &&
+                            parallaxImages[locationIndex]
+                                .reverse()
+                                .map((imageSrc, index) =>
+                                    parallaxElement(
+                                        imageSrc,
+                                        parallaxImages.length - index,
+                                        locationIndex
+                                    )
+                                )}
+                    </div>
+                </div>
+            );
+        });
     };
 
     return (
@@ -90,18 +145,7 @@ const Hero: React.FC<{
                     }px`,
                 }}
             >
-                <div className="w-full h-full">
-                    {parallaxImages &&
-                        parallaxImages
-                            .reverse()
-                            .map((imageSrc, index) =>
-                                parallaxElement(
-                                    imageSrc,
-                                    parallaxImages.length - index
-                                )
-                            )}
-                </div>
-
+                {generateParallaxSections()}
                 <div
                     className="absolute w-full h-60 bottom-0 z-50"
                     style={{
@@ -120,7 +164,7 @@ const Hero: React.FC<{
                     <p className="flex flex-row gap-3 items-center text-white">
                         <span className="font-lobster text-6xl">Jet</span>
                         <span className="text-4xl font-montserrat font-medium">
-                            to {data.name}
+                            {/* TODO 4 - Fix name -- to {data.name} */}
                         </span>
                     </p>
                     <button className="bg-primary w-min text-nowrap px-7 py-1 rounded-3xl font-montserrat font-medium transition-colors hover:bg-primaryOff">
@@ -145,9 +189,21 @@ const Hero: React.FC<{
                     <div className="absolute w-1 h-2 left-1/2 -translate-x-1/2 top-[0.5rem] animate-scroll ease-in-out bg-white rounded-xl"></div>
                 </div>
 
-                <div>
-                    <i className="fi fi-rs-angle-right right-20 changePageBtn"></i>
-                    <i className="fi fi-rs-angle-left left-20 changePageBtn"></i>
+                <div
+                    className={`transition-opacity duration-500 ${
+                        scrollPosition >= 100
+                            ? "opacity-0 pointer-events-none"
+                            : "opacity-100"
+                    }`}
+                >
+                    <i
+                        className="fi fi-rs-angle-right right-20 changePageBtn"
+                        onClick={() => changePage(1)}
+                    ></i>
+                    <i
+                        className="fi fi-rs-angle-left left-20 changePageBtn"
+                        onClick={() => changePage(-1)}
+                    ></i>
                 </div>
             </div>
         </div>

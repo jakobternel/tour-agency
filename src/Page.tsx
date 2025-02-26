@@ -12,7 +12,13 @@ import Credits from "./components/Credits";
 import tourData from "./data/tourData.json";
 
 const Page: React.FC = () => {
-    const [scrollPosition, setScrollPosition] = useState(0);
+    const [scrollPosition, setScrollPosition] = useState<number>(0);
+    const [currentPage, changeCurrentPage] = useState<number>(0);
+
+    const totalPages = Object.keys(tourData).length;
+    const tourDataHeroEntries = Object.values(tourData).map((tour) => {
+        return tour.heroContent;
+    });
 
     useEffect(() => {
         const handleScroll = () => setScrollPosition(window.scrollY);
@@ -22,11 +28,23 @@ const Page: React.FC = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const changePage = (input: number) => {
+        if (input > 0) {
+            changeCurrentPage((prevPage) => (prevPage + 1) % totalPages);
+        } else {
+            changeCurrentPage(
+                (prevPage) => (prevPage - 1 + totalPages) % totalPages
+            );
+        }
+    };
+
     return (
         <div className="bg-red-50">
             <Hero
-                data={tourData[0].heroContent}
+                data={tourDataHeroEntries}
                 scrollPosition={scrollPosition}
+                changePage={changePage}
+                currentPage={currentPage}
             />
             <BentoLayout
                 data={tourData[0].bentoContent}

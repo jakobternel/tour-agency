@@ -35,10 +35,6 @@ const BentoLayout: React.FC<{
     const [carouselIndex, setCarouselIndex] = useState<number>(0);
 
     useEffect(() => {
-        console.log(departFlightData);
-    }, [departFlightData]);
-
-    useEffect(() => {
         const getFlightData = async () => {
             const flightData = await getTotalFlightCost(
                 closestAirport!,
@@ -282,12 +278,11 @@ const BentoLayout: React.FC<{
                                           departFlightData.itineraries[0]
                                               .segments.length - 1
                                       } `
-                                    : `non-`}{" "}
+                                    : `non-`}
                                 stop
                             </p>
                         </div>
                     </div>
-                    {/* hr min */}
                     <div className="flex flex-row justify-between items-center">
                         <p className="text-sm">
                             Package starting from{" "}
