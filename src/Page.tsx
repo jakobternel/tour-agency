@@ -16,7 +16,10 @@ const Page: React.FC = () => {
     const [currentPage, changeCurrentPage] = useState<number>(0);
 
     const totalPages = Object.keys(tourData).length;
-    const tourDataHeroEntries = Object.values(tourData).map((tour) => {
+
+    const tourDataArray = Object.values(tourData);
+
+    const tourDataHeroEntries = tourDataArray.map((tour) => {
         return tour.heroContent;
     });
 
@@ -28,7 +31,12 @@ const Page: React.FC = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const changePage = (input: number) => {
+    const changePage = (input: number, specificPage: boolean) => {
+        if (specificPage) {
+            changeCurrentPage(input);
+            return;
+        }
+
         if (input > 0) {
             changeCurrentPage((prevPage) => (prevPage + 1) % totalPages);
         } else {
@@ -47,16 +55,18 @@ const Page: React.FC = () => {
                 currentPage={currentPage}
             />
             <BentoLayout
-                data={tourData[0].bentoContent}
-                destinationName={`${tourData[0].destinationInfoContent.city}, ${tourData[0].destinationInfoContent.country}`}
-                basePrice={tourData[0].bookingContent.basePrice}
+                data={tourDataArray[currentPage].bentoContent}
+                destinationName={`${tourDataArray[currentPage].destinationInfoContent.city}, ${tourDataArray[currentPage].destinationInfoContent.country}`}
+                basePrice={tourDataArray[currentPage].bookingContent.basePrice}
             />
-            <DestinationLayout data={tourData[0].destinationInfoContent} />
-            <Itinerary data={tourData[0].itineraryContent} />
+            <DestinationLayout
+                data={tourDataArray[currentPage].destinationInfoContent}
+            />
+            <Itinerary data={tourDataArray[currentPage].itineraryContent} />
             <Inclusions />
             <Booking
-                itineraryContent={tourData[0].itineraryContent}
-                bookingContent={tourData[0].bookingContent}
+                itineraryContent={tourDataArray[currentPage].itineraryContent}
+                bookingContent={tourDataArray[currentPage].bookingContent}
             />
             <Testimonials />
             <Credits />

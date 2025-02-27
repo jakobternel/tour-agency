@@ -15,7 +15,7 @@ const logo = require("../images/shared/logo_white.png");
 const Hero: React.FC<{
     data: HeroContent[];
     scrollPosition: number;
-    changePage: (input: number) => void;
+    changePage: (input: number, specificPage: boolean) => void;
     currentPage: number;
 }> = ({ data, scrollPosition, changePage, currentPage }) => {
     const [mousePosition, setMousePosition] = useState<[number, number]>([
@@ -82,10 +82,23 @@ const Hero: React.FC<{
         return () => clearTimeout(timeout);
     }, [destinationName, currentPage, data]);
 
-    const node = (
-        <span className="cursor-pointer bg-none border-white rounded-full border-2 h-4 w-4"></span>
-    );
-    const connnection = (
+    const node = (index: number) => {
+        return (
+            <span
+                className="cursor-pointer bg-none border-white rounded-full border-2 h-4 w-4 relative"
+                onClick={() => {
+                    changePage(index, true);
+                }}
+            >
+                <span
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white w-[6px] h-[6px] rounded-full transition-all"
+                    style={{ opacity: index === currentPage ? "1" : "0" }}
+                ></span>
+            </span>
+        );
+    };
+
+    const connection = (
         <span className="bg-white w-4 h-0.5 rounded-full"></span>
     );
     const parallaxElement = (image: any, index: number, pageId: number) => {
@@ -210,11 +223,13 @@ const Hero: React.FC<{
                 </div>
 
                 <div className="absolute left-1/2 -translate-x-1/2 top-12 flex gap-2 items-center">
-                    {node}
-                    {connnection}
-                    {node}
-                    {connnection}
-                    {node}
+                    {data.map((_, index) => {
+                        if (index + 1 !== data.length) {
+                            return [node(index), connection];
+                        } else {
+                            return node(index);
+                        }
+                    })}
                 </div>
 
                 <div className="absolute left-1/2 -translate-x-1/2 w-5 h-10 border-2 border-white rounded-3xl bottom-10 cursor-pointer">
@@ -230,11 +245,11 @@ const Hero: React.FC<{
                 >
                     <i
                         className="fi fi-rs-angle-right right-20 changePageBtn"
-                        onClick={() => changePage(1)}
+                        onClick={() => changePage(1, false)}
                     ></i>
                     <i
                         className="fi fi-rs-angle-left left-20 changePageBtn"
-                        onClick={() => changePage(-1)}
+                        onClick={() => changePage(-1, false)}
                     ></i>
                 </div>
             </div>
