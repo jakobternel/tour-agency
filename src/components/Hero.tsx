@@ -25,6 +25,10 @@ const Hero: React.FC<{
     const [parallaxImages, setParallaxImages] = useState<string[][] | null>();
     const parallaxRef = useRef<HTMLDivElement | null>(null);
 
+    const [destinationName, setDestinationName] = useState<string>(
+        data[0].name
+    );
+
     useEffect(() => {
         const handleMouseMove = (event: MouseEvent) => {
             if (!parallaxRef.current) return;
@@ -52,6 +56,31 @@ const Hero: React.FC<{
 
         setParallaxImages(images);
     }, [data]);
+
+    useEffect(() => {
+        let timeout: NodeJS.Timeout;
+
+        const transitionName = () => {
+            const targetName = data[currentPage].name;
+
+            if (destinationName === targetName) return;
+
+            if (
+                destinationName.length > targetName.length ||
+                !targetName.startsWith(destinationName)
+            ) {
+                setDestinationName((prev) => prev.slice(0, -1));
+            } else {
+                setDestinationName((prev) =>
+                    targetName.slice(0, prev.length + 1)
+                );
+            }
+        };
+
+        timeout = setTimeout(transitionName, 100);
+
+        return () => clearTimeout(timeout);
+    }, [destinationName, currentPage, data]);
 
     const node = (
         <span className="cursor-pointer bg-none border-white rounded-full border-2 h-4 w-4"></span>
@@ -164,7 +193,10 @@ const Hero: React.FC<{
                     <p className="flex flex-row gap-3 items-center text-white">
                         <span className="font-lobster text-6xl">Jet</span>
                         <span className="text-4xl font-montserrat font-medium">
-                            {/* TODO 4 - Fix name -- to {data.name} */}
+                            to{" "}
+                            <span className="text-primary font-semibold">
+                                {destinationName}
+                            </span>
                         </span>
                     </p>
                     <button className="bg-primary w-min text-nowrap px-7 py-1 rounded-3xl font-montserrat font-medium transition-colors hover:bg-primaryOff">
