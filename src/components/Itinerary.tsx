@@ -5,8 +5,9 @@ import { ItineraryContent } from "../types/InputData";
 
 const Itinerary: React.FC<{
     data: ItineraryContent;
+    mapCentrePoint: number[];
     itineraryRef: React.MutableRefObject<HTMLDivElement | null>;
-}> = ({ data, itineraryRef }) => {
+}> = ({ data, mapCentrePoint, itineraryRef }) => {
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
     const mapRef = useRef<mapboxgl.Map | null>(null);
 
@@ -17,7 +18,7 @@ const Itinerary: React.FC<{
             mapRef.current = new mapboxgl.Map({
                 container: mapContainerRef.current,
                 style: "mapbox://styles/mapbox/light-v11",
-                center: [11.576124, 48.137154],
+                center: [mapCentrePoint[1], mapCentrePoint[0]],
                 scrollZoom: false,
                 doubleClickZoom: false,
                 dragPan: false,
@@ -32,7 +33,7 @@ const Itinerary: React.FC<{
         return () => {
             mapRef.current?.remove();
         };
-    }, []);
+    }, [mapCentrePoint]);
 
     const generateListSection = (listHeading: string, listData: string[]) => {
         return (

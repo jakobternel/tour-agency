@@ -82,6 +82,9 @@ const Page: React.FC = () => {
             />
             <Itinerary
                 data={tourDataArray[currentPage].itineraryContent}
+                mapCentrePoint={
+                    tourDataArray[currentPage].bentoContent.destinationCoords
+                }
                 itineraryRef={itineraryRef}
             />
             <Inclusions />
