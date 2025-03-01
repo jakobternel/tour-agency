@@ -201,5 +201,300 @@
                 { "name": "Nuremberg Zoo", "cost": 25 }
             ]
         }
+    },
+    "1": {
+        "heroContent": {
+            "name": "Japan",
+            "heroImageFolderRoute": "japan",
+            "heroImageNames": [
+                "japan_layer1.png",
+                "japan_layer2.png",
+                "japan_layer3.png",
+                "japan_layer4.png"
+            ]
+        },
+        "bentoContent": {
+            "itinerary": {
+                "0": {
+                    "icon": "fi-sr-plane-arrival",
+                    "content": "Arrive in Japan"
+                },
+                "1": {
+                    "icon": "fi-sr-walking",
+                    "content": "Explore Tokyo"
+                },
+                "2": {
+                    "icon": "fi-sr-sushi",
+                    "content": "Experience Local Cuisine"
+                },
+                "3": {
+                    "icon": "fi-sr-candle-lotus-yoga",
+                    "content": "Hidden Gems & Relaxation"
+                },
+                "4": {
+                    "icon": "fi-sr-train-side",
+                    "content": "Travel to Kyoto"
+                },
+                "5": {
+                    "icon": "",
+                    "content": ""
+                }
+            },
+            "destinationSuggestions": [
+                {
+                    "title": "Shinkansen",
+                    "icon": "fi-rr-train-side",
+                    "description": "Ride Japan's iconic bullet train, reaching speeds of 320 km/h, while enjoying breathtaking Mt. Fuji views, seamless comfort, and impeccable punctuality on a smooth, futuristic journey connecting vibrant cities and cultural landmarks."
+                },
+                {
+                    "title": "Ryokan & Onsen",
+                    "icon": "fi-rr-bed",
+                    "description": "Stay in a traditional ryokan and soak in a natural onsen in places like Hakone or Kusatsu, surrounded by breathtaking mountain or forest scenery, while experiencing Japanese hospitality, tatami rooms, and kaiseki dining."
+                },
+                {
+                    "title": "Ghibli Museum",
+                    "icon": "fi-rr-camera-movie",
+                    "description": "Step into the enchanting world of Studio Ghibli in Mitaka, featuring life-sized characters, exclusive short films, whimsical exhibits, intricate set designs, and the famous soft Catbus, creating a truly magical experience."
+                },
+                {
+                    "title": "Sumo Wrestling",
+                    "icon": "fi-rr-muscle",
+                    "description": "Watch sumo wrestlers train or compete in Ryogoku, the heart of sumo culture, while exploring sumo stables, learning ancient traditions, and savoring a bowl of hearty chanko nabe, the protein-rich stew of champions."
+                },
+                {
+                    "title": "Fushimi Inari Shrine",
+                    "icon": "fi-rr-torii-gate",
+                    "description": "Walk through the thousand red torii gates of Fushimi Inari in Kyoto, a breathtaking hillside pathway leading to sacred shrines and panoramic city views."
+                },
+                {
+                    "title": "Tokyo Skytree",
+                    "icon": "fi-rr-sunset",
+                    "description": "Soar to new heights at Tokyo Skytree, the tallest tower in Japan, offering breathtaking panoramic views of the city, including iconic landmarks like Mt. Fuji on clear days, along with dining, shopping, and interactive exhibits."
+                }
+            ],
+            "arrAirport": "HND",
+            "destinationCoords": [35.6762, 139.6503]
+        },
+        "destinationInfoContent": {
+            "country": "Japan",
+            "city": "Tokyo",
+            "tagline": "A Tapestry of Nature, Culture, and Innovation!",
+            "description": [
+                "Japan is a land of contrasts, where ancient traditions coexist with cutting-edge technology. From the serene temples of Kyoto to the neon-lit streets of Tokyo, each destination offers a unique glimpse into the country's rich cultural heritage and futuristic ambitions. Whether you're exploring historic castles, witnessing the beauty of cherry blossoms, or indulging in world-class cuisine, Japan seamlessly blends the past and present to create an unforgettable experience.",
+                "Beyond its bustling cities, Japan is home to breathtaking natural landscapes. Discover the snow-capped peaks of Mount Fuji, the tranquil bamboo forests of Arashiyama, or the tropical beaches of Okinawa. With its efficient bullet trains, centuries-old festivals, and deep-rooted traditions like tea ceremonies and sumo wrestling, Japan offers a journey of discovery at every turn. Whether you're soaking in an onsen or marveling at the beauty of a Shinto shrine, Japan captivates with its harmony of nature, culture, and innovation."
+            ],
+            "destinationImages": {
+                "0": {
+                    "size": "tall",
+                    "fileSrc": "https://images.pexels.com/photos/5769586/pexels-photo-5769586.jpeg"
+                },
+                "1": {
+                    "size": "short",
+                    "fileSrc": "https://images.pexels.com/photos/1108701/pexels-photo-1108701.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                },
+                "2": {
+                    "size": "short",
+                    "fileSrc": "https://images.pexels.com/photos/5220092/pexels-photo-5220092.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                },
+                "3": {
+                    "size": "tall",
+                    "fileSrc": "https://images.pexels.com/photos/15830265/pexels-photo-15830265/free-photo-of-low-angle-view-of-a-japanese-temple-and-a-tree-in-autumn-foliage.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                }
+            }
+        },
+        "itineraryContent": {
+            "0": {
+                "title": "Arrive in Japan",
+                "description": [
+                    "Welcome to Tokyo, where your adventure begins in this buzzing metropolis. Upon arrival, check into your hotel and take time to settle in. Afterward, enjoy a relaxing walk through one of Tokyo's vibrant neighborhoods, like Shibuya or Asakusa, where the neon lights and rich culture immediately captivate. Unwind with a traditional Japanese meal such as sushi or ramen, and enjoy the city's energetic yet peaceful vibe before gearing up for the exciting days ahead."
+                ],
+                "inclusions": [
+                    "Airport Transfers",
+                    "Free Time",
+                    "Group Dinner"
+                ],
+                "suggestions": ["Robot Restaurant Experience"],
+                "accomodation": "Private Room in 4* Hoshizora Ryokan",
+                "meals": "Lunch, Dinner",
+                "budget": "$50-$100"
+            },
+            "1": {
+                "title": "Tokyo - Culture, Shopping, and Iconic Landmarks",
+                "description": [
+                    "Your first full day in Japan starts with a dive into Tokyo's dynamic blend of the old and new. Visit the iconic Senso-ji Temple in Asakusa, followed by a stroll through the nearby Nakamise-dori shopping street. In the afternoon, experience modern Tokyo with a visit to Odaiba, where futuristic architecture meets waterfront views. End the day with a visit to the Tokyo Skytree, soaking in the breathtaking city views as the sun sets."
+                ],
+                "inclusions": ["Japanese Bar Crawl", "Karaoke"],
+                "suggestions": ["Samurai or Ninja Experience"],
+                "accomodation": "Private Room in 4* Hoshizora Ryokan",
+                "meals": "Breakfast, Lunch",
+                "budget": "$50-$75"
+            },
+            "2": {
+                "title": "Tokyo - Culinary Adventure",
+                "description": [
+                    "Today, immerse yourself in the flavors of Japan with a day dedicated to local cuisine. Start with a hands-on cooking class, where you'll learn to prepare iconic dishes like sushi, ramen, or tempura from skilled chefs. Afterward, embark on a guided food tour through Tokyo's bustling neighborhoods, such as Tsukiji or Asakusa, where you'll sample a variety of street foods, from savory takoyaki to sweet mochi. In the evening, join a group dinner at a traditional izakaya, where you can enjoy a feast of yakitori, sashimi, and seasonal dishes while mingling with fellow travelers. It's the perfect day for food lovers to experience Japan's rich culinary culture up close."
+                ],
+                "inclusions": [
+                    "Cooking Classes",
+                    "Food Tour",
+                    "Teppanyaki Grill"
+                ],
+                "suggestions": ["Japanese Whisky Tasting", "Brewery Tour"],
+                "accomodation": "Private Room in 4* Hoshizora Ryokan",
+                "meals": "Breakfast",
+                "budget": "$100-$125"
+            },
+            "3": {
+                "title": "Kyoto - A Journey into History",
+                "description": [
+                    "Welcome to Kyoto, the cultural heart of Japan. Upon arrival, settle into your traditional ryokan and take a leisurely stroll through the city's historic streets. Begin your exploration with a visit to the stunning Kinkaku-ji, the Golden Pavilion, where the shimmering gold leaf reflects in a serene pond. As you wander through the ancient temples and tea houses, feel the essence of Japan's rich history come alive. In the evening, enjoy a peaceful walk through the atmospheric Gion district, famous for its traditional wooden machiya houses and the graceful geisha culture."
+                ],
+                "inclusions": ["Private Geisha Dinner & Performance"],
+                "suggestions": ["Kimono Rental & Photoshoot"],
+                "accomodation": "Private Room in 4* Sakuragawa Hotel",
+                "meals": "Breakfast, Dinner",
+                "budget": "$75-$100"
+            },
+            "4": {
+                "title": "Kyoto - Temples, Gardens, and Zen",
+                "description": [
+                    "Today, dive deeper into Kyoto's spiritual heritage with visits to some of its most iconic temples. Start the morning at Fushimi Inari Taisha, where thousands of red torii gates lead you through the sacred mountain trails. Then, visit the serene Zen gardens of Ryoan-ji, followed by the tranquil beauty of Kiyomizu-dera Temple, offering panoramic views of the city. Afterward, take a moment to relax in one of Kyoto's peaceful gardens, perfect for reflection and quiet contemplation. In the evening, savor kaiseki, a traditional multi-course meal, in a local restaurant, experiencing Kyoto's exquisite flavors."
+                ],
+                "inclusions": ["Night Walking Tour of Gion"],
+                "suggestions": ["Spa Experience"],
+                "accomodation": "Private Room in 4* Sakuragawa Hotel",
+                "meals": "Breakfast, Dinner",
+                "budget": "$50"
+            },
+            "5": {
+                "title": "Kyoto - Tea Ceremony and Arashiyama",
+                "description": [
+                    "Start your day with an immersive cultural experience - a traditional Japanese tea ceremony in one of Kyoto's historic tea houses. Learn the rituals of tea preparation and enjoy a calming cup of matcha. In the afternoon, venture to the picturesque Arashiyama Bamboo Grove, where you can stroll through towering bamboo stalks and explore the nearby Tenryu-ji Temple. Continue your day with a scenic boat ride along the Hozu River, offering stunning views of the surrounding mountains and forests. As the evening sets in, enjoy a peaceful dinner along the river, surrounded by Kyoto's natural beauty."
+                ],
+                "inclusions": [
+                    "Kyoto Night Street Food Tour",
+                    "Matcha & Wagashi Experience"
+                ],
+                "suggestions": [
+                    "Samurai & Ninja Training",
+                    "Hozugawa River Boat Ride"
+                ],
+                "accomodation": "Private Room in 4* Sakuragawa Hotel",
+                "meals": "Breakfast",
+                "budget": ""
+            },
+            "6": {
+                "title": "Nara - Ancient Capital and Giant Buddhas",
+                "description": [
+                    "Today, travel to Nara, Japan's first permanent capital. Start with a visit to Todai-ji, home to the Great Buddha, one of the largest bronze statues in the world. Stroll through Nara Park, where friendly deer roam freely, and explore the peaceful surroundings of Kasuga Taisha Shrine. Learn about Japan's early imperial history and enjoy the serene beauty of this UNESCO World Heritage site. Return to Kyoto in the evening and unwind after a day of exploration."
+                ],
+                "inclusions": ["Nara Deer Park", "Nara National Museum Visit"],
+                "suggestions": ["Sake Brewery Tour & Tasting"],
+                "accomodation": "Private Room in 4* Kaze no Mori",
+                "meals": "Breakfast, Lunch, Dinner",
+                "budget": ""
+            },
+            "7": {
+                "title": "Osaka - Vibrant Streets and Iconic Cuisine",
+                "description": [
+                    "Head to Osaka, Japan's dynamic city known for its modern architecture and lively atmosphere. Start with a visit to Osaka Castle, where you'll learn about the city's feudal past and enjoy panoramic views of the surrounding area. Explore the bustling streets of Dotonbori, known for its neon lights, quirky shops, and street food stalls. Don't miss the chance to sample takoyaki and okonomiyaki, two of Osaka's most famous dishes. In the evening, dive into the city's vibrant nightlife, enjoying karaoke or izakaya dining with locals."
+                ],
+                "inclusions": [
+                    "Bunraku Puppet Theater Show",
+                    "Shitenno-ji Temple & Hidden Shrines Tour"
+                ],
+                "suggestions": [
+                    "Sumo Morning Practice Viewing",
+                    "Michelin-Starred Sushi Experience",
+                    "Osaka Home Cooking Class"
+                ],
+                "accomodation": "Private Room in 4* Tsukihikari Onsen",
+                "meals": "Breakfast, Lunch",
+                "budget": ""
+            },
+            "8": {
+                "title": "Hiroshima - Peace Memorial Park and History",
+                "description": [
+                    "Today, make your way to Hiroshima, a city that embodies hope and resilience. Begin with a visit to the Hiroshima Peace Memorial Park, where you'll pay tribute to those affected by the atomic bomb. Explore the Peace Memorial Museum and the A-Bomb Dome, a haunting reminder of the city's history. Afterward, take a ferry to Miyajima Island to see the iconic Torii Gate of Itsukushima Shrine, floating majestically on the water. As the day ends, take time for reflection in this serene and powerful destination."
+                ],
+                "inclusions": [
+                    "Visit to Hiroshima Peace Memorial Park",
+                    "Peace Memorial Musem",
+                    "Torii Gate of Itsukushima Shrine",
+                    "Group Dinner"
+                ],
+                "suggestions": ["Real-Life Escape Room Samurai Experience"],
+                "accomodation": "Private Room in 4* Akebono Hotel",
+                "meals": "Breakfast, Dinner",
+                "budget": ""
+            },
+            "9": {
+                "title": "Takayama - Traditional Village Life in the Japanese Alps",
+                "description": [
+                    "Travel to Takayama, a beautifully preserved town nestled in the Japanese Alps. Wander through the Edo-period streets of the old town, where you can explore well-preserved merchant houses, local shops, and small museums. Visit the morning markets to taste fresh local produce and traditional Hida beef. In the afternoon, take a short trip to the nearby village of Shirakawa-go, known for its gassho-zukuri houses with steep, thatched roofs. The scenic beauty and tranquil atmosphere will transport you to a different era."
+                ],
+                "inclusions": [
+                    "Morning Market Stroll",
+                    "Takayama Jinya Tour",
+                    "Hida Folk Village & Traditional Crafts"
+                ],
+                "suggestions": [
+                    "Takayama Cycling Tour",
+                    "Hida Beef Tasting",
+                    "Handmade Noodle Making Class"
+                ],
+                "accomodation": "Private Room in 4* Yukihana Ryokan",
+                "meals": "Breakfast",
+                "budget": ""
+            },
+            "10": {
+                "title": "Tokyo - Shopping, Skyscrapers, and Farewell",
+                "description": [
+                    "On your final day, return to Tokyo for a day of excitement and adventure. Start by shopping in the upscale district of Ginza, where luxury boutiques and department stores line the streets. Then, visit Odaiba, a futuristic entertainment hub with shopping malls, museums, and entertainment complexes. Take in the panoramic views from the Tokyo Skytree, the world's tallest tower, or explore the bustling streets of Shibuya and Harajuku for unique fashion and street culture. End your Japan adventure with a farewell dinner in the city's vibrant dining scene, reminiscing about the unforgettable experiences you've had."
+                ],
+                "inclusions": ["Airport Transfers", "Final Group Breakfast"],
+                "meals": "Breakfast",
+                "budget": "$50"
+            }
+        },
+        "bookingContent": {
+            "basePrice": 2250,
+            "defaultHotel": 0,
+            "hotelContent": {
+                "0": {
+                    "name": "Basic Private Room",
+                    "dailyAdditionalPrice": 0
+                },
+                "1": {
+                    "name": "Upgraded Private Room",
+                    "dailyAdditionalPrice": 35
+                },
+                "2": {
+                    "name": "Private Suite",
+                    "dailyAdditionalPrice": 75
+                }
+            },
+            "optionalActivities": [
+                { "name": "Robot Restaurant Experience", "cost": 75 },
+                { "name": "Samurai or Ninja Experience", "cost": 50 },
+                { "name": "Japanese Whisky Tasting", "cost": 40 },
+                { "name": "Brewery Tour", "cost": 30 },
+                { "name": "Kimono Rental & Photoshoot", "cost": 45 },
+                { "name": "Spa Experience", "cost": 60 },
+                { "name": "Samurai & Ninja Training", "cost": 55 },
+                { "name": "Hozugawa River Boat Ride", "cost": 40 },
+                { "name": "Sake Brewery Tour & Tasting", "cost": 35 },
+                { "name": "Sumo Morning Practice Viewing", "cost": 30 },
+                { "name": "Michelin-Starred Sushi Experience", "cost": 150 },
+                { "name": "Osaka Home Cooking Class", "cost": 80 },
+                {
+                    "name": "Real-Life Escape Room Samurai Experience",
+                    "cost": 50
+                },
+                { "name": "Takayama Cycling Tour", "cost": 35 },
+                { "name": "Hida Beef Tasting", "cost": 50 },
+                { "name": "Handmade Noodle Making Class", "cost": 40 }
+            ]
+        }
     }
 }
