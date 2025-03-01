@@ -17,7 +17,16 @@ const Hero: React.FC<{
     scrollPosition: number;
     changePage: (input: number, specificPage: boolean) => void;
     currentPage: number;
-}> = ({ data, scrollPosition, changePage, currentPage }) => {
+    scrollToRef: (ref: React.MutableRefObject<HTMLDivElement | null>) => void;
+    itineraryRef: React.MutableRefObject<HTMLDivElement | null>;
+}> = ({
+    data,
+    scrollPosition,
+    changePage,
+    currentPage,
+    scrollToRef,
+    itineraryRef,
+}) => {
     const [mousePosition, setMousePosition] = useState<[number, number]>([
         window.innerWidth / 2,
         window.innerHeight / 2,
@@ -212,7 +221,10 @@ const Hero: React.FC<{
                             </span>
                         </span>
                     </p>
-                    <button className="bg-primary w-min text-nowrap px-7 py-1 rounded-3xl font-montserrat font-medium transition-colors hover:bg-primaryOff">
+                    <button
+                        className="bg-primary w-min text-nowrap px-7 py-1 rounded-3xl font-montserrat font-medium transition-colors hover:bg-primaryOff"
+                        onClick={() => scrollToRef(itineraryRef)}
+                    >
                         Explore More
                     </button>
                 </div>
@@ -232,7 +244,10 @@ const Hero: React.FC<{
                     })}
                 </div>
 
-                <div className="absolute left-1/2 -translate-x-1/2 w-5 h-10 border-2 border-white rounded-3xl bottom-10 cursor-pointer">
+                <div
+                    className="absolute left-1/2 -translate-x-1/2 w-5 h-10 border-2 border-white rounded-3xl bottom-10 cursor-pointer"
+                    onClick={() => scrollToRef(itineraryRef)}
+                >
                     <div className="absolute w-1 h-2 left-1/2 -translate-x-1/2 top-[0.5rem] animate-scroll ease-in-out bg-white rounded-xl"></div>
                 </div>
 

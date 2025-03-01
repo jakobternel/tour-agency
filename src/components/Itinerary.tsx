@@ -5,7 +5,8 @@ import { ItineraryContent } from "../types/InputData";
 
 const Itinerary: React.FC<{
     data: ItineraryContent;
-}> = ({ data }) => {
+    itineraryRef: React.MutableRefObject<HTMLDivElement | null>;
+}> = ({ data, itineraryRef }) => {
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
     const mapRef = useRef<mapboxgl.Map | null>(null);
 
@@ -60,18 +61,16 @@ const Itinerary: React.FC<{
     };
 
     return (
-        <div className="px-20 pt-20 flex flex-row w-full h-screen">
+        <div
+            className="px-20 pt-20 flex flex-row w-full h-screen"
+            ref={itineraryRef}
+        >
             <div className="h-full w-1/2 bg-white shadow-lg rounded-l-xl p-10 flex flex-col">
                 <div className="flex justify-between items-center mb-10">
                     <p className="font-lobster text-3xl">Itinerary</p>
                     <p className="font-montserrat font-semibold">
                         {Object.values(data).length}-day Trip
                     </p>
-                    {/* <select className="font-montserrat font-semibold border-primary box-border border-2 rounded-xl px-3 py-2">
-                        <option>5-day trip</option>
-                        <option>10-day trip</option>
-                        <option>14-day trip</option>
-                    </select> */}
                 </div>
                 <div className="w-full flex-grow flex flex-col overflow-y-scroll">
                     {Object.values(data).map(

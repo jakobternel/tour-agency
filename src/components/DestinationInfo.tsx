@@ -2,7 +2,9 @@ import { DestinationContent } from "../types/InputData";
 
 const DestinationLayout: React.FC<{
     data: DestinationContent;
-}> = ({ data }) => {
+    scrollToRef: (ref: React.MutableRefObject<HTMLDivElement | null>) => void;
+    bookingRef: React.MutableRefObject<HTMLDivElement | null>;
+}> = ({ data, scrollToRef, bookingRef }) => {
     return (
         <div className="h-screen w-full bg-primary px-20 py-20">
             <div className="h-full w-full flex flex-row">
@@ -46,7 +48,10 @@ const DestinationLayout: React.FC<{
                         return <p key={index}>{text}</p>;
                     })}
                     <span className="flex-grow"></span>
-                    <button className="border-primary border-2 w-min whitespace-nowrap py-2 px-5 rounded-xl hover:bg-red-100 font-semibold font-montserrat transition-all">
+                    <button
+                        className="border-primary border-2 w-min whitespace-nowrap py-2 px-5 rounded-xl hover:bg-red-100 font-semibold font-montserrat transition-all"
+                        onClick={() => scrollToRef(bookingRef)}
+                    >
                         Book Now!
                     </button>
                 </div>

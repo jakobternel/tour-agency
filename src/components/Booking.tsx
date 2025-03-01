@@ -12,7 +12,8 @@ import { BookingContent, ItineraryContent } from "../types/InputData";
 const Booking: React.FC<{
     itineraryContent: ItineraryContent;
     bookingContent: BookingContent;
-}> = ({ itineraryContent, bookingContent }) => {
+    bookingRef: React.MutableRefObject<HTMLDivElement | null>;
+}> = ({ itineraryContent, bookingContent, bookingRef }) => {
     const [formInputs, setFormInputs] = useState<FormInputType>({
         itinerary: {
             departureDate: undefined,
@@ -82,7 +83,10 @@ const Booking: React.FC<{
     ];
 
     return (
-        <div className="bg-primary w-full h-full py-20 flex justify-center">
+        <div
+            className="bg-primary w-full h-full py-20 flex justify-center"
+            ref={bookingRef}
+        >
             <div className="bg-white rounded-xl shadow-xl py-10 pl-10 pr-6 w-3/4 flex flex-row">
                 <div className="flex flex-grow flex-col gap-3">
                     <p className="font-lobster text-3xl mb-3 text-primary">

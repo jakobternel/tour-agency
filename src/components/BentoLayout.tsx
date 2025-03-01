@@ -13,7 +13,17 @@ const BentoLayout: React.FC<{
     data: BentoContent;
     destinationName: string;
     basePrice: number;
-}> = ({ data, destinationName, basePrice }) => {
+    scrollToRef: (ref: React.MutableRefObject<HTMLDivElement | null>) => void;
+    itineraryRef: React.MutableRefObject<HTMLDivElement | null>;
+    bookingRef: React.MutableRefObject<HTMLDivElement | null>;
+}> = ({
+    data,
+    destinationName,
+    basePrice,
+    scrollToRef,
+    itineraryRef,
+    bookingRef,
+}) => {
     const [closestAirport, setClosestAirport] = useState<string | null>(null);
     const [currentWeather, setCurrentWeather] = useState<{
         time: string;
@@ -226,7 +236,12 @@ const BentoLayout: React.FC<{
                     key="more-button"
                 >
                     <div className="bg-primary hover:bg-primaryOff transition-all text-white font-montserrat font-semibold rounded-full h-16 w-16 flex flex-col justify-center items-center cursor-pointer">
-                        <p className="text-sm">More</p>
+                        <p
+                            className="text-sm"
+                            onClick={() => scrollToRef(itineraryRef)}
+                        >
+                            More
+                        </p>
                         <i className="fi fi-rr-arrow-right"></i>
                     </div>
                 </div>
@@ -290,7 +305,10 @@ const BentoLayout: React.FC<{
                                 ${startingPrice}
                             </span>
                         </p>
-                        <button className="bg-primary text-white py-1 px-5 rounded-full font-montserrat transition-colors hover:bg-primaryOff">
+                        <button
+                            className="bg-primary text-white py-1 px-5 rounded-full font-montserrat transition-colors hover:bg-primaryOff"
+                            onClick={() => scrollToRef(bookingRef)}
+                        >
                             Book
                         </button>
                     </div>
