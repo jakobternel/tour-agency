@@ -32,6 +32,16 @@ const BookingItinerary: React.FC<{
         { code: string; city: string; country: string }[]
     >([]);
 
+    const minDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split("T")[0];
+
+    const maxDate = new Date(
+        new Date().setFullYear(new Date().getFullYear() + 1)
+    )
+        .toISOString()
+        .split("T")[0];
+
     useEffect(() => {
         const getFuzzySearchResults = async () => {
             const results = await searchAirports(
@@ -111,38 +121,71 @@ const BookingItinerary: React.FC<{
             <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center relative">
                 <p className="w-1/2">Step 2 - Select Arrival Date</p>
                 <input
-                    type="date"
+                    type="text"
                     className={`w-1/2 border-2 py-1 pl-2 focus:outline-none outline-none transition-all focus:border-primary ${
-                        formInputs.itinerary.departureDate
+                        formInputs.itinerary.departureDate &&
+                        !isNaN(
+                            new Date(
+                                formInputs.itinerary.departureDate
+                            ).getTime()
+                        )
                             ? "border-primary"
                             : "border-red-200"
                     }`}
-                    value={
-                        formInputs.itinerary.departureDate
-                            ? formInputs.itinerary.departureDate
-                                  .toISOString()
-                                  .split("T")[0]
-                            : ""
-                    }
+                    placeholder="dd/mm/yyyy"
+                    value={formInputs.itinerary.departureDate}
                     onChange={(e) => {
-                        handleInputChange(
-                            "itinerary",
-                            "departureDate",
-                            new Date(e.target.value)
-                        );
+                        let inputValue = e.target.value.replace(/[^0-9/]/g, "");
+
+                        const [day, month, year] = inputValue.split("/");
+
+                        let slashCount = 0;
+                        inputValue = inputValue
+                            .split("")
+                            .filter((char) => {
+                                if (char === "/") {
+                                    slashCount++;
+                                    return slashCount <= 2;
+                                }
+                                return true;
+                            })
+                            .join("");
+
+                        if (
+                            (!day || (Number(day) >= 1 && Number(day) <= 31)) &&
+                            (!month ||
+                                (Number(month) >= 1 && Number(month) <= 12)) &&
+                            (!year || year.length <= 4)
+                        ) {
+                            let formattedDate = inputValue;
+
+                            if (day && month && year && year.length === 4) {
+                                const inputDate = new Date(
+                                    `${year}-${month}-${day}`
+                                );
+                                const minDateObj = new Date(minDate);
+                                const maxDateObj = new Date(maxDate);
+
+                                if (inputDate < minDateObj) {
+                                    formattedDate = minDate
+                                        .split("-")
+                                        .reverse()
+                                        .join("/");
+                                } else if (inputDate > maxDateObj) {
+                                    formattedDate = maxDate
+                                        .split("-")
+                                        .reverse()
+                                        .join("/");
+                                }
+                            }
+
+                            handleInputChange(
+                                "itinerary",
+                                "departureDate",
+                                formattedDate
+                            );
+                        }
                     }}
-                    min={
-                        new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-                            .toISOString()
-                            .split("T")[0]
-                    }
-                    max={
-                        new Date(
-                            new Date().setFullYear(new Date().getFullYear() + 1)
-                        )
-                            .toISOString()
-                            .split("T")[0]
-                    }
                 />
                 <i className="fi fi-br-calendar-day absolute right-5 text-primary"></i>
             </div>

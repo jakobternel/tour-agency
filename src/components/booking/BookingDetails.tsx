@@ -20,6 +20,17 @@ const BookingDetails: React.FC<{
 
     const tourLength = Object.values(itineraryContent).length;
 
+    const handleDateInput = () => {
+        const [day, month, year] =
+            formInputs.itinerary.departureDate.split("/");
+
+        if (day && month && year && year.length == 4) {
+            return `${year}-${month}-${day}`;
+        } else {
+            return;
+        }
+    };
+
     useEffect(() => {
         setRoomSurcharge(
             bookingContent.hotelContent[formInputs.itinerary.roomSelection]
@@ -52,63 +63,57 @@ const BookingDetails: React.FC<{
         <>
             {currentBookingComponent !== 3 && (
                 <div className="w-1/3 flex-none border-l-2 border-gray-200 pl-6 flex flex-col gap-3">
-                    <div>
-                        {formInputs.itinerary.departureDate &&
-                            String(formInputs.itinerary.departureDate) !==
-                                "Invalid Date" && (
-                                <>
-                                    <p className="font-montserrat font-semibold mb-1">
-                                        Trip Dates
-                                    </p>
-                                    <div className="ml-3">
-                                        <div className="flex flex-row justify-between">
-                                            <p className="font-montserrat">
-                                                Start
-                                            </p>
-                                            <p className="text-gray-500 font-mono">
-                                                {String(
-                                                    formInputs.itinerary.departureDate.toLocaleDateString(
-                                                        "en-GB"
-                                                    )
-                                                )}
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-row justify-between">
-                                            <p className="font-montserrat">
-                                                End
-                                            </p>
-                                            <p className="text-gray-500 font-mono">
-                                                {String(
-                                                    new Date(
-                                                        formInputs.itinerary.departureDate.getTime() +
-                                                            (tourLength - 1) *
-                                                                24 *
-                                                                60 *
-                                                                60 *
-                                                                1000
-                                                    ).toLocaleDateString(
-                                                        "en-GB"
-                                                    )
-                                                )}
-                                            </p>
-                                        </div>
-                                        {flightSurcharge > 0 && (
-                                            <div className="flex flex-row justify-between">
-                                                <p className="font-montserrat">
-                                                    Flight Surcharge
-                                                </p>
-                                                <p className="text-gray-500 font-mono">
-                                                    +{" "}
-                                                    {formatDollarAmount(
-                                                        flightSurcharge
-                                                    )}
-                                                </p>
-                                            </div>
-                                        )}
+                    {handleDateInput() !== undefined && (
+                        <div>
+                            <>
+                                <p className="font-montserrat font-semibold mb-1">
+                                    Trip Dates
+                                </p>
+                                <div className="ml-3">
+                                    <div className="flex flex-row justify-between">
+                                        <p className="font-montserrat">Start</p>
+                                        <p className="text-gray-500 font-mono">
+                                            {String(
+                                                new Date(
+                                                    handleDateInput() as string
+                                                ).toLocaleDateString("en-GB")
+                                            )}
+                                        </p>
                                     </div>
-                                </>
-                            )}
-                    </div>
+                                    <div className="flex flex-row justify-between">
+                                        <p className="font-montserrat">End</p>
+                                        <p className="text-gray-500 font-mono">
+                                            {String(
+                                                new Date(
+                                                    new Date(
+                                                        handleDateInput() as string
+                                                    ).getTime() +
+                                                        (tourLength - 1) *
+                                                            24 *
+                                                            60 *
+                                                            60 *
+                                                            1000
+                                                ).toLocaleDateString("en-GB")
+                                            )}
+                                        </p>
+                                    </div>
+                                    {flightSurcharge > 0 && (
+                                        <div className="flex flex-row justify-between">
+                                            <p className="font-montserrat">
+                                                Flight Surcharge
+                                            </p>
+                                            <p className="text-gray-500 font-mono">
+                                                +{" "}
+                                                {formatDollarAmount(
+                                                    flightSurcharge
+                                                )}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </>
+                        </div>
+                    )}
 
                     <div>
                         <div className="flex justify-between">
@@ -157,7 +162,7 @@ const BookingDetails: React.FC<{
                                                         ].name
                                                     }
                                                 </p>
-                                                <p className="text-gray-500 font-mono">
+                                                <p className="text-gray-500 font-mono text-nowrap">
                                                     +{" "}
                                                     {formatDollarAmount(
                                                         bookingContent

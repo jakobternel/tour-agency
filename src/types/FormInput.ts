@@ -1,6 +1,6 @@
 export type FormInputType = {
     itinerary: {
-        departureDate: Date | undefined;
+        departureDate: string;
         departureAirport: string | undefined;
         roomSelection: string;
         optionalActivities: number[];

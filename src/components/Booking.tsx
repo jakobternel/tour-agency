@@ -16,7 +16,7 @@ const Booking: React.FC<{
 }> = ({ itineraryContent, bookingContent, bookingRef }) => {
     const [formInputs, setFormInputs] = useState<FormInputType>({
         itinerary: {
-            departureDate: undefined,
+            departureDate: "",
             departureAirport: undefined,
             roomSelection: String(bookingContent.defaultHotel),
             optionalActivities: [],
