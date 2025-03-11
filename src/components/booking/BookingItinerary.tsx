@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { searchAirports } from "../../utils/airportSearch";
+import {
+    getAirportCodeNameList,
+    searchAirports,
+} from "../../utils/airportSearch";
 
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 
@@ -31,6 +34,9 @@ const BookingItinerary: React.FC<{
     const [fuzzySearchResults, setFuzzySearchResults] = useState<
         { code: string; city: string; country: string }[]
     >([]);
+    const [airportCodeNameList, setAirportCodeNameList] = useState<string[]>(
+        []
+    );
 
     const minDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
         .toISOString()
@@ -41,6 +47,15 @@ const BookingItinerary: React.FC<{
     )
         .toISOString()
         .split("T")[0];
+
+    useEffect(() => {
+        const getAirportCodes = async () => {
+            const codes = await getAirportCodeNameList();
+            setAirportCodeNameList(codes);
+        };
+
+        getAirportCodes();
+    }, []);
 
     useEffect(() => {
         const getFuzzySearchResults = async () => {
@@ -84,37 +99,60 @@ const BookingItinerary: React.FC<{
                                 "departureAirport",
                                 e.target.value
                             );
-                        }}
-                        value={formInputs.itinerary.departureAirport}
-                    />
-                    {searchActive && fuzzySearchResults.length !== 0 && (
-                        <div className="bg-red-50 w-full absolute z-10 border-2 border-primary border-t-0 flex flex-col">
-                            {fuzzySearchResults.map((searchResult, index) => {
-                                return (
-                                    <span
-                                        key={index}
-                                        onClick={() => {
-                                            handleInputChange(
-                                                "itinerary",
-                                                "departureAirport",
-                                                `${searchResult.code} - ${searchResult.city}, ${searchResult.country}`
-                                            );
-                                        }}
-                                        className="bg-red-50 hover:bg-red-100 p-1 font-montserrat text-sm border-red-200 cursor-pointer [&:not(:last-child)]:border-b-2 flex flex-row justify-between"
-                                    >
-                                        <p>
-                                            {`${searchResult.code} - ${searchResult.city}, ${searchResult.country}`}
-                                        </p>
-                                        <p>
-                                            {getUnicodeFlagIcon(
-                                                searchResult.country
-                                            )}
-                                        </p>
-                                    </span>
+
+                            if (airportCodeNameList.includes(e.target.value)) {
+                                handleInputChange(
+                                    "itinerary",
+                                    "departureAirportComplete",
+                                    true
                                 );
-                            })}
-                        </div>
-                    )}
+                            } else {
+                                handleInputChange(
+                                    "itinerary",
+                                    "departureAirportComplete",
+                                    false
+                                );
+                            }
+                        }}
+                        value={formInputs.itinerary.departureAirport || ""}
+                    />
+                    {searchActive &&
+                        !formInputs.itinerary.departureAirportComplete &&
+                        fuzzySearchResults.length !== 0 && (
+                            <div className="bg-red-50 w-full absolute z-10 border-2 border-primary border-t-0 flex flex-col">
+                                {fuzzySearchResults.map(
+                                    (searchResult, index) => {
+                                        return (
+                                            <span
+                                                key={index}
+                                                onClick={() => {
+                                                    handleInputChange(
+                                                        "itinerary",
+                                                        "departureAirportComplete",
+                                                        true
+                                                    );
+                                                    handleInputChange(
+                                                        "itinerary",
+                                                        "departureAirport",
+                                                        `${searchResult.code} - ${searchResult.city}, ${searchResult.country}`
+                                                    );
+                                                }}
+                                                className="bg-red-50 hover:bg-red-100 p-1 font-montserrat text-sm border-red-200 cursor-pointer [&:not(:last-child)]:border-b-2 flex flex-row justify-between"
+                                            >
+                                                <p>
+                                                    {`${searchResult.code} - ${searchResult.city}, ${searchResult.country}`}
+                                                </p>
+                                                <p>
+                                                    {getUnicodeFlagIcon(
+                                                        searchResult.country
+                                                    )}
+                                                </p>
+                                            </span>
+                                        );
+                                    }
+                                )}
+                            </div>
+                        )}
                     <i className="fi fi-br-search absolute top-1/2 -translate-y-1/2 right-2 text-primary"></i>
                 </div>
             </div>

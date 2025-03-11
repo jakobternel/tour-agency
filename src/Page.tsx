@@ -14,6 +14,15 @@ import tourData from "./data/tourData.json";
 const Page: React.FC = () => {
     const [scrollPosition, setScrollPosition] = useState<number>(0);
     const [currentPage, changeCurrentPage] = useState<number>(0);
+    const [apiResults, setApiResults] = useState<{
+        flights: {
+            [key: string]: {
+                [key: string]: {
+                    [key: string]: number;
+                };
+            };
+        };
+    }>({ flights: {} });
 
     const bookingRef = useRef<HTMLDivElement | null>(null);
     const itineraryRef = useRef<HTMLDivElement | null>(null);
@@ -92,6 +101,9 @@ const Page: React.FC = () => {
                 itineraryContent={tourDataArray[currentPage].itineraryContent}
                 bookingContent={tourDataArray[currentPage].bookingContent}
                 bookingRef={bookingRef}
+                apiResults={apiResults}
+                setApiResults={setApiResults}
+                arrAirport={tourDataArray[currentPage].bentoContent.arrAirport}
             />
             <Testimonials />
             <Credits />

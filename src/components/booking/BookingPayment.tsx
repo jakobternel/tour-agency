@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Country, State } from "country-state-city";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -20,11 +20,17 @@ const BookingPayment: React.FC<{
         field: keyof FormInputType[T],
         value: FormInputType[T][keyof FormInputType[T]]
     ) => void;
-}> = ({ formInputs, handleInputChange }) => {
+    completedBookingSections: number[];
+    setCompletedBookingSections: React.Dispatch<React.SetStateAction<number[]>>;
+}> = ({
+    formInputs,
+    handleInputChange,
+    completedBookingSections,
+    setCompletedBookingSections,
+}) => {
     const [openPaymentSection, setOpenPaymentSection] = useState<number | null>(
         0
     );
-    const [completedSections, setCompletedSections] = useState<number[]>([]);
     const [cardType, setCardType] = useState<
         | "visa"
         | "mastercard"
@@ -91,6 +97,67 @@ const BookingPayment: React.FC<{
         },
     };
 
+    const confirmPaymentFieldsComplete = (section: number) => {
+        const removeCompletedSectionFromArray = (element: number) => {
+            setCompletedBookingSections((completedSections) =>
+                completedSections.filter((item) => item !== element)
+            );
+        };
+
+        if (section === 0) {
+            if (!formInputs.payment.email || !formInputs.payment.phoneNumber) {
+                removeCompletedSectionFromArray(0);
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        if (section === 1) {
+            if (
+                !formInputs.payment.addressLine1 ||
+                !formInputs.payment.postcode ||
+                !formInputs.payment.city ||
+                !formInputs.payment.country ||
+                !formInputs.payment.state
+            ) {
+                removeCompletedSectionFromArray(1);
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        if (section === 2) {
+            if (
+                !formInputs.payment.cardNo ||
+                !formInputs.payment.cardholder ||
+                !formInputs.payment.expiry ||
+                !formInputs.payment.cvc ||
+                !formInputs.payment.consent
+            ) {
+                removeCompletedSectionFromArray(2);
+                return false;
+            } else {
+                return true;
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (formInputs.payment.email === undefined) {
+            handleInputChange("payment", "email", formInputs.contact.email);
+        }
+
+        if (formInputs.payment.phoneNumber === undefined) {
+            handleInputChange(
+                "payment",
+                "phoneNumber",
+                formInputs.contact.phoneNumber
+            );
+        }
+    }, [formInputs.contact.email, formInputs.contact.phoneNumber]);
+
     return (
         <div className="pr-6 py-3 flex flex-col gap-3">
             <div className="flex flex-col border-2 rounded-md border-primary transition-all">
@@ -100,11 +167,12 @@ const BookingPayment: React.FC<{
                 >
                     <div
                         className={`border-primary rounded-full border-2 size-5 flex items-center justify-center transition-all
-                ${completedSections.includes(0) && "bg-primary"}`}
+                ${completedBookingSections.includes(0) && "bg-primary"}`}
                     >
                         <i
                             className={`fi fi-br-check text-white text-xs transition-all opacity-0 ${
-                                completedSections.includes(0) && "opacity-100"
+                                completedBookingSections.includes(0) &&
+                                "opacity-100"
                             }`}
                         ></i>
                     </div>
@@ -120,11 +188,7 @@ const BookingPayment: React.FC<{
                             <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
                                 <p>Email Address</p>
                                 <input
-                                    value={
-                                        formInputs.payment.email
-                                            ? formInputs.payment.email
-                                            : formInputs.contact.email
-                                    }
+                                    value={formInputs.payment.email}
                                     onChange={(e) => {
                                         handleInputChange(
                                             "payment",
@@ -144,11 +208,7 @@ const BookingPayment: React.FC<{
                             <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
                                 <p>Phone Number</p>
                                 <input
-                                    value={
-                                        formInputs.payment.phoneNumber
-                                            ? formInputs.payment.phoneNumber
-                                            : formInputs.contact.phoneNumber
-                                    }
+                                    value={formInputs.payment.phoneNumber}
                                     onChange={(e) => {
                                         handleInputChange(
                                             "payment",
@@ -167,19 +227,21 @@ const BookingPayment: React.FC<{
                         </div>
                         <button
                             onClick={() => {
-                                if (!completedSections.includes(0)) {
-                                    setCompletedSections(
-                                        (completedSections) => [
-                                            ...completedSections,
-                                            0,
-                                        ]
-                                    );
-                                }
+                                if (confirmPaymentFieldsComplete(0)) {
+                                    if (!completedBookingSections.includes(0)) {
+                                        setCompletedBookingSections(
+                                            (completedSections) => [
+                                                ...completedSections,
+                                                0,
+                                            ]
+                                        );
+                                    }
 
-                                if (!completedSections.includes(1)) {
-                                    setOpenPaymentSection(1);
-                                } else {
-                                    setOpenPaymentSection(null);
+                                    if (!completedBookingSections.includes(1)) {
+                                        setOpenPaymentSection(1);
+                                    } else {
+                                        setOpenPaymentSection(null);
+                                    }
                                 }
                             }}
                             className="border-2 border-primary rounded-lg text-sm px-3 py-2 transition-all hover:bg-red-100 mt-6"
@@ -197,11 +259,15 @@ const BookingPayment: React.FC<{
                 >
                     <div
                         className={`border-primary rounded-full border-2 size-5 flex items-center justify-center transition-all
-                            ${completedSections.includes(1) && "bg-primary"}`}
+                            ${
+                                completedBookingSections.includes(1) &&
+                                "bg-primary"
+                            }`}
                     >
                         <i
                             className={`fi fi-br-check text-white text-xs transition-all opacity-0 ${
-                                completedSections.includes(1) && "opacity-100"
+                                completedBookingSections.includes(1) &&
+                                "opacity-100"
                             }`}
                         ></i>
                     </div>
@@ -378,19 +444,21 @@ const BookingPayment: React.FC<{
                         </div>
                         <button
                             onClick={() => {
-                                if (!completedSections.includes(1)) {
-                                    setCompletedSections(
-                                        (completedSections) => [
-                                            ...completedSections,
-                                            1,
-                                        ]
-                                    );
-                                }
+                                if (confirmPaymentFieldsComplete(1)) {
+                                    if (!completedBookingSections.includes(1)) {
+                                        setCompletedBookingSections(
+                                            (completedSections) => [
+                                                ...completedSections,
+                                                1,
+                                            ]
+                                        );
+                                    }
 
-                                if (!completedSections.includes(2)) {
-                                    setOpenPaymentSection(2);
-                                } else {
-                                    setOpenPaymentSection(null);
+                                    if (!completedBookingSections.includes(2)) {
+                                        setOpenPaymentSection(2);
+                                    } else {
+                                        setOpenPaymentSection(null);
+                                    }
                                 }
                             }}
                             className="border-2 border-primary rounded-lg text-sm px-3 py-2 transition-all hover:bg-red-100 mt-6"
@@ -407,11 +475,12 @@ const BookingPayment: React.FC<{
                 >
                     <div
                         className={`border-primary rounded-full border-2 size-5 flex items-center justify-center transition-all
-                ${completedSections.includes(2) && "bg-primary"}`}
+                ${completedBookingSections.includes(2) && "bg-primary"}`}
                     >
                         <i
                             className={`fi fi-br-check text-white text-xs transition-all opacity-0 ${
-                                completedSections.includes(2) && "opacity-100"
+                                completedBookingSections.includes(2) &&
+                                "opacity-100"
                             }`}
                         ></i>
                     </div>
@@ -557,7 +626,7 @@ const BookingPayment: React.FC<{
 
                             <div className="flex flex-col gap-1 relative w-[calc(25%-9px)]">
                                 <div className="flex flex-row justify-between items-center">
-                                    <p>CVC</p>
+                                    <p>CVC/CVV</p>
                                     <div className="relative">
                                         <i className="peer fi fi-rr-question-square cursor-pointer"></i>
                                         <div className="peer-hover:opacity-100 opacity-0 transition-all absolute top-1/2 -translate-y-1/2 left-[calc(100%+0.5em)] w-72 bg-gray-200 rounded-lg border-2 border-black p-2">
@@ -625,16 +694,18 @@ const BookingPayment: React.FC<{
                         </div>
                         <button
                             onClick={() => {
-                                if (!completedSections.includes(2)) {
-                                    setCompletedSections(
-                                        (completedSections) => [
-                                            ...completedSections,
-                                            2,
-                                        ]
-                                    );
-                                }
+                                if (confirmPaymentFieldsComplete(2)) {
+                                    if (!completedBookingSections.includes(2)) {
+                                        setCompletedBookingSections(
+                                            (completedSections) => [
+                                                ...completedSections,
+                                                2,
+                                            ]
+                                        );
+                                    }
 
-                                setOpenPaymentSection(null);
+                                    setOpenPaymentSection(null);
+                                }
                             }}
                             className="border-2 border-primary rounded-lg text-sm px-3 py-2 transition-all hover:bg-red-100 mt-6"
                         >

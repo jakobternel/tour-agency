@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ItineraryBooking from "./booking/BookingItinerary";
 import BookingContact from "./booking/BookingContact";
@@ -8,16 +8,37 @@ import BookingDetails from "./booking/BookingDetails";
 
 import { FormInputType } from "../types/FormInput";
 import { BookingContent, ItineraryContent } from "../types/InputData";
+import { getTotalFlightCost } from "../utils/flightCost";
+import { getAirportCodeList } from "../utils/airportSearch";
 
 const Booking: React.FC<{
     itineraryContent: ItineraryContent;
     bookingContent: BookingContent;
     bookingRef: React.MutableRefObject<HTMLDivElement | null>;
-}> = ({ itineraryContent, bookingContent, bookingRef }) => {
+    apiResults: {
+        flights: {
+            [key: string]: {
+                [key: string]: {
+                    [key: string]: number;
+                };
+            };
+        };
+    };
+    setApiResults: any;
+    arrAirport: string;
+}> = ({
+    itineraryContent,
+    bookingContent,
+    bookingRef,
+    apiResults,
+    setApiResults,
+    arrAirport,
+}) => {
     const [formInputs, setFormInputs] = useState<FormInputType>({
         itinerary: {
             departureDate: "",
             departureAirport: undefined,
+            departureAirportComplete: false,
             roomSelection: String(bookingContent.defaultHotel),
             optionalActivities: [],
         },
@@ -50,6 +71,148 @@ const Booking: React.FC<{
 
     const [currentBookingComponent, setCurrentBookingComponent] =
         useState<number>(0);
+    const [flightSurcharge, setFlightSurcharge] = useState<number>(0);
+    const [airportList, setAirportList] = useState<string[]>([]);
+    const [completedBookingSections, setCompletedBookingSections] = useState<
+        number[]
+    >([]);
+
+    const handleDateInput = (dateInput: string) => {
+        const [day, month, year] = dateInput.split("/");
+
+        if (day && month && year && year.length === 4) {
+            return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+        } else {
+            return "";
+        }
+    };
+
+    const confirmFormInputsFilled = (page: number) => {
+        if (page === 0) {
+            if (
+                !formInputs.itinerary.departureAirport ||
+                !formInputs.itinerary.departureDate ||
+                !formInputs.itinerary.departureAirportComplete
+            ) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        if (page === 1) {
+            if (
+                !formInputs.contact.firstName ||
+                !formInputs.contact.lastName ||
+                !formInputs.contact.phoneNumber ||
+                !formInputs.contact.email ||
+                !formInputs.contact.emailConfirm ||
+                !formInputs.contact.country
+            ) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        if (page === 2) {
+            if (
+                [0, 1, 2].some(
+                    (section) => !completedBookingSections.includes(section)
+                )
+            ) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    useEffect(() => {
+        const getAirportCodes = async () => {
+            const codes = await getAirportCodeList();
+            setAirportList(codes);
+        };
+
+        getAirportCodes();
+    }, []);
+
+    useEffect(() => {
+        setFlightSurcharge(0);
+
+        const departureDate = handleDateInput(
+            formInputs.itinerary.departureDate
+        );
+        const departureAirport =
+            formInputs.itinerary.departureAirport?.split(" - ")[0];
+
+        if (
+            !departureAirport ||
+            !departureDate ||
+            !airportList.includes(departureAirport as string) ||
+            !formInputs.itinerary.departureAirportComplete
+        ) {
+            return;
+        }
+
+        const existingPrice =
+            apiResults.flights?.[arrAirport]?.[departureAirport]?.[
+                departureDate
+            ];
+
+        if (existingPrice) {
+            setFlightSurcharge(existingPrice);
+            return;
+        }
+
+        const getFlightData = async () => {
+            try {
+                const flightData = await getTotalFlightCost(
+                    departureAirport,
+                    arrAirport,
+                    departureDate,
+                    Object.keys(itineraryContent).length,
+                    true
+                );
+
+                if (flightData && flightData.length > 0) {
+                    let flightTotal = 0;
+
+                    flightData.forEach((route) => {
+                        flightTotal += Number(route.price.grandTotal);
+                    });
+
+                    setFlightSurcharge(flightTotal);
+
+                    setApiResults((prevResults: any) => ({
+                        ...prevResults,
+                        flights: {
+                            ...prevResults.flights,
+                            [arrAirport]: {
+                                ...prevResults.flights[arrAirport],
+                                [departureAirport]: {
+                                    ...prevResults.flights[arrAirport]?.[
+                                        departureAirport
+                                    ],
+                                    [departureDate]: flightTotal,
+                                },
+                            },
+                        },
+                    }));
+                }
+            } catch (error) {
+                console.error("Error fetching flight data:", error);
+            }
+        };
+
+        getFlightData();
+    }, [
+        formInputs.itinerary.departureAirport,
+        formInputs.itinerary.departureDate,
+        formInputs.itinerary.departureAirportComplete,
+    ]);
 
     const handleInputChange = <T extends keyof FormInputType>(
         section: T,
@@ -78,6 +241,8 @@ const Booking: React.FC<{
         <BookingPayment
             formInputs={formInputs}
             handleInputChange={handleInputChange}
+            completedBookingSections={completedBookingSections}
+            setCompletedBookingSections={setCompletedBookingSections}
         />,
         <BookingConfirmation />,
     ];
@@ -166,13 +331,19 @@ const Booking: React.FC<{
                                 <p
                                     className="px-6 py-2 bg-primary hover:bg-primaryOff transition-all rounded-lg text-white cursor-pointer"
                                     onClick={() => {
-                                        setCurrentBookingComponent(
-                                            (currentBookingComponent) =>
-                                                (currentBookingComponent +
-                                                    1 +
-                                                    bookingComponents.length) %
-                                                bookingComponents.length
-                                        );
+                                        if (
+                                            confirmFormInputsFilled(
+                                                currentBookingComponent
+                                            )
+                                        ) {
+                                            setCurrentBookingComponent(
+                                                (currentBookingComponent) =>
+                                                    (currentBookingComponent +
+                                                        1 +
+                                                        bookingComponents.length) %
+                                                    bookingComponents.length
+                                            );
+                                        }
                                     }}
                                 >
                                     {currentBookingComponent === 2
@@ -188,6 +359,8 @@ const Booking: React.FC<{
                     bookingContent={bookingContent}
                     formInputs={formInputs}
                     currentBookingComponent={currentBookingComponent}
+                    handleDateInput={handleDateInput}
+                    flightSurcharge={flightSurcharge}
                 />
             </div>
         </div>

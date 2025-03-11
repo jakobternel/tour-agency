@@ -196,3 +196,35 @@ export const getClosestAirport = async (): Promise<
         return null;
     }
 };
+
+// Return list of all airport codes
+export const getAirportCodeList = async () => {
+    await loadAndParseCSV();
+
+    if (!airportData) {
+        console.warn("CSV File Not Parsed");
+        return [];
+    }
+
+    const airports = airportData.map(airport => {
+        return airport.iata_code;
+    })
+
+    return airports;
+}
+
+// Return list of all airport codes and names
+export const getAirportCodeNameList = async () => {
+    await loadAndParseCSV();
+
+    if (!airportData) {
+        console.warn("CSV File Not Parsed");
+        return [];
+    }
+
+    const airportsCodeNames = airportData.map(airport => {
+        return `${airport.iata_code} - ${airport.municipality}, ${airport.iso_country}`
+    })
+
+    return airportsCodeNames;
+}

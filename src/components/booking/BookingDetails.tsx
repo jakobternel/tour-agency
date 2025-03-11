@@ -7,29 +7,20 @@ const BookingDetails: React.FC<{
     bookingContent: BookingContent;
     formInputs: FormInputType;
     currentBookingComponent: number;
+    handleDateInput: (dateInput: string) => string;
+    flightSurcharge: number;
 }> = ({
     itineraryContent,
     bookingContent,
     formInputs,
     currentBookingComponent,
+    handleDateInput,
+    flightSurcharge,
 }) => {
-    const [flightSurcharge, setFlightSurcharge] = useState<number>(0);
-
     const [roomSurcharge, setRoomSurcharge] = useState<number>(0);
     const [activitiesSurcharge, setActivitiesSurcharge] = useState<number>(0);
 
     const tourLength = Object.values(itineraryContent).length;
-
-    const handleDateInput = () => {
-        const [day, month, year] =
-            formInputs.itinerary.departureDate.split("/");
-
-        if (day && month && year && year.length == 4) {
-            return `${year}-${month}-${day}`;
-        } else {
-            return;
-        }
-    };
 
     useEffect(() => {
         setRoomSurcharge(
@@ -63,7 +54,7 @@ const BookingDetails: React.FC<{
         <>
             {currentBookingComponent !== 3 && (
                 <div className="w-1/3 flex-none border-l-2 border-gray-200 pl-6 flex flex-col gap-3">
-                    {handleDateInput() !== undefined && (
+                    {handleDateInput(formInputs.itinerary.departureDate) && (
                         <div>
                             <>
                                 <p className="font-montserrat font-semibold mb-1">
@@ -75,7 +66,10 @@ const BookingDetails: React.FC<{
                                         <p className="text-gray-500 font-mono">
                                             {String(
                                                 new Date(
-                                                    handleDateInput() as string
+                                                    handleDateInput(
+                                                        formInputs.itinerary
+                                                            .departureDate
+                                                    )
                                                 ).toLocaleDateString("en-GB")
                                             )}
                                         </p>
@@ -86,7 +80,10 @@ const BookingDetails: React.FC<{
                                             {String(
                                                 new Date(
                                                     new Date(
-                                                        handleDateInput() as string
+                                                        handleDateInput(
+                                                            formInputs.itinerary
+                                                                .departureDate
+                                                        )
                                                     ).getTime() +
                                                         (tourLength - 1) *
                                                             24 *
@@ -139,7 +136,7 @@ const BookingDetails: React.FC<{
                             </div>
                         </div>
                     </div>
-                    {activitiesSurcharge > 0 && (
+                    {formInputs.itinerary.optionalActivities.length > 0 && (
                         <div>
                             <div className="flex flex-row justify-between">
                                 <p className="font-montserrat font-semibold">
