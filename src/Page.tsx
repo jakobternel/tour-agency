@@ -10,19 +10,15 @@ import Testimonials from "./components/Testimonials";
 import Credits from "./components/Credits";
 
 import tourData from "./data/tourData.json";
+import { APIResultsType } from "./types/ApiResults";
 
 const Page: React.FC = () => {
     const [scrollPosition, setScrollPosition] = useState<number>(0);
     const [currentPage, changeCurrentPage] = useState<number>(0);
-    const [apiResults, setApiResults] = useState<{
-        flights: {
-            [key: string]: {
-                [key: string]: {
-                    [key: string]: number;
-                };
-            };
-        };
-    }>({ flights: {} });
+    const [apiResults, setApiResults] = useState<APIResultsType>({
+        flights: {},
+        flightInformation: {},
+    });
 
     const bookingRef = useRef<HTMLDivElement | null>(null);
     const itineraryRef = useRef<HTMLDivElement | null>(null);
@@ -83,6 +79,12 @@ const Page: React.FC = () => {
                 scrollToRef={scrollToRef}
                 bookingRef={bookingRef}
                 itineraryRef={itineraryRef}
+                apiResults={apiResults}
+                setApiResults={setApiResults}
+                tourLength={
+                    Object.values(tourDataArray[currentPage].itineraryContent)
+                        .length
+                }
             />
             <DestinationLayout
                 data={tourDataArray[currentPage].destinationInfoContent}

@@ -8,6 +8,7 @@ import BookingDetails from "./booking/BookingDetails";
 
 import { FormInputType } from "../types/FormInput";
 import { BookingContent, ItineraryContent } from "../types/InputData";
+import { APIResultsType } from "../types/ApiResults";
 import { getTotalFlightCost } from "../utils/flightCost";
 import { getAirportCodeList } from "../utils/airportSearch";
 
@@ -15,16 +16,8 @@ const Booking: React.FC<{
     itineraryContent: ItineraryContent;
     bookingContent: BookingContent;
     bookingRef: React.MutableRefObject<HTMLDivElement | null>;
-    apiResults: {
-        flights: {
-            [key: string]: {
-                [key: string]: {
-                    [key: string]: number;
-                };
-            };
-        };
-    };
-    setApiResults: any;
+    apiResults: APIResultsType;
+    setApiResults: React.Dispatch<React.SetStateAction<APIResultsType>>;
     arrAirport: string;
 }> = ({
     itineraryContent,
@@ -151,7 +144,7 @@ const Booking: React.FC<{
         if (
             !departureAirport ||
             !departureDate ||
-            !airportList.includes(departureAirport as string) ||
+            !airportList.includes(departureAirport) ||
             !formInputs.itinerary.departureAirportComplete
         ) {
             return;

@@ -8,6 +8,7 @@ import { WeatherForecastType } from "../types/WeatherForecastType";
 import WMOMappings from "../data/wmoMappings.json";
 import { BentoContent } from "../types/InputData";
 import { getTotalFlightCost } from "../utils/flightCost";
+import { APIResultsType } from "../types/ApiResults";
 
 const BentoLayout: React.FC<{
     data: BentoContent;
@@ -16,6 +17,9 @@ const BentoLayout: React.FC<{
     scrollToRef: (ref: React.MutableRefObject<HTMLDivElement | null>) => void;
     itineraryRef: React.MutableRefObject<HTMLDivElement | null>;
     bookingRef: React.MutableRefObject<HTMLDivElement | null>;
+    apiResults: APIResultsType;
+    setApiResults: React.Dispatch<React.SetStateAction<APIResultsType>>;
+    tourLength: number;
 }> = ({
     data,
     destinationName,
@@ -23,6 +27,9 @@ const BentoLayout: React.FC<{
     scrollToRef,
     itineraryRef,
     bookingRef,
+    apiResults,
+    setApiResults,
+    tourLength,
 }) => {
     const [closestAirport, setClosestAirport] = useState<string | null>(null);
     const [currentWeather, setCurrentWeather] = useState<{
@@ -45,28 +52,67 @@ const BentoLayout: React.FC<{
     const [carouselIndex, setCarouselIndex] = useState<number>(0);
 
     useEffect(() => {
+        const futureDate = new Date();
+        futureDate.setMonth(futureDate.getMonth() + 6);
+        const departureDate = futureDate.toISOString().split("T")[0];
+
         const getFlightData = async () => {
             const flightData = await getTotalFlightCost(
                 closestAirport!,
                 data.arrAirport,
-                "2025-06-06",
-                Object.keys(data.itinerary).length,
+                departureDate,
+                tourLength,
                 true
             );
 
             if (flightData) {
-                setStartingPrice(
-                    Math.trunc(
-                        basePrice +
-                            Number(flightData[0].price.grandTotal) +
-                            Number(flightData[1].price.grandTotal)
-                    )
-                );
+                let flightTotal = 0;
+
+                flightData.forEach((route) => {
+                    flightTotal += Number(route.price.grandTotal);
+                });
+
+                setStartingPrice(Math.trunc(basePrice + flightTotal));
                 setDepartFlightData(flightData[0]);
+
+                setApiResults((prevResults: any) => ({
+                    ...prevResults,
+                    flights: {
+                        ...prevResults.flights,
+                        [data.arrAirport]: {
+                            ...prevResults.flights[data.arrAirport],
+                            [closestAirport!]: {
+                                ...prevResults.flights[data.arrAirport]?.[
+                                    closestAirport!
+                                ],
+                                [departureDate]: flightTotal,
+                            },
+                        },
+                    },
+                    flightInformation: {
+                        ...prevResults.flightInformation,
+                        [data.arrAirport]: {
+                            ...prevResults.flightInformation[data.arrAirport],
+                            [closestAirport!]: flightData[0],
+                        },
+                    },
+                }));
             }
         };
 
-        if (closestAirport) {
+        const existingPrice =
+            apiResults.flights?.[data.arrAirport]?.[closestAirport!]?.[
+                departureDate
+            ];
+
+        const existingFlightData =
+            apiResults.flightInformation?.[data.arrAirport]?.[closestAirport!];
+
+        if (existingPrice) {
+            setStartingPrice(Math.trunc(basePrice + existingPrice));
+        }
+
+        if (closestAirport && !(existingPrice || existingFlightData)) {
             getFlightData();
         }
     }, [data.arrAirport, closestAirport]);

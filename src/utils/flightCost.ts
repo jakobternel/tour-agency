@@ -69,7 +69,7 @@ const getIndividualFlightPrice = async (
     let cheapestPrice = flightOffers.data[0].price.grandTotal;
 
     flightOffers.data.forEach((flightOption: any) => {
-        if (flightOption.price.grandTotal < cheapestPrice) {
+        if (Number(flightOption.price.grandTotal) < Number(cheapestPrice)) {
             cheapestFlight = flightOption;
         }
     });
