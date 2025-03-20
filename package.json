@@ -34,6 +34,7 @@
         "test": "craco test",
         "eject": "react-scripts eject"
     },
+    "homepage": "https://jakobternel.github.io/tour-agency/",
     "eslintConfig": {
         "extends": [
             "react-app",
