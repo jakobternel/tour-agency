@@ -34,3 +34,7 @@ jobs:
               with:
                 branch: gh-pages
                 folder: build
+                token: ${{ secrets.GH_PAGES }}
+                clean: true
+                force: true
+                attempt-limit: 3
