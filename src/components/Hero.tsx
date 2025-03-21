@@ -19,6 +19,7 @@ const Hero: React.FC<{
     currentPage: number;
     scrollToRef: (ref: React.MutableRefObject<HTMLDivElement | null>) => void;
     itineraryRef: React.MutableRefObject<HTMLDivElement | null>;
+    isMobile: boolean;
 }> = ({
     data,
     scrollPosition,
@@ -26,6 +27,7 @@ const Hero: React.FC<{
     currentPage,
     scrollToRef,
     itineraryRef,
+    isMobile,
 }) => {
     const [mousePosition, setMousePosition] = useState<[number, number]>([
         window.innerWidth / 2,
@@ -39,6 +41,10 @@ const Hero: React.FC<{
     );
 
     useEffect(() => {
+        if (isMobile) {
+            return;
+        }
+
         const handleMouseMove = (event: MouseEvent) => {
             if (!parallaxRef.current) return;
 

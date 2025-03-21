@@ -19,6 +19,7 @@ const Page: React.FC = () => {
         flights: {},
         flightInformation: {},
     });
+    const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
 
     const bookingRef = useRef<HTMLDivElement | null>(null);
     const itineraryRef = useRef<HTMLDivElement | null>(null);
@@ -47,6 +48,16 @@ const Page: React.FC = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const changePage = (input: number, specificPage: boolean) => {
         if (specificPage) {
             changeCurrentPage(input);
@@ -71,6 +82,7 @@ const Page: React.FC = () => {
                 currentPage={currentPage}
                 scrollToRef={scrollToRef}
                 itineraryRef={itineraryRef}
+                isMobile={isMobile}
             />
             <BentoLayout
                 data={tourDataArray[currentPage].bentoContent}
