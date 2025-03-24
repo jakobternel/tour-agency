@@ -22,6 +22,7 @@ jobs:
                 echo "REACT_APP_MAPBOX_TOKEN=${{ secrets.REACT_APP_MAPBOX_TOKEN }}" >> .env
                 echo "REACT_APP_AMADEUS_FLIGHT_API_KEY=${{ secrets.REACT_APP_AMADEUS_FLIGHT_API_KEY }}" >> .env
                 echo "REACT_APP_AMADEUS_FLIGHT_API_SECRET=${{ secrets.REACT_APP_AMADEUS_FLIGHT_API_SECRET }}" >> .env
+                echo "REACT_APP_IPINFO_TOKEN=${{ secrets.REACT_APP_IPINFO_TOKEN }}" >> .env
 
             - name: Install Dependencies
               run: npm install

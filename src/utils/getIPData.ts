@@ -1,13 +1,15 @@
 export const getIPData = async () => {
-    return null;
-
     try {
         // Get IP address data and estimated lat lon coordinates. Throw error if API call unsuccessful
-        const request = await fetch("http://ip-api.com/json/");
+        const request = await fetch(
+            `https://ipinfo.io/json?token=${process.env
+                .REACT_APP_IPINFO_TOKEN!}`
+        );
+
         const data = await request.json();
 
-        if (data.status === "fail") {
-            throw new Error(data.message);
+        if (request.status !== 200) {
+            throw new Error(`Error ${request.status} from request`);
         }
 
         return data;

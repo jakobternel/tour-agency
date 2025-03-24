@@ -187,7 +187,9 @@ export const getClosestAirport = async (): Promise<
         // Get IP address data and estimated lat lon coordinates. Throw error if API call unsuccessful
         const ipData = await getIPData();
 
-        return await getClosestAirport(ipData.lat, ipData.lon);
+        const [lat, lng] = ipData.loc.split(",");
+
+        return await getClosestAirport(Number(lat), Number(lng));
     } catch (error: any) {
         console.error(
             "Error getting user lat, lon coordinates: ",
