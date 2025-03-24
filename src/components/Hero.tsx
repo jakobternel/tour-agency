@@ -150,15 +150,14 @@ const Hero: React.FC<{
                 >
                     <div className="flex  h-full w-full">
                         {parallaxImages &&
-                            parallaxImages[locationIndex]
-                                .reverse()
-                                .map((imageSrc, index) =>
+                            [...parallaxImages[locationIndex]].map(
+                                (imageSrc, index) =>
                                     parallaxElement(
                                         imageSrc,
                                         parallaxImages.length - index,
                                         locationIndex
                                     )
-                                )}
+                            )}
                     </div>
                 </div>
             );
