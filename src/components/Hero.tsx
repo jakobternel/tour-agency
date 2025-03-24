@@ -1,12 +1,3 @@
-/* TODO 3 - Optional optimization. Only load images for n+1 and n-1 parallax. Keep loaded images in array or change format to use object format. Only store images as needed to reduce load times and prioritise current destination
-
-{0: [], (Initial View) 
-1: [],
-...n-1: null,
-n: []}
-
-*/
-
 import { useEffect, useRef, useState } from "react";
 import { HeroContent } from "../types/InputData";
 
@@ -125,11 +116,11 @@ const Hero: React.FC<{
                 style={{
                     zIndex: index,
                     left:
-                        currentPage === pageId
+                        currentPage === pageId && !isMobile
                             ? index * mousePosition[0] * 0.01
                             : 0,
                     top:
-                        currentPage === pageId
+                        currentPage === pageId && !isMobile
                             ? index * mousePosition[1] * 0.01
                             : 0,
                     transition: "all 0.1s ease",
@@ -178,29 +169,46 @@ const Hero: React.FC<{
         <div
             ref={parallaxRef}
             className="h-screen w-full origin-top"
-            style={{
-                transform: `scale(${Math.max(
-                    0.9,
-                    1 - (scrollPosition / window.innerHeight) * 0.9 * 0.1
-                )})`,
-            }}
+            style={
+                !isMobile
+                    ? {
+                          transform: `scale(${Math.max(
+                              0.9,
+                              1 -
+                                  (scrollPosition / window.innerHeight) *
+                                      0.9 *
+                                      0.1
+                          )})`,
+                      }
+                    : {}
+            }
         >
             <div
                 className="w-full h-full relative overflow-hidden"
-                style={{
-                    borderBottomLeftRadius: `${
-                        Math.max(
-                            0,
-                            Math.min(scrollPosition / window.innerHeight, 1)
-                        ) * 24
-                    }px`,
-                    borderBottomRightRadius: `${
-                        Math.max(
-                            0,
-                            Math.min(scrollPosition / window.innerHeight, 1)
-                        ) * 24
-                    }px`,
-                }}
+                style={
+                    !isMobile
+                        ? {
+                              borderBottomLeftRadius: `${
+                                  Math.max(
+                                      0,
+                                      Math.min(
+                                          scrollPosition / window.innerHeight,
+                                          1
+                                      )
+                                  ) * 24
+                              }px`,
+                              borderBottomRightRadius: `${
+                                  Math.max(
+                                      0,
+                                      Math.min(
+                                          scrollPosition / window.innerHeight,
+                                          1
+                                      )
+                                  ) * 24
+                              }px`,
+                          }
+                        : {}
+                }
             >
                 {generateParallaxSections()}
                 <div
