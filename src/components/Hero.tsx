@@ -223,11 +223,13 @@ const Hero: React.FC<{
                 ></div>
             </div>
 
-            <div className="z-50 h-full w-full py-10 px-20 absolute left-0 top-0">
+            <div className="z-50 h-full w-full py-5 md:py-10 px-5 md:px-20 absolute left-0 top-0">
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-6 items-center">
                     <p className="flex flex-row gap-3 items-center text-white">
-                        <span className="font-lobster text-6xl">Jet</span>
-                        <span className="text-4xl font-montserrat font-medium">
+                        <span className="font-lobster text-4xl md:text-6xl">
+                            Jet
+                        </span>
+                        <span className="text-2xl md:text-4xl font-montserrat font-medium whitespace-nowrap">
                             to{" "}
                             <span className="text-primary font-semibold">
                                 {destinationName}
@@ -244,10 +246,12 @@ const Hero: React.FC<{
 
                 <div className="flex flex-row gap-5 items-center">
                     <img src={logo} className="h-8" alt="JetSet Logo" />
-                    <p className="font-lobster text-3xl text-white">JetSet</p>
+                    <p className="font-lobster invisible md:visible text-3xl text-white">
+                        JetSet
+                    </p>
                 </div>
 
-                <div className="absolute left-1/2 -translate-x-1/2 top-12 flex gap-2 items-center">
+                <div className="absolute left-1/2 -translate-x-1/2 top-7 md:top-12 flex gap-2 items-center">
                     {data.map((_, index) => {
                         if (index + 1 !== data.length) {
                             return [node(index), connection];
@@ -272,11 +276,11 @@ const Hero: React.FC<{
                     }`}
                 >
                     <i
-                        className="fi fi-rs-angle-right right-20 changePageBtn"
+                        className="fi fi-rs-angle-right right-5 md:right-20 changePageBtn"
                         onClick={() => changePage(1, false)}
                     ></i>
                     <i
-                        className="fi fi-rs-angle-left left-20 changePageBtn"
+                        className="fi fi-rs-angle-left left-5 md:left-20 changePageBtn"
                         onClick={() => changePage(-1, false)}
                     ></i>
                 </div>
