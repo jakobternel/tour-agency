@@ -20,6 +20,7 @@ const BentoLayout: React.FC<{
     apiResults: APIResultsType;
     setApiResults: React.Dispatch<React.SetStateAction<APIResultsType>>;
     tourLength: number;
+    isMobile: boolean;
 }> = ({
     data,
     destinationName,
@@ -30,6 +31,7 @@ const BentoLayout: React.FC<{
     apiResults,
     setApiResults,
     tourLength,
+    isMobile,
 }) => {
     const [closestAirport, setClosestAirport] = useState<string | null>(null);
     const [currentWeather, setCurrentWeather] = useState<{
@@ -257,7 +259,7 @@ const BentoLayout: React.FC<{
                 >
                     <div className="rounded-full bg-primary">
                         <i
-                            className={`fi ${data.icon} p-5 text-white text-2xl`}
+                            className={`fi ${data.icon} p-3 md:p-5 text-white text-xl md:text-2xl`}
                         ></i>
                     </div>
                     <div className="text-center">
@@ -298,11 +300,8 @@ const BentoLayout: React.FC<{
     };
 
     return (
-        <div
-            className="h-screen w-full py-40 px-20 -mt-10 flex flex-row flex-wrap bg-red-50"
-            id="1"
-        >
-            <div className="w-2/4 h-1/2 p-3">
+        <div className="w-full py-5 px-5 md:py-40 md:px-20 md:-mt-10 grid bg-red-50 grid-cols-2 md:grid-cols-4">
+            <div className="p-2 md:p-3 col-span-2">
                 <div className="bento flex gap-3 justify-between flex-col">
                     <p className="font-bold font-montserrat">Itinerary</p>
                     <div className="flex flex-row justify-between">
@@ -310,7 +309,7 @@ const BentoLayout: React.FC<{
                     </div>
                 </div>
             </div>
-            <div className="w-1/4 h-1/2 p-3">
+            <div className="p-2 md:p-3 col-span-1">
                 <div className="bento flex justify-between flex-col gap-5">
                     <div className="flex flex-row gap-3">
                         <div className="flex justify-center flex-col">
@@ -351,20 +350,22 @@ const BentoLayout: React.FC<{
                                 ${startingPrice}
                             </span>
                         </p>
-                        <button
-                            className="bg-primary text-white py-1 px-5 rounded-full font-montserrat transition-colors hover:bg-primaryOff"
-                            onClick={() => scrollToRef(bookingRef)}
-                        >
-                            Book
-                        </button>
+                        {!isMobile && (
+                            <button
+                                className="bg-primary text-white py-1 px-5 rounded-full font-montserrat transition-colors hover:bg-primaryOff"
+                                onClick={() => scrollToRef(bookingRef)}
+                            >
+                                Book
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
-            <div className="w-1/4 h-1/2 p-3">
+            <div className="p-2 md:p-3 col-span-1">
                 <div className="bento flex flex-col gap-6">
-                    <div className="flex flex-row justify-between">
+                    <div className="flex flex-col h-full md:flex-row justify-between">
                         <div className="flex gap-3 content-center items-center">
-                            {currentWeather && (
+                            {currentWeather && !isMobile && (
                                 <i
                                     className={`fi ${
                                         getConditionDetails(
@@ -374,13 +375,13 @@ const BentoLayout: React.FC<{
                                 ></i>
                             )}
                             <div className="flex flex-col justify-between">
-                                <p className="text-xs">
+                                <p className="text-sm md:text-xs">
                                     {currentWeather &&
                                         getConditionDetails(
                                             currentWeather.weather_code
                                         )[0]}
                                 </p>
-                                <p className="text-xs">
+                                <p className="text-sm md:text-xs">
                                     <span className="font-bold">H:</span>{" "}
                                     {destinationCurrentDay &&
                                     forecastWeather &&
@@ -399,52 +400,56 @@ const BentoLayout: React.FC<{
                                 </p>
                             </div>
                         </div>
-                        <p className="font-bold flex items-center justify-center flex-col text-3xl">
+                        <p className="font-bold flex md:items-center justify-start md:justify-center flex-col text-3xl">
                             {currentWeather
                                 ? currentWeather.temperature_2m
                                 : "-"}
                             º
                         </p>
                     </div>
-                    <div className="w-full flex flex-row h-full gap-3">
-                        {forecastWeather && generateWeather()}
-                    </div>
+                    {!isMobile && (
+                        <div className="w-full flex flex-row h-full gap-3">
+                            {forecastWeather && generateWeather()}
+                        </div>
+                    )}
                 </div>
             </div>
-            <div className="w-1/4 h-1/2 p-3">
-                <div className="bento flex flex-col">
-                    <div className="w-4/5 self-end mb-1 text-xs">
-                        Ethan P., Sydney AU
-                    </div>
-                    <div className="flex flex-row items-end justify-between">
-                        <img
-                            className="w-10 h-10 rounded-full object-cover"
-                            src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                            alt="person"
-                        />
-                        <span className="text-xs w-4/5 bg-gray-100 p-2 rounded-t-lg rounded-br-lg shadow-lg">
-                            An unforgettable experience! The perfect mix of
-                            adventure, stunning views, and relaxation. From
-                            booking to travel, JetSet made the experience so
-                            smooth!
-                        </span>
-                    </div>
-                    <div className="flex-grow"></div>
-                    <div className="flex flex-row justify-between items-center">
-                        <div className="text-primary flex flex-row w-min text-xl">
-                            <i className="fi fi-ss-star"></i>
-                            <i className="fi fi-ss-star"></i>
-                            <i className="fi fi-ss-star"></i>
-                            <i className="fi fi-ss-star"></i>
-                            <i className="fi fi-ss-star-sharp-half-stroke"></i>
+            {!isMobile && (
+                <div className="p-2 md:p-3 col-span-1">
+                    <div className="bento flex flex-col">
+                        <div className="w-4/5 self-end mb-1 text-xs">
+                            Ethan P., Sydney AU
                         </div>
-                        <div className="text-xs text-gray-600">
-                            Rated 4.7 | 1,284 reviews
+                        <div className="flex flex-row items-end justify-between">
+                            <img
+                                className="w-10 h-10 rounded-full object-cover"
+                                src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                alt="person"
+                            />
+                            <span className="text-xs w-4/5 bg-gray-100 p-2 rounded-t-lg rounded-br-lg shadow-lg">
+                                An unforgettable experience! The perfect mix of
+                                adventure, stunning views, and relaxation. From
+                                booking to travel, JetSet made the experience so
+                                smooth!
+                            </span>
+                        </div>
+                        <div className="flex-grow"></div>
+                        <div className="flex flex-row justify-between items-center">
+                            <div className="text-primary flex flex-row w-min text-xl">
+                                <i className="fi fi-ss-star"></i>
+                                <i className="fi fi-ss-star"></i>
+                                <i className="fi fi-ss-star"></i>
+                                <i className="fi fi-ss-star"></i>
+                                <i className="fi fi-ss-star-sharp-half-stroke"></i>
+                            </div>
+                            <div className="text-xs text-gray-600">
+                                Rated 4.7 | 1,284 reviews
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="w-2/4 h-1/2 p-3">
+            )}
+            <div className="p-2 md:p-3 col-span-2">
                 <div className="bento flex flex-col gap-1">
                     <p className="font-bold font-montserrat">
                         Destination Highlights
@@ -466,7 +471,7 @@ const BentoLayout: React.FC<{
                                 className="flex h-full flex-grow transition-all"
                                 style={{
                                     transform: `translateX(-${
-                                        carouselIndex * 50
+                                        carouselIndex * (!isMobile ? 50 : 100)
                                     }%)`,
                                 }}
                             >
@@ -475,7 +480,7 @@ const BentoLayout: React.FC<{
                                         return (
                                             <div
                                                 key={index}
-                                                className="flex-shrink-0 w-1/2 p-2 h-full flex flex-col gap-2"
+                                                className="flex-shrink-0 w-full md:w-1/2 p-2 h-full flex flex-col gap-2"
                                             >
                                                 <div className="flex flex-row gap-3 items-center">
                                                     <i
@@ -506,69 +511,71 @@ const BentoLayout: React.FC<{
                     </div>
                 </div>
             </div>
-            <div className="w-1/4 h-1/2 p-3">
-                <div className="bento flex flex-col items-center justify-center gap-3">
-                    <div>
-                        <p className="font-xs font-montserrat">
-                            {destinationName}
-                        </p>
-                    </div>
-                    <div className="py-2 pl-3 pr-4 bg-gray-600 rounded-lg border-2 border-gray-800 shadow-md">
-                        <p className="w-36 z-20 text-[4em] leading-none text-primary font-segment absolute left-1/2 -translate-x-[calc(50%+2px)] flex flex-row *:text-right *:flex-none *:w-1/5">
-                            {time[0].split("").map((digit, index) => {
-                                return (
-                                    <span
-                                        key={index}
-                                        className={`${
-                                            digit === "1"
-                                                ? "translate-x-[5px]"
-                                                : ""
-                                        }`}
-                                    >
-                                        {digit}
-                                    </span>
-                                );
-                            })}
-                            <span className="text-right flex-none w-1/5 animate-blink">
-                                :
-                            </span>
-                            {time[1].split("").map((digit, index) => {
-                                return (
-                                    <span
-                                        key={index}
-                                        className={`${
-                                            digit === "1"
-                                                ? "translate-x-[5px]"
-                                                : ""
-                                        }`}
-                                    >
-                                        {digit}
-                                    </span>
-                                );
-                            })}
-                        </p>
+            {!isMobile && (
+                <div className="p-2 md:p-3 col-span-1">
+                    <div className="bento flex flex-col items-center justify-center gap-3">
+                        <div>
+                            <p className="font-xs font-montserrat">
+                                {destinationName}
+                            </p>
+                        </div>
+                        <div className="py-2 pl-3 pr-4 bg-gray-600 rounded-lg border-2 border-gray-800 shadow-md">
+                            <p className="w-36 z-20 text-[4em] leading-none text-primary font-segment absolute left-1/2 -translate-x-[calc(50%+2px)] flex flex-row *:text-right *:flex-none *:w-1/5">
+                                {time[0].split("").map((digit, index) => {
+                                    return (
+                                        <span
+                                            key={index}
+                                            className={`${
+                                                digit === "1"
+                                                    ? "translate-x-[5px]"
+                                                    : ""
+                                            }`}
+                                        >
+                                            {digit}
+                                        </span>
+                                    );
+                                })}
+                                <span className="text-right flex-none w-1/5 animate-blink">
+                                    :
+                                </span>
+                                {time[1].split("").map((digit, index) => {
+                                    return (
+                                        <span
+                                            key={index}
+                                            className={`${
+                                                digit === "1"
+                                                    ? "translate-x-[5px]"
+                                                    : ""
+                                            }`}
+                                        >
+                                            {digit}
+                                        </span>
+                                    );
+                                })}
+                            </p>
 
-                        <p className="w-36 z-10 text-[4em] leading-none text-red-300 opacity-25 font-segment flex flex-row *:text-right *:flex-none *:w-1/5">
-                            <span>8</span>
-                            <span>8</span>
-                            <span>:</span>
-                            <span>8</span>
-                            <span>8</span>
+                            <p className="w-36 z-10 text-[4em] leading-none text-red-300 opacity-25 font-segment flex flex-row *:text-right *:flex-none *:w-1/5">
+                                <span>8</span>
+                                <span>8</span>
+                                <span>:</span>
+                                <span>8</span>
+                                <span>8</span>
+                            </p>
+                        </div>
+                        <p className="text-xs">
+                            {new Date(destinationCurrentDay).toLocaleDateString(
+                                "en-GB",
+                                {
+                                    weekday: "long",
+                                    day: "2-digit",
+                                    month: "long",
+                                    year: "numeric",
+                                }
+                            )}
                         </p>
                     </div>
-                    <p className="text-xs">
-                        {new Date(destinationCurrentDay).toLocaleDateString(
-                            "en-GB",
-                            {
-                                weekday: "long",
-                                day: "2-digit",
-                                month: "long",
-                                year: "numeric",
-                            }
-                        )}
-                    </p>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

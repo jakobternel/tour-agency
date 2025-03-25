@@ -97,6 +97,7 @@ const Page: React.FC = () => {
                     Object.values(tourDataArray[currentPage].itineraryContent)
                         .length
                 }
+                isMobile={isMobile}
             />
             <DestinationLayout
                 data={tourDataArray[currentPage].destinationInfoContent}
