@@ -242,16 +242,16 @@ const Booking: React.FC<{
 
     return (
         <div
-            className="bg-primary w-full h-full py-20 flex justify-center"
+            className="bg-primary w-full h-full md:py-20 p-7 md:px-0 flex justify-center"
             ref={bookingRef}
         >
-            <div className="bg-white rounded-xl shadow-xl py-10 pl-10 pr-6 w-3/4 flex flex-row">
-                <div className="flex flex-grow flex-col gap-3">
+            <div className="bg-white rounded-xl shadow-xl p-5 md:py-10 md:pl-10 md:pr-6 w-full md:w-3/4 flex flex-row">
+                <div className="w-full flex flex-grow flex-col gap-3">
                     <p className="font-lobster text-3xl mb-3 text-primary">
                         Booking
                     </p>
                     {currentBookingComponent !== 3 && (
-                        <div className="flex gap-3 w-1/2 items-center">
+                        <div className="flex gap-3 w-full md:w-1/2 justify-between md:justify-normal items-center">
                             <div
                                 className={`text-primary transition-all ${
                                     currentBookingComponent === 0
@@ -262,7 +262,7 @@ const Booking: React.FC<{
                                 Itinerary
                             </div>
                             <div
-                                className={`flex-grow h-1 rounded-full transition-all ${
+                                className={`hidden md:block flex-grow h-1 rounded-full transition-all ${
                                     currentBookingComponent >= 1
                                         ? "bg-primary"
                                         : "bg-gray-300"
@@ -282,7 +282,7 @@ const Booking: React.FC<{
                                 Contact Info
                             </div>
                             <div
-                                className={`flex-grow h-1 rounded-full transition-all ${
+                                className={`hidden md:block flex-grow h-1 rounded-full transition-all ${
                                     currentBookingComponent === 2
                                         ? "bg-primary"
                                         : "bg-gray-300"
@@ -303,8 +303,8 @@ const Booking: React.FC<{
                     {currentBookingComponent !== 3 && (
                         <>
                             <span className="flex-grow"></span>
-                            <div className="flex justify-end gap-6 items-center pr-6">
-                                {currentBookingComponent > 0 && (
+                            <div className="flex justify-between md:justify-end gap-6 items-center md:pr-6">
+                                {currentBookingComponent > 0 ? (
                                     <p
                                         className="py-2 text-gray-500 hover:text-primary transition-all hover:underline cursor-pointer"
                                         onClick={() =>
@@ -319,6 +319,8 @@ const Booking: React.FC<{
                                     >
                                         Previous
                                     </p>
+                                ) : (
+                                    <div></div>
                                 )}
 
                                 <p
@@ -347,14 +349,14 @@ const Booking: React.FC<{
                         </>
                     )}
                 </div>
-                <BookingDetails
+                {/* <BookingDetails
                     itineraryContent={itineraryContent}
                     bookingContent={bookingContent}
                     formInputs={formInputs}
                     currentBookingComponent={currentBookingComponent}
                     handleDateInput={handleDateInput}
                     flightSurcharge={flightSurcharge}
-                />
+                /> */}
             </div>
         </div>
     );

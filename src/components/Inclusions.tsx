@@ -8,12 +8,12 @@ const support = require("../images/shared/support.png");
 const Inclusions: React.FC = () => {
     return (
         <div className="w-full h-min">
-            <div className="p-20 flex flex-col items-center gap-10">
+            <div className="p-7 md:p-20 flex flex-col items-center gap-3 md:gap-10">
                 <p className="font-lobster text-3xl text-center">
                     What's Included
                 </p>
-                <div className="flex flex-wrap justify-between w-full">
-                    <div className="bento w-[calc(100%/3-12px)] my-3 flex flex-col gap-3">
+                <div className="flex flex-wrap justify-between w-full gap-3">
+                    <div className="bento w-full md:w-[calc(100%/3-12px)] flex flex-col gap-3">
                         <div className="flex flex-row gap-5 items-center">
                             <img
                                 src={airplane}
@@ -31,7 +31,7 @@ const Inclusions: React.FC = () => {
                             schedules.
                         </p>
                     </div>
-                    <div className="bento w-[calc(100%/3-12px)] my-3 flex flex-col gap-3">
+                    <div className="bento w-full md:w-[calc(100%/3-12px)] flex flex-col gap-3">
                         <div className="flex flex-row gap-5 items-center">
                             <img src={hotel} alt="hotel" className="h-10" />
                             <p className="font-montserrat font-semibold">
@@ -45,7 +45,7 @@ const Inclusions: React.FC = () => {
                             convenient place for your travels.
                         </p>
                     </div>
-                    <div className="bento w-[calc(100%/3-12px)] my-3 flex flex-col gap-3">
+                    <div className="bento w-full md:w-[calc(100%/3-12px)] flex flex-col gap-3">
                         <div className="flex flex-row gap-5 items-center">
                             <img src={bus} alt="bus" className="h-10" />
                             <p className="font-montserrat font-semibold">
@@ -59,7 +59,7 @@ const Inclusions: React.FC = () => {
                             all the logistics for you.
                         </p>
                     </div>
-                    <div className="bento w-[calc(100%/3-12px)] my-3 flex flex-col gap-3">
+                    <div className="bento w-full md:w-[calc(100%/3-12px)] flex flex-col gap-3">
                         <div className="flex flex-row gap-5 items-center">
                             <img src={tour} alt="tour" className="h-10" />
                             <p className="font-montserrat font-semibold">
@@ -72,7 +72,7 @@ const Inclusions: React.FC = () => {
                             you make the most of your destination.
                         </p>
                     </div>
-                    <div className="bento w-[calc(100%/3-12px)] my-3 flex flex-col gap-3">
+                    <div className="bento w-full md:w-[calc(100%/3-12px)] flex flex-col gap-3">
                         <div className="flex flex-row gap-5 items-center">
                             <img src={tickets} alt="tickets" className="h-10" />
                             <p className="font-montserrat font-semibold">
@@ -85,7 +85,7 @@ const Inclusions: React.FC = () => {
                             waiting in line or worrying about availability.
                         </p>
                     </div>
-                    <div className="bento w-[calc(100%/3-12px)] my-3 flex flex-col gap-3">
+                    <div className="bento w-full md:w-[calc(100%/3-12px)] flex flex-col gap-3">
                         <div className="flex flex-row gap-5 items-center">
                             <img src={support} alt="support" className="h-10" />
                             <p className="font-montserrat font-semibold">

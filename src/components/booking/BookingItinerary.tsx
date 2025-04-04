@@ -79,9 +79,11 @@ const BookingItinerary: React.FC<{
 
     return (
         <div>
-            <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center relative">
-                <p className="w-1/2">Step 1 - Select Departure Airport</p>
-                <div className="relative w-1/2">
+            <div className="border-b-gray-200 border-b-2 py-3 md:pr-3 flex flex-col md:flex-row gap-3 md:gap-1 items-center relative">
+                <p className="w-full md:w-1/2">
+                    Step 1 - Select Departure Airport
+                </p>
+                <div className="relative w-full md:w-1/2">
                     <input
                         type="text"
                         className={`w-full border-2 py-1 focus:outline-none outline-none overflow-ellipsis pr-6 pl-2 transition-all focus:border-primary ${
@@ -156,116 +158,129 @@ const BookingItinerary: React.FC<{
                     <i className="fi fi-br-search absolute top-1/2 -translate-y-1/2 right-2 text-primary"></i>
                 </div>
             </div>
-            <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center relative">
-                <p className="w-1/2">Step 2 - Select Arrival Date</p>
-                <input
-                    type="text"
-                    className={`w-1/2 border-2 py-1 pl-2 focus:outline-none outline-none transition-all focus:border-primary ${
-                        formInputs.itinerary.departureDate &&
-                        !isNaN(
-                            new Date(
-                                formInputs.itinerary.departureDate
-                            ).getTime()
-                        )
-                            ? "border-primary"
-                            : "border-red-200"
-                    }`}
-                    placeholder="dd/mm/yyyy"
-                    value={formInputs.itinerary.departureDate}
-                    onChange={(e) => {
-                        let inputValue = e.target.value.replace(/[^0-9/]/g, "");
+            <div className="border-b-gray-200 border-b-2 py-3 md:pr-3 flex flex-col md:flex-row gap-3 md:gap-1 items-center relative">
+                <p className="w-full md:w-1/2">Step 2 - Select Arrival Date</p>
+                <div className="w-full md:w-1/2 relative">
+                    <input
+                        type="text"
+                        className={`w-full border-2 py-1 pl-2 focus:outline-none outline-none transition-all focus:border-primary ${
+                            formInputs.itinerary.departureDate &&
+                            !isNaN(
+                                new Date(
+                                    formInputs.itinerary.departureDate
+                                ).getTime()
+                            )
+                                ? "border-primary"
+                                : "border-red-200"
+                        }`}
+                        placeholder="dd/mm/yyyy"
+                        value={formInputs.itinerary.departureDate}
+                        onChange={(e) => {
+                            let inputValue = e.target.value.replace(
+                                /[^0-9/]/g,
+                                ""
+                            );
 
-                        const [day, month, year] = inputValue.split("/");
+                            const [day, month, year] = inputValue.split("/");
 
-                        let slashCount = 0;
-                        inputValue = inputValue
-                            .split("")
-                            .filter((char) => {
-                                if (char === "/") {
-                                    slashCount++;
-                                    return slashCount <= 2;
+                            let slashCount = 0;
+                            inputValue = inputValue
+                                .split("")
+                                .filter((char) => {
+                                    if (char === "/") {
+                                        slashCount++;
+                                        return slashCount <= 2;
+                                    }
+                                    return true;
+                                })
+                                .join("");
+
+                            if (
+                                (!day ||
+                                    (Number(day) >= 1 && Number(day) <= 31)) &&
+                                (!month ||
+                                    (Number(month) >= 1 &&
+                                        Number(month) <= 12)) &&
+                                (!year || year.length <= 4)
+                            ) {
+                                let formattedDate = inputValue;
+
+                                if (day && month && year && year.length === 4) {
+                                    const inputDate = new Date(
+                                        `${year}-${month}-${day}`
+                                    );
+                                    const minDateObj = new Date(minDate);
+                                    const maxDateObj = new Date(maxDate);
+
+                                    if (inputDate < minDateObj) {
+                                        formattedDate = minDate
+                                            .split("-")
+                                            .reverse()
+                                            .join("/");
+                                    } else if (inputDate > maxDateObj) {
+                                        formattedDate = maxDate
+                                            .split("-")
+                                            .reverse()
+                                            .join("/");
+                                    }
                                 }
-                                return true;
-                            })
-                            .join("");
 
-                        if (
-                            (!day || (Number(day) >= 1 && Number(day) <= 31)) &&
-                            (!month ||
-                                (Number(month) >= 1 && Number(month) <= 12)) &&
-                            (!year || year.length <= 4)
-                        ) {
-                            let formattedDate = inputValue;
-
-                            if (day && month && year && year.length === 4) {
-                                const inputDate = new Date(
-                                    `${year}-${month}-${day}`
+                                handleInputChange(
+                                    "itinerary",
+                                    "departureDate",
+                                    formattedDate
                                 );
-                                const minDateObj = new Date(minDate);
-                                const maxDateObj = new Date(maxDate);
-
-                                if (inputDate < minDateObj) {
-                                    formattedDate = minDate
-                                        .split("-")
-                                        .reverse()
-                                        .join("/");
-                                } else if (inputDate > maxDateObj) {
-                                    formattedDate = maxDate
-                                        .split("-")
-                                        .reverse()
-                                        .join("/");
-                                }
                             }
+                        }}
+                    />
+                    <i className="fi fi-br-calendar-day absolute top-[10px] right-2 text-primary"></i>
+                </div>
+            </div>
 
+            <div className="border-b-gray-200 border-b-2 py-3 md:pr-3 flex flex-col md:flex-row gap-3 md:gap-1 items-center relative">
+                <p className="w-full md:w-1/2">
+                    Step 3 - Select Accomodation Type
+                </p>
+                <div className="w-full md:w-1/2 relative">
+                    <select
+                        className="w-full border-2 border-primary py-1 focus:outline-none pl-2"
+                        onChange={(e) => {
                             handleInputChange(
                                 "itinerary",
-                                "departureDate",
-                                formattedDate
+                                "roomSelection",
+                                e.target.value
                             );
-                        }
-                    }}
-                />
-                <i className="fi fi-br-calendar-day absolute right-5 text-primary"></i>
+                        }}
+                        value={formInputs.itinerary.roomSelection}
+                    >
+                        {Object.keys(bookingContent.hotelContent).map((key) => {
+                            return (
+                                <option key={key} value={key}>
+                                    {bookingContent.hotelContent[key].name}: +$
+                                    {
+                                        bookingContent.hotelContent[key]
+                                            .dailyAdditionalPrice
+                                    }
+                                    /night
+                                </option>
+                            );
+                        })}
+                    </select>
+                    <i className="fi fi-br-angle-down absolute top-[10px] right-2 text-primary"></i>
+                </div>
             </div>
 
-            <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex flex-row gap-1 items-center relative">
-                <p className="w-1/2">Step 3 - Select Accomodation Type</p>
-                <select
-                    className="w-1/2 border-2 border-primary py-1 focus:outline-none pl-2"
-                    onChange={(e) => {
-                        handleInputChange(
-                            "itinerary",
-                            "roomSelection",
-                            e.target.value
-                        );
-                    }}
-                    value={formInputs.itinerary.roomSelection}
-                >
-                    {Object.keys(bookingContent.hotelContent).map((key) => {
-                        return (
-                            <option key={key} value={key}>
-                                {bookingContent.hotelContent[key].name}: +$
-                                {
-                                    bookingContent.hotelContent[key]
-                                        .dailyAdditionalPrice
-                                }
-                                /night
-                            </option>
-                        );
-                    })}
-                </select>
-                <i className="fi fi-br-angle-down absolute right-5 text-primary"></i>
-            </div>
-
-            <div className="border-b-gray-200 border-b-2 py-3 pr-3 flex gap-1 flex-col">
-                <p className="w-1/2">Step 4 - Select Additional Activities</p>
-                <div className="flex flex-wrap mt-2 gap-3">
+            <div className="border-b-gray-200 border-b-2 py-3 mr:pr-3 flex gap-3 md:gap-1 flex-col">
+                <p className="w-full md:w-1/2">
+                    Step 4 - Select Additional Activities
+                </p>
+                <div className="inline-flex flex-wrap mt-2 gap-3">
                     {bookingContent.optionalActivities.map(
                         (activity, index) => {
                             return (
                                 <p
                                     key={index}
-                                    className={`border-2 rounded-full border-primary py-1 px-3 text-sm cursor-pointer w-min text-nowrap transition-all ${
+                                    className={`inline-flex gap-2 max-w-fit border-2 rounded-2xl border-primary py-1 px-3 text-sm cursor-pointer md:text-nowrap transition-all ${
                                         formInputs.itinerary.optionalActivities.includes(
                                             index
                                         )
