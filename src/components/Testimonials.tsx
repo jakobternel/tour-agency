@@ -40,7 +40,7 @@ const Testimonials: React.FC = () => {
             return (
                 <div
                     key={index}
-                    className="bg-white rounded-2xl shadow-lg p-5 pt-12 w-1/4 relative flex flex-col items-center gap-5"
+                    className="bg-white rounded-2xl shadow-lg p-5 pt-12 w-[calc(50%-0.5em)] md:w-1/4 relative flex flex-col items-center gap-5 mt-10 md:mt-0"
                 >
                     <img
                         src={testimonial.image}
@@ -65,8 +65,10 @@ const Testimonials: React.FC = () => {
     };
 
     return (
-        <div className="w-full py-20 flex justify-center">
-            <div className="w-3/4 flex gap-6">{testimonials()}</div>
+        <div className="md:w-full p-6 w-full md:py-20 flex justify-center">
+            <div className="md:w-3/4 flex flex-wrap md:flex-nowrap gap-3 md:gap-4 justify-between">
+                {testimonials()}
+            </div>
         </div>
     );
 };
