@@ -119,6 +119,7 @@ const Page: React.FC = () => {
                 apiResults={apiResults}
                 setApiResults={setApiResults}
                 arrAirport={tourDataArray[currentPage].bentoContent.arrAirport}
+                isMobile={isMobile}
             />
             <Testimonials />
             <Credits />

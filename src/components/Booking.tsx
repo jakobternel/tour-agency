@@ -19,6 +19,7 @@ const Booking: React.FC<{
     apiResults: APIResultsType;
     setApiResults: React.Dispatch<React.SetStateAction<APIResultsType>>;
     arrAirport: string;
+    isMobile: boolean;
 }> = ({
     itineraryContent,
     bookingContent,
@@ -26,6 +27,7 @@ const Booking: React.FC<{
     apiResults,
     setApiResults,
     arrAirport,
+    isMobile,
 }) => {
     const [formInputs, setFormInputs] = useState<FormInputType>({
         itinerary: {
@@ -245,8 +247,8 @@ const Booking: React.FC<{
             className="bg-primary w-full h-full md:py-20 p-7 md:px-0 flex justify-center"
             ref={bookingRef}
         >
-            <div className="bg-white rounded-xl shadow-xl p-5 md:py-10 md:pl-10 md:pr-6 w-full md:w-3/4 flex flex-row">
-                <div className="w-full flex flex-grow flex-col gap-3">
+            <div className="md:shadow-xl w-full md:w-3/4 flex flex-col md:flex-row">
+                <div className="bg-white p-5 rounded-xl md:rounded-r-none shadow-xl md:shadow-none md:pr-0 md:py-10 md:pl-10 md:w-2/3 flex flex-grow flex-col gap-3">
                     <p className="font-lobster text-3xl mb-3 text-primary">
                         Booking
                     </p>
@@ -349,14 +351,18 @@ const Booking: React.FC<{
                         </>
                     )}
                 </div>
-                {/* <BookingDetails
-                    itineraryContent={itineraryContent}
-                    bookingContent={bookingContent}
-                    formInputs={formInputs}
-                    currentBookingComponent={currentBookingComponent}
-                    handleDateInput={handleDateInput}
-                    flightSurcharge={flightSurcharge}
-                /> */}
+                <div className="md:hidden block h-6"></div>
+                <div className="md:w-1/3 bg-white md:rounded-r-xl md:pr-6 md:py-10 md:pl-0 md:h-full shadow-xl md:shadow-none rounded-xl md:rounded-none">
+                    <BookingDetails
+                        itineraryContent={itineraryContent}
+                        bookingContent={bookingContent}
+                        formInputs={formInputs}
+                        currentBookingComponent={currentBookingComponent}
+                        handleDateInput={handleDateInput}
+                        flightSurcharge={flightSurcharge}
+                        isMobile={isMobile}
+                    />
+                </div>
             </div>
         </div>
     );

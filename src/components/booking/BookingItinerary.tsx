@@ -274,7 +274,7 @@ const BookingItinerary: React.FC<{
                 <p className="w-full md:w-1/2">
                     Step 4 - Select Additional Activities
                 </p>
-                <div className="inline-flex flex-wrap mt-2 gap-3">
+                <div className="inline-flex flex-wrap mt-2 gap-3 md:pr-3">
                     {bookingContent.optionalActivities.map(
                         (activity, index) => {
                             return (
