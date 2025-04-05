@@ -63,10 +63,10 @@ const Itinerary: React.FC<{
 
     return (
         <div
-            className="px-20 pt-20 flex flex-row w-full h-screen"
+            className="p-6 md:px-20 md:pt-20 flex flex-col md:flex-row w-full h-full md:h-screen"
             ref={itineraryRef}
         >
-            <div className="h-full w-1/2 bg-white shadow-lg rounded-l-xl p-10 flex flex-col">
+            <div className="h-screen md:h-full w-full md:w-1/2 bg-white shadow-lg rounded-t-xl md:rounded-l-xl p-6 md:p-10 flex flex-col">
                 <div className="flex justify-between items-center mb-10">
                     <p className="font-lobster text-3xl">Itinerary</p>
                     <p className="font-montserrat font-semibold">
@@ -92,7 +92,7 @@ const Itinerary: React.FC<{
                                     <div className="flex flex-row gap-3 sticky top-0 bg-white z-10">
                                         <div className="relative">
                                             <div className="h-6 w-6 bg-none border-primary border-2 rounded-full"></div>
-                                            <div className="h-3 w-3 bg-primary rounded-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                                            <div className="h-3 w-3 bg-primary rounded-full absolute left-1/2 top-3 -translate-x-1/2 -translate-y-1/2"></div>
                                         </div>
                                         <div className="flex-grow font-montserrat">
                                             Day {index + 1}: {data.title}
@@ -152,10 +152,10 @@ const Itinerary: React.FC<{
                     </div>
                 </div>
             </div>
-            <div className="h-full w-1/2 shadow-lg rounded-r-xl">
+            <div className="h-[calc(100vh/2)] md:h-full w-full md:w-1/2 shadow-lg rounded-b-xl md:rounded-r-xl">
                 <div
                     ref={mapContainerRef}
-                    className="map-container h-full rounded-r-xl"
+                    className="map-container h-[calc(100vh/2)] rounded-b-xl md:rounded-r-xl"
                 />
             </div>
         </div>
