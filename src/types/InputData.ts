@@ -1,3 +1,13 @@
+export type TourData = {
+    [key: string]: {
+        heroContent: HeroContent;
+        bentoContent: BentoContent;
+        destinationInfoContent: DestinationContent;
+        itineraryContent: ItineraryContent;
+        bookingContent: BookingContent;
+    };
+};
+
 export type HeroContent = {
     name: string;
     heroImageFolderRoute: string;
@@ -28,15 +38,33 @@ export type BentoContent = {
     destinationCoords: number[];
 };
 
+export type PointFeature = {
+    id: string;
+    type: "point";
+    location: [number, number];
+    main: boolean;
+};
+
+export type LineFeature = {
+    id: string;
+    type: "line";
+    start: [number, number];
+    end: [number, number];
+    return: boolean;
+};
+
 export type ItineraryContent = {
-    [key: string]: {
-        title: string;
-        description: string[];
-        inclusions?: string[];
-        suggestions?: string[];
-        accomodation?: string;
-        meals?: string;
-        budget?: string;
+    mapPoints: (PointFeature | LineFeature)[];
+    itinerary: {
+        [key: string]: {
+            title: string;
+            description: string[];
+            inclusions?: string[];
+            suggestions?: string[];
+            accomodation?: string;
+            meals?: string;
+            budget?: string;
+        };
     };
 };
 

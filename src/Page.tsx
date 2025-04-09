@@ -9,8 +9,11 @@ import Booking from "./components/Booking";
 import Testimonials from "./components/Testimonials";
 import Credits from "./components/Credits";
 
-import tourData from "./data/tourData.json";
 import { APIResultsType } from "./types/ApiResults";
+import { TourData } from "./types/InputData";
+import tourDataImport from "./data/tourData.json";
+
+const tourData = tourDataImport as unknown as TourData;
 
 const Page: React.FC = () => {
     const [scrollPosition, setScrollPosition] = useState<number>(0);
