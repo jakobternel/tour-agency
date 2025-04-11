@@ -18,20 +18,72 @@ const Itinerary: React.FC<{
     const mapRef = useRef<mapboxgl.Map | null>(null);
 
     useEffect(() => {
+        const getBoundingBox = (): [
+            mapboxgl.LngLatLike,
+            mapboxgl.LngLatLike
+        ] => {
+            let minLat = Infinity;
+            let maxLat = -Infinity;
+            let minLng = Infinity;
+            let maxLng = -Infinity;
+
+            const compareCoordinates = (lat: number, lng: number) => {
+                if (lat < minLat) minLat = lat;
+                if (lat > maxLat) maxLat = lat;
+                if (lng < minLng) minLng = lng;
+                if (lng > maxLng) maxLng = lng;
+            };
+
+            data.mapPoints.forEach((mapPoint) => {
+                switch (mapPoint.type) {
+                    case "point":
+                        const [lat, lng] = mapPoint.location;
+                        compareCoordinates(lat, lng);
+
+                        break;
+
+                    case "line":
+                        const [startLat, startLng] = mapPoint.start;
+                        compareCoordinates(startLat, startLng);
+
+                        const [endLat, endLng] = mapPoint.end;
+                        compareCoordinates(endLat, endLng);
+
+                        break;
+
+                    default:
+                        return;
+                }
+            });
+
+            return [
+                [minLng, minLat],
+                [maxLng, maxLat],
+            ];
+        };
+
         mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN!;
 
         if (mapContainerRef.current) {
             mapRef.current = new mapboxgl.Map({
                 container: mapContainerRef.current,
                 style: "mapbox://styles/mapbox/light-v11",
-                center: [mapCentrePoint[1], mapCentrePoint[0]],
-                // scrollZoom: false,
-                doubleClickZoom: false,
-                dragPan: false,
                 zoom: 9,
             });
 
+            mapRef.current.scrollZoom.disable();
+            mapRef.current.boxZoom.disable();
+            mapRef.current.doubleClickZoom.disable();
+            mapRef.current.dragPan.disable();
+            mapRef.current.dragRotate.disable();
+            mapRef.current.keyboard.disable();
+            mapRef.current.touchZoomRotate.disable();
+
             mapRef.current.on("load", async () => {
+                const bounds = getBoundingBox();
+
+                mapRef.current!.fitBounds(bounds, { padding: 50, duration: 0 });
+
                 const generatePoint = (id: string): mapboxgl.Layer => {
                     return {
                         id: `${id}-layer`,
