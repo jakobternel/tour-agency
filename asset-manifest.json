@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/tour-agency/static/css/main.2932ce2a.css",
-    "main.js": "/tour-agency/static/js/main.0b68e439.js",
+    "main.css": "/tour-agency/static/css/main.f5464db6.css",
+    "main.js": "/tour-agency/static/js/main.05ada356.js",
     "static/media/japan_layer1.png": "/tour-agency/static/media/japan_layer1.847b49b0bad62b79363f.png",
     "static/media/japan_layer2.png": "/tour-agency/static/media/japan_layer2.8b8068a06defb6e6dd64.png",
     "static/media/japan_layer3.png": "/tour-agency/static/media/japan_layer3.a27e87de656a9f4f33e2.png",
@@ -22,6 +22,8 @@
     "static/media/uicons-thin-rounded-IJXIJK3M.woff": "/tour-agency/static/media/uicons-thin-rounded-IJXIJK3M.beab399e036b4f8497d0.woff",
     "static/media/uicons-regular-rounded-KDJ23353.woff": "/tour-agency/static/media/uicons-regular-rounded-KDJ23353.617b7e86cf6814a44b46.woff",
     "static/media/uicons-bold-rounded-UTQQXXF3.woff": "/tour-agency/static/media/uicons-bold-rounded-UTQQXXF3.4a23c5df30d392803f73.woff",
+    "static/media/egypt_default.png": "/tour-agency/static/media/egypt_default.9f0a84d7f780b94413ea.png",
+    "static/media/germany_default.png": "/tour-agency/static/media/germany_default.62280496edb4038ffadf.png",
     "static/media/uicons-solid-rounded-UWVI4CEC.woff": "/tour-agency/static/media/uicons-solid-rounded-UWVI4CEC.9ce0ef5e6fa829ac32bd.woff",
     "static/media/uicons-thin-straight-JPCGBQEF.woff": "/tour-agency/static/media/uicons-thin-straight-JPCGBQEF.b56bfa32f1ed9684b103.woff",
     "static/media/uicons-regular-straight-AFQI6GFM.woff": "/tour-agency/static/media/uicons-regular-straight-AFQI6GFM.d717599abe25e96c7393.woff",
@@ -35,17 +37,18 @@
     "static/media/uicons-regular-straight-2I3O25UC.woff2": "/tour-agency/static/media/uicons-regular-straight-2I3O25UC.875b8c8cb6a2ab6f6075.woff2",
     "static/media/uicons-bold-straight-3JAZKD6K.woff2": "/tour-agency/static/media/uicons-bold-straight-3JAZKD6K.31682537723a048ab69e.woff2",
     "static/media/uicons-solid-straight-4DZ3VA4V.woff2": "/tour-agency/static/media/uicons-solid-straight-4DZ3VA4V.10a42bec98afb83391ab.woff2",
+    "static/media/japan_default.png": "/tour-agency/static/media/japan_default.8ba220678757e1388156.png",
     "static/media/uicons-brands-ZJWE2ELA.eot": "/tour-agency/static/media/uicons-brands-ZJWE2ELA.a6db396393f1097f0bfb.eot",
     "static/media/airports.csv": "/tour-agency/static/media/airports.14b32ccefd2372de20dd.csv",
     "static/media/uicons-brands-PQBQF6T3.woff": "/tour-agency/static/media/uicons-brands-PQBQF6T3.7ab29100c1f05469b972.woff",
     "static/media/uicons-brands-XJPKRNBN.woff2": "/tour-agency/static/media/uicons-brands-XJPKRNBN.033917e9fd41cfa9727c.woff2",
     "static/media/DS-DIGII.TTF": "/tour-agency/static/media/DS-DIGII.67d08007d2306de93eb0.TTF",
     "index.html": "/tour-agency/index.html",
-    "main.2932ce2a.css.map": "/tour-agency/static/css/main.2932ce2a.css.map",
-    "main.0b68e439.js.map": "/tour-agency/static/js/main.0b68e439.js.map"
+    "main.f5464db6.css.map": "/tour-agency/static/css/main.f5464db6.css.map",
+    "main.05ada356.js.map": "/tour-agency/static/js/main.05ada356.js.map"
   },
   "entrypoints": [
-    "static/css/main.2932ce2a.css",
-    "static/js/main.0b68e439.js"
+    "static/css/main.f5464db6.css",
+    "static/js/main.05ada356.js"
   ]
 }
