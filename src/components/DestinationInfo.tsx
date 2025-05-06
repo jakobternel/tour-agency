@@ -39,7 +39,7 @@ const DestinationLayout: React.FC<{
                 </div>
                 <div className="bg-white md:h-full md:w-3/5 md:ml-6 rounded-xl p-8 md:p-10 shadow-lg flex gap-6 flex-col">
                     <p className="font-lobster w-min text-3xl whitespace-nowrap -rotate-6 origin-center font-extralight text-primary">
-                        {`${data.city}, ${data.country}`}
+                        {`${data.city}${data.city ? ", " : ""}${data.country}`}
                     </p>
                     <p className="font-montserrat font-semibold">
                         {data.tagline}

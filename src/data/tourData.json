@@ -3,6 +3,7 @@
         "heroContent": {
             "name": "Germany",
             "heroImageFolderRoute": "germany",
+            "defaultImage": "germany_default.png",
             "heroImageNames": [
                 "germany_layer1.png",
                 "germany_layer2.png",
@@ -230,6 +231,7 @@
         "heroContent": {
             "name": "Japan",
             "heroImageFolderRoute": "japan",
+            "defaultImage": "japan_default.png",
             "heroImageNames": [
                 "japan_layer1.png",
                 "japan_layer2.png",
@@ -301,7 +303,7 @@
         },
         "destinationInfoContent": {
             "country": "Japan",
-            "city": "Tokyo",
+            "city": "",
             "tagline": "A Tapestry of Nature, Culture, and Innovation!",
             "description": [
                 "Japan is a land of contrasts, where ancient traditions coexist with cutting-edge technology. From the serene temples of Kyoto to the neon-lit streets of Tokyo, each destination offers a unique glimpse into the country's rich cultural heritage and futuristic ambitions. Whether you're exploring historic castles, witnessing the beauty of cherry blossoms, or indulging in world-class cuisine, Japan seamlessly blends the past and present to create an unforgettable experience.",
@@ -576,6 +578,494 @@
                 { "name": "Takayama Cycling Tour", "cost": 35 },
                 { "name": "Hida Beef Tasting", "cost": 50 },
                 { "name": "Handmade Noodle Making Class", "cost": 40 }
+            ]
+        }
+    },
+    "2": {
+        "heroContent": {
+            "name": "Egypt",
+            "heroImageFolderRoute": "egypt",
+            "defaultImage": "egypt_default.png",
+            "heroImageNames": ["egypt_default.png"]
+        },
+        "bentoContent": {
+            "itinerary": {
+                "0": {
+                    "icon": "fi-sr-plane-arrival",
+                    "content": "Arrive in Cairo"
+                },
+                "1": {
+                    "icon": "fi-sr-camera",
+                    "content": "Explore the City"
+                },
+                "2": {
+                    "icon": "fi-sr-tour-guide-people",
+                    "content": "Visit the Pyramids"
+                },
+                "3": {
+                    "icon": "fi-sr-bus-alt",
+                    "content": "Travel to Alexandria"
+                },
+                "4": {
+                    "icon": "fi-rr-book-bookmark",
+                    "content": "Full Day Tour"
+                },
+                "5": {
+                    "icon": "",
+                    "content": ""
+                }
+            },
+            "destinationSuggestions": [
+                {
+                    "title": "Zamalek Walk",
+                    "icon": "fi-rr-walking",
+                    "description": "Stroll the tree-lined streets of Zamalek, filled with cafés, galleries, and colonial-era charm."
+                },
+                {
+                    "title": "Nile Sunset",
+                    "icon": "fi-rr-sunset",
+                    "description": "Catch the glowing sunset over the Nile from a riverside promenade in Cairo, Luxor, or Aswan."
+                },
+                {
+                    "title": "Délices Café",
+                    "icon": "fi-rr-coffee",
+                    "description": "Sip strong coffee and taste classic pastries at this historic Alexandria favorite since 1922."
+                },
+                {
+                    "title": "Aswan Market",
+                    "icon": "fi-rr-shopping-basket",
+                    "description": "Browse colorful spice stalls in Aswan's souk, known for its hibiscus, saffron, and friendly traders."
+                },
+                {
+                    "title": "Luxor Glow",
+                    "icon": "fi-rr-temple",
+                    "description": "Revisit Luxor Temple at golden hour when the sandstone glows against the evening sky."
+                }
+            ],
+            "arrAirport": "CAI",
+            "destinationCoords": [30.0444, 31.2357]
+        },
+        "destinationInfoContent": {
+            "country": "Egypt",
+            "city": "",
+            "tagline": "Where tradition meets tomorrow!",
+            "description": [
+                "Egypt is a land of timeless wonder, where ancient history and vibrant modern life converge along the banks of the Nile. From the majestic pyramids of Giza to the intricately painted tombs of Luxor, the country is a living museum of pharaohs, temples, and myths. In Cairo, the bustling capital, you'll find a captivating blend of tradition and energy—where centuries-old mosques stand beside lively bazaars and contemporary cafés. Whether you're gazing at the Sphinx or cruising the Nile at sunset, Egypt tells its story with grandeur and authenticity.",
+                "Beyond its iconic landmarks, Egypt offers a rich sensory journey. Explore colorful Nubian villages in Aswan, dive into the pristine coral reefs of the Red Sea, or lose yourself in the narrow alleys of Alexandria's historic quarters. From spice-laden markets to serene desert landscapes, each destination reveals a different facet of Egyptian culture and charm. With warm hospitality, mouthwatering cuisine, and awe-inspiring sights at every turn, Egypt is more than a destination—it's an unforgettable experience that bridges past and present."
+            ],
+            "destinationImages": {
+                "0": {
+                    "size": "tall",
+                    "fileSrc": "https://images.pexels.com/photos/6010335/pexels-photo-6010335.jpeg"
+                },
+                "1": {
+                    "size": "short",
+                    "fileSrc": "https://images.pexels.com/photos/5609738/pexels-photo-5609738.jpeg"
+                },
+                "2": {
+                    "size": "short",
+                    "fileSrc": "https://images.pexels.com/photos/7391866/pexels-photo-7391866.jpeg"
+                },
+                "3": {
+                    "size": "tall",
+                    "fileSrc": "https://images.pexels.com/photos/7566890/pexels-photo-7566890.jpeg"
+                }
+            }
+        },
+        "itineraryContent": {
+            "mapPoints": [
+                {
+                    "type": "point",
+                    "id": "cairo",
+                    "location": [30.0444, 31.2357],
+                    "main": true
+                },
+                {
+                    "type": "line",
+                    "id": "alexandria",
+                    "start": [30.0444, 31.2357],
+                    "end": [31.2001, 29.9187],
+                    "return": true
+                },
+                {
+                    "type": "line",
+                    "id": "aswan",
+                    "start": [30.0444, 31.2357],
+                    "end": [24.0889, 32.8998],
+                    "return": false
+                },
+                {
+                    "type": "line",
+                    "id": "luxor",
+                    "start": [24.0889, 32.8998],
+                    "end": [25.6872, 32.6396],
+                    "return": false
+                },
+                {
+                    "type": "line",
+                    "id": "quseer",
+                    "start": [25.6872, 32.6396],
+                    "end": [26.1014, 34.2803],
+                    "return": true
+                },
+                {
+                    "type": "line",
+                    "id": "sharm",
+                    "start": [25.6872, 32.6396],
+                    "end": [27.9654, 34.3618],
+                    "return": false
+                },
+                {
+                    "type": "line",
+                    "id": "cairo2",
+                    "start": [27.9654, 34.3618],
+                    "end": [30.0444, 31.2357],
+                    "return": false
+                }
+            ],
+            "itinerary": {
+                "0": {
+                    "title": "Arrive in Cairo",
+                    "description": [
+                        "Welcome to the heart of Egypt — Cairo! After your arrival, you'll be transferred to your hotel to relax and recharge. This first day is about settling in and getting a feel for the city's rhythm. Take a gentle walk along the Nile Corniche or enjoy some koshari at a local eatery. Prepare for an epic adventure across Egypt's ancient wonders and bustling cities."
+                    ],
+                    "inclusions": [
+                        "Airport Transfers",
+                        "Welcome Briefing",
+                        "Group Dinner"
+                    ],
+                    "suggestions": [
+                        "Felucca Ride on the Nile",
+                        "Zamalek Contemporary Art Gallery Ticket"
+                    ],
+                    "accomodation": "Private Room in 4* Nile View Hotel",
+                    "meals": "Dinner",
+                    "budget": "$50-$70"
+                },
+                "1": {
+                    "title": "Cairo - City Discovery Tour",
+                    "description": [
+                        "Today is all about discovering the vibrant soul of Cairo beyond the ancient ruins. Begin your morning wandering through the Egyptian Museum, home to treasures from Tutankhamun's tomb and countless other Pharaonic artifacts. After lunch, head to Islamic Cairo to explore the bustling Khan El Khalili bazaar and marvel at the medieval mosques and minarets of Al-Muizz Street. Cap off your day with mint tea at a traditional café, soaking in the rhythm of daily Egyptian life."
+                    ],
+                    "inclusions": [
+                        "Museum Entry",
+                        "Guided Walking Tour",
+                        "Transportation"
+                    ],
+                    "suggestions": [
+                        "Egyptian Cooking Class in Islamic Cairo",
+                        "Guided Tour of Al-Azhar Mosque",
+                        "Museum of Islamic Art Entry"
+                    ],
+                    "accomodation": "Private Room in 4* Nile View Hotel",
+                    "meals": "Breakfast, Lunch",
+                    "budget": "$50-$70"
+                },
+                "2": {
+                    "title": "Cairo - Pyramids & Old Cairo",
+                    "description": [
+                        "Dive into Cairo's awe-inspiring history with a full day tour of the Giza Plateau. Stand in the shadow of the Pyramids and marvel at the Sphinx before exploring the ancient streets of Coptic Cairo. Enjoy local cuisine and take in panoramic views from the Cairo Citadel. The day ends with a relaxed evening of reflection or optional group activities."
+                    ],
+                    "inclusions": [
+                        "Guided Pyramid Tour",
+                        "Museum Entry",
+                        "Transportation"
+                    ],
+                    "suggestions": [
+                        "Camel Ride at Giza Plateau",
+                        "Private Guided Photography Tour",
+                        "Coptic Cairo Guided Church Walk"
+                    ],
+                    "accomodation": "Private Room in 4* Nile View Hotel",
+                    "meals": "Breakfast, Lunch",
+                    "budget": "$60-$80"
+                },
+                "3": {
+                    "title": "Alexandria - Ancient Wonders",
+                    "description": [
+                        "Step into the historical depths of Alexandria, once the intellectual heart of the ancient world. Begin your day with a visit to the Catacombs of Kom El Shoqafa, a remarkable blend of Egyptian and Greco-Roman architecture. Continue to Pompey's Pillar and the Serapeum ruins nearby. After lunch by the corniche, explore the ancient Roman amphitheater and walk through Alexandria's oldest streets. The sea breeze and historic ambiance make for an unforgettable introduction to this coastal city."
+                    ],
+                    "inclusions": ["Transport", "Entry Fees", "Local Guide"],
+                    "suggestions": [
+                        "Catacombs of Kom El Shoqafa Entry with Audio Guide",
+                        "Roman Amphitheater Guided Tour"
+                    ],
+                    "accomodation": "Private Room in 4* Mediterranean View Hotel",
+                    "meals": "Breakfast, Lunch",
+                    "budget": "$40-$60"
+                },
+                "4": {
+                    "title": "Alexandria - Bibliotheca and Coastal Leisure",
+                    "description": [
+                        "Begin the day at the world-renowned Bibliotheca Alexandrina, a stunning modern homage to the ancient Library of Alexandria. Browse the reading halls and exhibitions before heading to the historic Citadel of Qaitbay, built on the site of the old Lighthouse of Alexandria. Spend your afternoon relaxing at one of Alexandria's seaside cafes or walking the peaceful Montazah Palace Gardens. It's a day that balances culture and coastal charm."
+                    ],
+                    "inclusions": [
+                        "Bibliotheca Entry",
+                        "Garden Access",
+                        "Transport"
+                    ],
+                    "suggestions": [
+                        "Citadel of Qaitbay Guided Access",
+                        "Glass-Bottom Boat Ride from Alexandria Marina",
+                        "Bibliotheca Exhibition Ticket (Science or Antiquities Wing)"
+                    ],
+                    "accomodation": "Private Room in 4* Mediterranean View Hotel",
+                    "meals": "Breakfast, Dinner",
+                    "budget": "$50-$75"
+                },
+                "5": {
+                    "title": "Aswan - Arrival and Welcome",
+                    "description": [
+                        "Fly into the sun-soaked city of Aswan, where the Nile flows wide and slow. Upon arrival, check in to your riverside accommodation and enjoy a light lunch. In the afternoon, embark on a relaxing felucca sail around Elephantine Island and the botanical gardens on Kitchener's Island. As the golden hour sets in, head to a local Nubian village to learn about their culture and enjoy a traditional dinner. It's a gentle and immersive start to Aswan's unique pace and atmosphere."
+                    ],
+                    "inclusions": [
+                        "Domestic Flight",
+                        "Felucca Ride",
+                        "Nubian Village Visit",
+                        "Transfers"
+                    ],
+                    "suggestions": [
+                        "Nubian Cultural Workshop (Music or Dance)",
+                        "Henna Body Art Experience"
+                    ],
+                    "accomodation": "Private Room in Nile-View Guesthouse",
+                    "meals": "Breakfast, Dinner",
+                    "budget": "$60-$80"
+                },
+                "6": {
+                    "title": "Aswan - Temples and Timeless Views",
+                    "description": [
+                        "Start your day with a visit to the magnificent Philae Temple, beautifully relocated to Agilkia Island and accessible only by boat. Afterwards, explore the Unfinished Obelisk at the ancient quarries and learn about the artistry behind Egypt's monumental structures. Enjoy lunch back in town, then take time to relax at your hotel or browse the local souk. In the evening, optionally join a sunset cruise or enjoy a group dinner by the Nile."
+                    ],
+                    "inclusions": [
+                        "Temple Entries",
+                        "Boat Transfer",
+                        "Transport",
+                        "Local Guide"
+                    ],
+                    "suggestions": [
+                        "Sunset Cruise with Traditional Dinner",
+                        "Guided Visit to Aswan High Dam",
+                        "Sound & Light Show at Philae Temple"
+                    ],
+                    "accomodation": "Private Room in Nile-View Guesthouse",
+                    "meals": "Breakfast, Lunch",
+                    "budget": "$50-$70"
+                },
+                "7": {
+                    "title": "Luxor - Temples and East Bank Wonders",
+                    "description": [
+                        "Arrive in Luxor and prepare to explore the ancient capital of Thebes. Begin your day at the majestic Karnak Temple complex, wandering through towering columns and sacred halls. After lunch, visit Luxor Temple, dramatically set in the heart of the city. Learn about the symbolism and alignment of the temples with the Nile and the stars. Enjoy some leisure time in the afternoon, then regroup for a group dinner along the Corniche overlooking the river."
+                    ],
+                    "inclusions": [
+                        "Temple Entries",
+                        "Transport",
+                        "Local Guide",
+                        "Group Dinner"
+                    ],
+                    "suggestions": [
+                        "Karnak Temple Sound & Light Show",
+                        "Horse Carriage Tour through Luxor",
+                        "Luxor Mummification Museum Entry"
+                    ],
+                    "accomodation": "Private Room in 4* Nile-Side Hotel",
+                    "meals": "Breakfast, Dinner",
+                    "budget": "$60-$85"
+                },
+                "8": {
+                    "title": "Luxor - Valley of the Kings and the West Bank",
+                    "description": [
+                        "Cross the Nile to Luxor's West Bank and delve into ancient tombs at the Valley of the Kings. Visit at least three decorated burial sites, including the tomb of a famed pharaoh. Then, stop by the impressive Temple of Hatshepsut and the Colossi of Memnon. Return for a relaxed afternoon, with the option to join a sunset felucca ride or unwind by the pool. It's a day of awe-inspiring history balanced with personal space to reflect and rest."
+                    ],
+                    "inclusions": [
+                        "Tomb Entries",
+                        "Transport",
+                        "Local Guide",
+                        "Temple Visits"
+                    ],
+                    "suggestions": [
+                        "Hot Air Balloon Ride at Sunrise",
+                        "Tomb of Tutankhamun Entry",
+                        "Colossi of Memnon Guided Photography Tour"
+                    ],
+                    "accomodation": "Private Room in 4* Nile-Side Hotel",
+                    "meals": "Breakfast, Lunch",
+                    "budget": "$65-$90"
+                },
+                "9": {
+                    "title": "Quseer - Red Sea Day Trip and Coastal History",
+                    "description": [
+                        "Embark on a scenic road trip to El Quseer, one of the oldest ports on the Red Sea. This lesser-known gem blends stunning coastal views with historic charm. Spend your day snorkeling in clear coral-filled waters, relaxing on the beach, or exploring Ottoman-era architecture and old spice markets. Enjoy a seafood lunch by the shore before heading back to your accommodation refreshed and sun-kissed."
+                    ],
+                    "inclusions": [
+                        "Transport",
+                        "Snorkeling Gear",
+                        "Lunch",
+                        "Guided Coastal Walk"
+                    ],
+                    "suggestions": [
+                        "Snorkeling Boat Trip with Instructor",
+                        "Guided El Quseer Castle Access"
+                    ],
+                    "accomodation": "Private Room in 4* Nile-Side Hotel",
+                    "meals": "Breakfast, Lunch",
+                    "budget": "$40-$65"
+                },
+                "10": {
+                    "title": "Sharm El Sheikh - Flight & Coastal Arrival",
+                    "description": [
+                        "Fly from Luxor to the sun-drenched shores of Sharm El Sheikh, where the Red Sea meets vibrant resort life. After checking into your beachside resort, take the day to unwind with a dip in the pool or a walk along the sandy coastline. As the sun sets, enjoy a relaxing dinner with ocean views and prepare for days of adventure ahead."
+                    ],
+                    "inclusions": [
+                        "Flight from Luxor",
+                        "Airport Transfers",
+                        "Resort Check-In"
+                    ],
+                    "suggestions": [
+                        "Spa Massage Package at Resort",
+                        "Sunset Beach Yoga Session",
+                        "Luxury Dinner Cruise"
+                    ],
+                    "accomodation": "4* Red Sea Beach Resort",
+                    "meals": "Breakfast, Dinner",
+                    "budget": "$60-$90"
+                },
+                "11": {
+                    "title": "Sharm El Sheikh - Snorkeling & Ras Mohammed National Park",
+                    "description": [
+                        "Today is dedicated to discovering the colorful marine life of the Red Sea. Journey to Ras Mohammed National Park for guided snorkeling among vibrant coral reefs, schools of exotic fish, and possibly even sea turtles. After a full day in and on the water, return to the resort for a laid-back evening of shared stories and stargazing."
+                    ],
+                    "inclusions": [
+                        "Snorkeling Tour",
+                        "National Park Entry",
+                        "Guide",
+                        "Lunch"
+                    ],
+                    "suggestions": [
+                        "Underwater Photography Tour",
+                        "Scuba Dive for Certified Divers",
+                        "Jet Ski Ride at Ras Mohammed Lagoon"
+                    ],
+                    "accomodation": "5* Red Sea Beach Resort",
+                    "meals": "Breakfast, Lunch",
+                    "budget": "$80-$100"
+                },
+                "12": {
+                    "title": "Sharm El Sheikh - Free Day & Optional Desert Excursions",
+                    "description": [
+                        "Enjoy a flexible day to soak in your surroundings. Lounge by the beach, sip coffee with a view, or join an optional desert adventure — including quad biking through the dunes or a sunset camel trek with Bedouin tea. Whether you crave relaxation or exploration, today is yours to design."
+                    ],
+                    "inclusions": [
+                        "Resort Amenities",
+                        "Tour Coordinator Assistance"
+                    ],
+                    "suggestions": [
+                        "Desert Quad Biking Tour",
+                        "Camel Trek with Bedouin Camp Dinner",
+                        "Sunset Jeep Safari Adventure"
+                    ],
+                    "accomodation": "5* Red Sea Beach Resort",
+                    "meals": "Breakfast",
+                    "budget": "$30-$80"
+                },
+                "13": {
+                    "title": "Cairo - Farewell & Final Explorations",
+                    "description": [
+                        "Return to Cairo for the final chapter of your Egyptian adventure. Depending on your flight time, explore local markets for last-minute souvenirs or revisit a favorite spot for a leisurely lunch. Reflect on your journey through ancient wonders and vibrant cities before heading to the airport with unforgettable memories in tow."
+                    ],
+                    "inclusions": ["Airport Transfers", "Luggage Storage"],
+                    "suggestions": [
+                        "Khan El Khalili Souvenir Shopping Tour with Local Guide",
+                        "Farewell Dinner at Nile View Restaurant"
+                    ],
+                    "accomodation": "Day-Use Room in 4* Cairo Hotel (subject to flight time)",
+                    "meals": "Breakfast",
+                    "budget": "$25-$50"
+                }
+            }
+        },
+        "bookingContent": {
+            "basePrice": 2850,
+            "defaultHotel": 0,
+            "hotelContent": {
+                "0": {
+                    "name": "Basic Private Room",
+                    "dailyAdditionalPrice": 0
+                },
+                "1": {
+                    "name": "Premier Private Room",
+                    "dailyAdditionalPrice": 50
+                },
+                "2": {
+                    "name": "Private Suite",
+                    "dailyAdditionalPrice": 100
+                }
+            },
+            "optionalActivities": [
+                { "name": "Felucca Ride on the Nile", "cost": 20 },
+                {
+                    "name": "Zamalek Contemporary Art Gallery Ticket",
+                    "cost": 15
+                },
+                {
+                    "name": "Egyptian Cooking Class in Islamic Cairo",
+                    "cost": 30
+                },
+                { "name": "Guided Tour of Al-Azhar Mosque", "cost": 18 },
+                { "name": "Museum of Islamic Art Entry", "cost": 10 },
+                { "name": "Camel Ride at Giza Plateau", "cost": 25 },
+                { "name": "Private Guided Photography Tour", "cost": 35 },
+                { "name": "Coptic Cairo Guided Church Walk", "cost": 15 },
+                {
+                    "name": "Catacombs of Kom El Shoqafa Entry with Audio Guide",
+                    "cost": 12
+                },
+                { "name": "Roman Amphitheater Guided Tour", "cost": 15 },
+                { "name": "Citadel of Qaitbay Guided Access", "cost": 10 },
+                {
+                    "name": "Glass-Bottom Boat Ride from Alexandria Marina",
+                    "cost": 25
+                },
+                {
+                    "name": "Bibliotheca Exhibition Ticket (Science or Antiquities Wing)",
+                    "cost": 8
+                },
+                {
+                    "name": "Nubian Cultural Workshop (Music or Dance)",
+                    "cost": 22
+                },
+                { "name": "Henna Body Art Experience", "cost": 12 },
+                { "name": "Sunset Cruise with Traditional Dinner", "cost": 28 },
+                { "name": "Guided Visit to Aswan High Dam", "cost": 10 },
+                { "name": "Sound & Light Show at Philae Temple", "cost": 20 },
+                { "name": "Karnak Temple Sound & Light Show", "cost": 18 },
+                { "name": "Horse Carriage Tour through Luxor", "cost": 15 },
+                { "name": "Luxor Mummification Museum Entry", "cost": 10 },
+                { "name": "Hot Air Balloon Ride at Sunrise", "cost": 60 },
+                { "name": "Tomb of Tutankhamun Entry", "cost": 25 },
+                {
+                    "name": "Colossi of Memnon Guided Photography Tour",
+                    "cost": 15
+                },
+                { "name": "Snorkeling Boat Trip with Instructor", "cost": 35 },
+                { "name": "Guided El Quseer Castle Access", "cost": 10 },
+                { "name": "Spa Massage Package at Resort", "cost": 40 },
+                { "name": "Sunset Beach Yoga Session", "cost": 20 },
+                { "name": "Luxury Dinner Cruise", "cost": 45 },
+                { "name": "Underwater Photography Tour", "cost": 30 },
+                { "name": "Scuba Dive for Certified Divers", "cost": 55 },
+                { "name": "Jet Ski Ride at Ras Mohammed Lagoon", "cost": 50 },
+                { "name": "Desert Quad Biking Tour", "cost": 35 },
+                { "name": "Camel Trek with Bedouin Camp Dinner", "cost": 30 },
+                { "name": "Sunset Jeep Safari Adventure", "cost": 40 },
+                {
+                    "name": "Khan El Khalili Souvenir Shopping Tour with Local Guide",
+                    "cost": 12
+                },
+                {
+                    "name": "Farewell Dinner at Nile View Restaurant",
+                    "cost": 25
+                }
             ]
         }
     }

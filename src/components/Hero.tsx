@@ -55,9 +55,15 @@ const Hero: React.FC<{
 
     useEffect(() => {
         const images = data.map((locationData) => {
-            return locationData.heroImageNames.map((imageRoute: string) => {
-                return require(`../images/${locationData.heroImageFolderRoute}/${imageRoute}`);
-            });
+            if (!isMobile) {
+                return locationData.heroImageNames.map((imageRoute: string) => {
+                    return require(`../images/${locationData.heroImageFolderRoute}/${imageRoute}`);
+                });
+            } else {
+                return [
+                    require(`../images/${locationData.heroImageFolderRoute}/${locationData.defaultImage}`),
+                ];
+            }
         });
 
         setParallaxImages(images);
@@ -127,7 +133,7 @@ const Hero: React.FC<{
                 }}
             >
                 <div
-                    className="w-full h-full bg-cover bg-center scale-[1.1] brightness-50"
+                    className="w-full h-full bg-cover bg-center md:scale-[1.1] scale-100 brightness-50"
                     key={index}
                     style={{
                         backgroundImage: `url(${image})`,

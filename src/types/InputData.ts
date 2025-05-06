@@ -11,6 +11,7 @@ export type TourData = {
 export type HeroContent = {
     name: string;
     heroImageFolderRoute: string;
+    defaultImage: string;
     heroImageNames: string[];
 };
 
