@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import {
     getAirportCodeNameList,
     searchAirports,
@@ -7,6 +7,7 @@ import {
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 
 import { FormInputType } from "../../types/FormInput";
+import { BookingContent } from "../../types/InputData";
 
 const BookingItinerary: React.FC<{
     formInputs: FormInputType;
@@ -15,20 +16,7 @@ const BookingItinerary: React.FC<{
         field: keyof FormInputType[T],
         value: FormInputType[T][keyof FormInputType[T]]
     ) => void;
-    bookingContent: {
-        basePrice: number;
-        defaultHotel: number;
-        hotelContent: {
-            [key: string]: {
-                name: string;
-                dailyAdditionalPrice: number;
-            };
-        };
-        optionalActivities: {
-            name: string;
-            cost: number;
-        }[];
-    };
+    bookingContent: BookingContent;
 }> = ({ formInputs, handleInputChange, bookingContent }) => {
     const [searchActive, setSearchActive] = useState<boolean>(false);
     const [fuzzySearchResults, setFuzzySearchResults] = useState<
@@ -37,6 +25,7 @@ const BookingItinerary: React.FC<{
     const [airportCodeNameList, setAirportCodeNameList] = useState<string[]>(
         []
     );
+    const [selectedDay, setSelectedDay] = useState<number>(0);
 
     const minDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
         .toISOString()
@@ -76,6 +65,44 @@ const BookingItinerary: React.FC<{
 
         getFuzzySearchResults();
     }, [formInputs.itinerary.departureAirport]);
+
+    const generateDayLabels = (): ReactElement[] => {
+        const uniqueDays = Array.from(
+            new Set(bookingContent.optionalActivities.map((a) => a.day))
+        ).sort((a, b) => a - b);
+
+        return uniqueDays.map((day) => {
+            const activityOnDay = (dayId: number): boolean => {
+                const daysSelected =
+                    formInputs.itinerary.optionalActivities.flatMap((id) => {
+                        return bookingContent.optionalActivities
+                            .filter((activity) => activity.id == id)
+                            .map((activity) => activity.day);
+                    });
+
+                return daysSelected.includes(dayId);
+            };
+
+            return (
+                <div
+                    className={`transition-all text-sm border-primary border-2 cursor-pointer px-2 py-1 rounded-full ${
+                        selectedDay == day ? "font-bold" : "font-normal"
+                    } ${
+                        activityOnDay(day)
+                            ? "bg-red-100"
+                            : selectedDay == day
+                            ? "bg-red-50"
+                            : "bg-none"
+                    }
+                    `}
+                    key={`day=${day}`}
+                    onClick={() => setSelectedDay(day)}
+                >
+                    Day {day + 1}
+                </div>
+            );
+        });
+    };
 
     return (
         <div>
@@ -275,14 +302,24 @@ const BookingItinerary: React.FC<{
                     Step 4 - Select Additional Activities
                 </p>
                 <div className="inline-flex flex-wrap mt-2 gap-3 md:pr-3">
-                    {bookingContent.optionalActivities.map(
-                        (activity, index) => {
+                    {bookingContent.displayOptionalActivitiesByDay && (
+                        <div className="flex flex-row gap-3 flex-wrap mb-4">
+                            {generateDayLabels()}
+                        </div>
+                    )}
+                    {bookingContent.optionalActivities
+                        .filter(
+                            (activity) =>
+                                !bookingContent.displayOptionalActivitiesByDay ||
+                                activity.day === selectedDay
+                        )
+                        .map((activity) => {
                             return (
                                 <p
-                                    key={index}
+                                    key={activity.id}
                                     className={`inline-flex gap-2 max-w-fit border-2 rounded-2xl border-primary py-1 px-3 text-sm cursor-pointer md:text-nowrap transition-all ${
                                         formInputs.itinerary.optionalActivities.includes(
-                                            index
+                                            activity.id
                                         )
                                             ? "bg-red-100"
                                             : ""
@@ -291,18 +328,19 @@ const BookingItinerary: React.FC<{
                                         let newActivitiesArray: number[] = [];
                                         if (
                                             formInputs.itinerary.optionalActivities.includes(
-                                                index
+                                                activity.id
                                             )
                                         ) {
                                             newActivitiesArray =
                                                 formInputs.itinerary.optionalActivities.filter(
-                                                    (item) => item !== index
+                                                    (item) =>
+                                                        item !== activity.id
                                                 );
                                         } else {
                                             newActivitiesArray = [
                                                 ...formInputs.itinerary
                                                     .optionalActivities,
-                                                index,
+                                                activity.id,
                                             ];
                                         }
 
@@ -319,8 +357,7 @@ const BookingItinerary: React.FC<{
                                     {activity.name}
                                 </p>
                             );
-                        }
-                    )}
+                        })}
                 </div>
             </div>
         </div>

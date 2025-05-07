@@ -29,7 +29,7 @@ const Booking: React.FC<{
     arrAirport,
     isMobile,
 }) => {
-    const [formInputs, setFormInputs] = useState<FormInputType>({
+    const defaultFormInput = {
         itinerary: {
             departureDate: "",
             departureAirport: undefined,
@@ -62,7 +62,10 @@ const Booking: React.FC<{
             cvc: undefined,
             consent: false,
         },
-    });
+    };
+
+    const [formInputs, setFormInputs] =
+        useState<FormInputType>(defaultFormInput);
 
     const [currentBookingComponent, setCurrentBookingComponent] =
         useState<number>(0);
@@ -124,6 +127,10 @@ const Booking: React.FC<{
 
         return false;
     };
+
+    useEffect(() => {
+        setFormInputs(defaultFormInput);
+    }, [bookingContent]);
 
     useEffect(() => {
         const getAirportCodes = async () => {

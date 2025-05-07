@@ -73,6 +73,7 @@
         "destinationInfoContent": {
             "country": "Germany",
             "city": "Munich",
+            "showCityName": true,
             "tagline": "Where tradition meets tomorrow!",
             "description": [
                 "Munich, the vibrant capital of Bavaria, is a city where history, culture, and innovation seamlessly blend. Known for its stunning architecture, centuries-old traditions, and warm hospitality, Munich invites visitors to stroll through its iconic Marienplatz, explore the majestic Nymphenburg Palace, or raise a glass at a bustling beer garden. With its rich history dating back to 1158, the city preserves its heritage while embracing modernity, creating an unforgettable experience for travelers.",
@@ -215,15 +216,31 @@
                     "dailyAdditionalPrice": 100
                 }
             },
+            "displayOptionalActivitiesByDay": false,
             "optionalActivities": [
-                { "name": "BMW Museum Tour", "cost": 25 },
-                { "name": "Bar Crawl", "cost": 0 },
-                { "name": "Bavarian Cooking Class", "cost": 50 },
-                { "name": "Football Match", "cost": 50 },
-                { "name": "Brewery Tour", "cost": 10 },
-                { "name": "Horse Drawn Carriage", "cost": 20 },
-                { "name": "Boat Tour on the River Pegnitz", "cost": 50 },
-                { "name": "Nuremberg Zoo", "cost": 25 }
+                { "id": 0, "day": 0, "name": "BMW Museum Tour", "cost": 25 },
+                { "id": 1, "day": 0, "name": "Bar Crawl", "cost": 0 },
+                {
+                    "id": 2,
+                    "day": 1,
+                    "name": "Bavarian Cooking Class",
+                    "cost": 50
+                },
+                { "id": 3, "day": 1, "name": "Football Match", "cost": 50 },
+                { "id": 4, "day": 2, "name": "Brewery Tour", "cost": 10 },
+                {
+                    "id": 5,
+                    "day": 2,
+                    "name": "Horse Drawn Carriage",
+                    "cost": 20
+                },
+                {
+                    "id": 6,
+                    "day": 3,
+                    "name": "Boat Tour on the River Pegnitz",
+                    "cost": 50
+                },
+                { "id": 7, "day": 3, "name": "Nuremberg Zoo", "cost": 25 }
             ]
         }
     },
@@ -303,7 +320,8 @@
         },
         "destinationInfoContent": {
             "country": "Japan",
-            "city": "",
+            "city": "Tokyo",
+            "showCityName": false,
             "tagline": "A Tapestry of Nature, Culture, and Innovation!",
             "description": [
                 "Japan is a land of contrasts, where ancient traditions coexist with cutting-edge technology. From the serene temples of Kyoto to the neon-lit streets of Tokyo, each destination offers a unique glimpse into the country's rich cultural heritage and futuristic ambitions. Whether you're exploring historic castles, witnessing the beauty of cherry blossoms, or indulging in world-class cuisine, Japan seamlessly blends the past and present to create an unforgettable experience.",
@@ -558,26 +576,89 @@
                     "dailyAdditionalPrice": 75
                 }
             },
+            "displayOptionalActivitiesByDay": true,
             "optionalActivities": [
-                { "name": "Robot Restaurant Experience", "cost": 75 },
-                { "name": "Samurai or Ninja Experience", "cost": 50 },
-                { "name": "Japanese Whisky Tasting", "cost": 40 },
-                { "name": "Brewery Tour", "cost": 30 },
-                { "name": "Kimono Rental & Photoshoot", "cost": 45 },
-                { "name": "Spa Experience", "cost": 60 },
-                { "name": "Samurai & Ninja Training", "cost": 55 },
-                { "name": "Hozugawa River Boat Ride", "cost": 40 },
-                { "name": "Sake Brewery Tour & Tasting", "cost": 35 },
-                { "name": "Sumo Morning Practice Viewing", "cost": 30 },
-                { "name": "Michelin-Starred Sushi Experience", "cost": 150 },
-                { "name": "Osaka Home Cooking Class", "cost": 80 },
                 {
+                    "id": 0,
+                    "day": 0,
+                    "name": "Robot Restaurant Experience",
+                    "cost": 75
+                },
+                {
+                    "id": 1,
+                    "day": 1,
+                    "name": "Samurai or Ninja Experience",
+                    "cost": 50
+                },
+                {
+                    "id": 2,
+                    "day": 2,
+                    "name": "Japanese Whisky Tasting",
+                    "cost": 40
+                },
+                { "id": 3, "day": 2, "name": "Brewery Tour", "cost": 30 },
+                {
+                    "id": 4,
+                    "day": 3,
+                    "name": "Kimono Rental & Photoshoot",
+                    "cost": 45
+                },
+                { "id": 5, "day": 4, "name": "Spa Experience", "cost": 60 },
+                {
+                    "id": 6,
+                    "day": 5,
+                    "name": "Samurai & Ninja Training",
+                    "cost": 55
+                },
+                {
+                    "id": 7,
+                    "day": 5,
+                    "name": "Hozugawa River Boat Ride",
+                    "cost": 40
+                },
+                {
+                    "id": 8,
+                    "day": 6,
+                    "name": "Sake Brewery Tour & Tasting",
+                    "cost": 35
+                },
+                {
+                    "id": 9,
+                    "day": 7,
+                    "name": "Sumo Morning Practice Viewing",
+                    "cost": 30
+                },
+                {
+                    "id": 10,
+                    "day": 7,
+                    "name": "Michelin-Starred Sushi Experience",
+                    "cost": 150
+                },
+                {
+                    "id": 11,
+                    "day": 7,
+                    "name": "Osaka Home Cooking Class",
+                    "cost": 80
+                },
+                {
+                    "id": 12,
+                    "day": 8,
                     "name": "Real-Life Escape Room Samurai Experience",
                     "cost": 50
                 },
-                { "name": "Takayama Cycling Tour", "cost": 35 },
-                { "name": "Hida Beef Tasting", "cost": 50 },
-                { "name": "Handmade Noodle Making Class", "cost": 40 }
+                {
+                    "id": 13,
+                    "day": 9,
+                    "name": "Takayama Cycling Tour",
+                    "cost": 35
+                },
+                { "id": 14, "day": 9, "name": "Hida Beef Tasting", "cost": 50 },
+                {
+                    "id": 15,
+                    "day": 9,
+                    "name": "Handmade Noodle Making Class",
+                    "cost": 40
+                }
             ]
         }
     },
@@ -647,7 +728,8 @@
         },
         "destinationInfoContent": {
             "country": "Egypt",
-            "city": "",
+            "city": "Cairo",
+            "showCityName": false,
             "tagline": "Where tradition meets tomorrow!",
             "description": [
                 "Egypt is a land of timeless wonder, where ancient history and vibrant modern life converge along the banks of the Nile. From the majestic pyramids of Giza to the intricately painted tombs of Luxor, the country is a living museum of pharaohs, temples, and myths. In Cairo, the bustling capital, you'll find a captivating blend of tradition and energy—where centuries-old mosques stand beside lively bazaars and contemporary cafés. Whether you're gazing at the Sphinx or cruising the Nile at sunset, Egypt tells its story with grandeur and authenticity.",
@@ -1001,68 +1083,227 @@
                     "dailyAdditionalPrice": 100
                 }
             },
+            "displayOptionalActivitiesByDay": true,
             "optionalActivities": [
-                { "name": "Felucca Ride on the Nile", "cost": 20 },
                 {
+                    "id": 0,
+                    "day": 0,
+                    "name": "Felucca Ride on the Nile",
+                    "cost": 20
+                },
+                {
+                    "id": 1,
+                    "day": 0,
                     "name": "Zamalek Contemporary Art Gallery Ticket",
                     "cost": 15
                 },
                 {
+                    "id": 2,
+                    "day": 1,
                     "name": "Egyptian Cooking Class in Islamic Cairo",
                     "cost": 30
                 },
-                { "name": "Guided Tour of Al-Azhar Mosque", "cost": 18 },
-                { "name": "Museum of Islamic Art Entry", "cost": 10 },
-                { "name": "Camel Ride at Giza Plateau", "cost": 25 },
-                { "name": "Private Guided Photography Tour", "cost": 35 },
-                { "name": "Coptic Cairo Guided Church Walk", "cost": 15 },
                 {
+                    "id": 3,
+                    "day": 1,
+                    "name": "Guided Tour of Al-Azhar Mosque",
+                    "cost": 18
+                },
+                {
+                    "id": 4,
+                    "day": 1,
+                    "name": "Museum of Islamic Art Entry",
+                    "cost": 10
+                },
+                {
+                    "id": 5,
+                    "day": 2,
+                    "name": "Camel Ride at Giza Plateau",
+                    "cost": 25
+                },
+                {
+                    "id": 6,
+                    "day": 2,
+                    "name": "Private Guided Photography Tour",
+                    "cost": 35
+                },
+                {
+                    "id": 7,
+                    "day": 2,
+                    "name": "Coptic Cairo Guided Church Walk",
+                    "cost": 15
+                },
+                {
+                    "id": 8,
+                    "day": 3,
                     "name": "Catacombs of Kom El Shoqafa Entry with Audio Guide",
                     "cost": 12
                 },
-                { "name": "Roman Amphitheater Guided Tour", "cost": 15 },
-                { "name": "Citadel of Qaitbay Guided Access", "cost": 10 },
                 {
+                    "id": 9,
+                    "day": 3,
+                    "name": "Roman Amphitheater Guided Tour",
+                    "cost": 15
+                },
+                {
+                    "id": 10,
+                    "day": 4,
+                    "name": "Citadel of Qaitbay Guided Access",
+                    "cost": 10
+                },
+                {
+                    "id": 11,
+                    "day": 4,
                     "name": "Glass-Bottom Boat Ride from Alexandria Marina",
                     "cost": 25
                 },
                 {
+                    "id": 12,
+                    "day": 4,
                     "name": "Bibliotheca Exhibition Ticket (Science or Antiquities Wing)",
                     "cost": 8
                 },
                 {
+                    "id": 13,
+                    "day": 5,
                     "name": "Nubian Cultural Workshop (Music or Dance)",
                     "cost": 22
                 },
-                { "name": "Henna Body Art Experience", "cost": 12 },
-                { "name": "Sunset Cruise with Traditional Dinner", "cost": 28 },
-                { "name": "Guided Visit to Aswan High Dam", "cost": 10 },
-                { "name": "Sound & Light Show at Philae Temple", "cost": 20 },
-                { "name": "Karnak Temple Sound & Light Show", "cost": 18 },
-                { "name": "Horse Carriage Tour through Luxor", "cost": 15 },
-                { "name": "Luxor Mummification Museum Entry", "cost": 10 },
-                { "name": "Hot Air Balloon Ride at Sunrise", "cost": 60 },
-                { "name": "Tomb of Tutankhamun Entry", "cost": 25 },
                 {
+                    "id": 14,
+                    "day": 5,
+                    "name": "Henna Body Art Experience",
+                    "cost": 12
+                },
+                {
+                    "id": 15,
+                    "day": 6,
+                    "name": "Sunset Cruise with Traditional Dinner",
+                    "cost": 28
+                },
+                {
+                    "id": 16,
+                    "day": 6,
+                    "name": "Guided Visit to Aswan High Dam",
+                    "cost": 10
+                },
+                {
+                    "id": 17,
+                    "day": 6,
+                    "name": "Sound & Light Show at Philae Temple",
+                    "cost": 20
+                },
+                {
+                    "id": 18,
+                    "day": 7,
+                    "name": "Karnak Temple Sound & Light Show",
+                    "cost": 18
+                },
+                {
+                    "id": 19,
+                    "day": 7,
+                    "name": "Horse Carriage Tour through Luxor",
+                    "cost": 15
+                },
+                {
+                    "id": 20,
+                    "day": 7,
+                    "name": "Luxor Mummification Museum Entry",
+                    "cost": 10
+                },
+                {
+                    "id": 21,
+                    "day": 8,
+                    "name": "Hot Air Balloon Ride at Sunrise",
+                    "cost": 60
+                },
+                {
+                    "id": 22,
+                    "day": 8,
+                    "name": "Tomb of Tutankhamun Entry",
+                    "cost": 25
+                },
+                {
+                    "id": 23,
+                    "day": 8,
                     "name": "Colossi of Memnon Guided Photography Tour",
                     "cost": 15
                 },
-                { "name": "Snorkeling Boat Trip with Instructor", "cost": 35 },
-                { "name": "Guided El Quseer Castle Access", "cost": 10 },
-                { "name": "Spa Massage Package at Resort", "cost": 40 },
-                { "name": "Sunset Beach Yoga Session", "cost": 20 },
-                { "name": "Luxury Dinner Cruise", "cost": 45 },
-                { "name": "Underwater Photography Tour", "cost": 30 },
-                { "name": "Scuba Dive for Certified Divers", "cost": 55 },
-                { "name": "Jet Ski Ride at Ras Mohammed Lagoon", "cost": 50 },
-                { "name": "Desert Quad Biking Tour", "cost": 35 },
-                { "name": "Camel Trek with Bedouin Camp Dinner", "cost": 30 },
-                { "name": "Sunset Jeep Safari Adventure", "cost": 40 },
                 {
+                    "id": 24,
+                    "day": 9,
+                    "name": "Snorkeling Boat Trip with Instructor",
+                    "cost": 35
+                },
+                {
+                    "id": 25,
+                    "day": 9,
+                    "name": "Guided El Quseer Castle Access",
+                    "cost": 10
+                },
+                {
+                    "id": 26,
+                    "day": 10,
+                    "name": "Spa Massage Package at Resort",
+                    "cost": 40
+                },
+                {
+                    "id": 27,
+                    "day": 10,
+                    "name": "Sunset Beach Yoga Session",
+                    "cost": 20
+                },
+                {
+                    "id": 28,
+                    "day": 10,
+                    "name": "Luxury Dinner Cruise",
+                    "cost": 45
+                },
+                {
+                    "id": 29,
+                    "day": 11,
+                    "name": "Underwater Photography Tour",
+                    "cost": 30
+                },
+                {
+                    "id": 30,
+                    "day": 11,
+                    "name": "Scuba Dive for Certified Divers",
+                    "cost": 55
+                },
+                {
+                    "id": 31,
+                    "day": 11,
+                    "name": "Jet Ski Ride at Ras Mohammed Lagoon",
+                    "cost": 50
+                },
+                {
+                    "id": 32,
+                    "day": 12,
+                    "name": "Desert Quad Biking Tour",
+                    "cost": 35
+                },
+                {
+                    "id": 33,
+                    "day": 12,
+                    "name": "Camel Trek with Bedouin Camp Dinner",
+                    "cost": 30
+                },
+                {
+                    "id": 34,
+                    "day": 12,
+                    "name": "Sunset Jeep Safari Adventure",
+                    "cost": 40
+                },
+                {
+                    "id": 35,
+                    "day": 13,
                     "name": "Khan El Khalili Souvenir Shopping Tour with Local Guide",
                     "cost": 12
                 },
                 {
+                    "id": 36,
+                    "day": 13,
                     "name": "Farewell Dinner at Nile View Restaurant",
                     "cost": 25
                 }

@@ -18,6 +18,7 @@ export type HeroContent = {
 export type DestinationContent = {
     country: string;
     city: string;
+    showCityName: boolean;
     tagline: string;
     description: string[];
     destinationImages: {
@@ -78,7 +79,10 @@ export type BookingContent = {
             dailyAdditionalPrice: number;
         };
     };
+    displayOptionalActivitiesByDay: boolean;
     optionalActivities: {
+        id: number;
+        day: number;
         name: string;
         cost: number;
     }[];

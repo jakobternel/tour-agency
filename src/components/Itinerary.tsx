@@ -337,7 +337,7 @@ const Itinerary: React.FC<{
         inlineData: string
     ) => {
         return (
-            <span className="text-sm inline-flex gap-1">
+            <span className="text-sm flex md:flex-row flex-col gap-1">
                 <span className="font-bold">{inlineHeading}:</span>
                 <p>{inlineData}</p>
             </span>
