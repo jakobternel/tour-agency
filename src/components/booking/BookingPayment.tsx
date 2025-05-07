@@ -159,7 +159,7 @@ const BookingPayment: React.FC<{
     }, [formInputs.contact.email, formInputs.contact.phoneNumber]);
 
     return (
-        <div className="pr-6 py-3 flex flex-col gap-3">
+        <div className="md:pr-6 py-3 flex flex-col gap-3">
             <div className="flex flex-col border-2 rounded-md border-primary transition-all">
                 <div
                     className="flex flex-row gap-3 items-center size-full p-3 cursor-pointer"
@@ -184,8 +184,8 @@ const BookingPayment: React.FC<{
                     }`}
                 >
                     <div className="p-3 pt-0">
-                        <div className="flex flex-row gap-3 justify-between">
-                            <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
+                        <div className="flex flex-col md:flex-row gap-3 justify-between">
+                            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                                 <p>Email Address</p>
                                 <input
                                     value={formInputs.payment.email}
@@ -205,7 +205,7 @@ const BookingPayment: React.FC<{
                                 />
                             </div>
 
-                            <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
+                            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                                 <p>Phone Number</p>
                                 <input
                                     value={formInputs.payment.phoneNumber}
@@ -280,7 +280,7 @@ const BookingPayment: React.FC<{
                 >
                     <div className="p-3 pt-0">
                         <div className="flex flex-row flex-wrap gap-3 justify-between">
-                            <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
+                            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                                 <p>Address Line 1</p>
                                 <input
                                     value={formInputs.payment.addressLine1}
@@ -300,7 +300,7 @@ const BookingPayment: React.FC<{
                                 />
                             </div>
 
-                            <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
+                            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                                 <p>Address Line 2</p>
                                 <input
                                     value={formInputs.payment.addressLine2}
@@ -493,7 +493,7 @@ const BookingPayment: React.FC<{
                 >
                     <div className="p-3 pt-0">
                         <div className="flex flex-row gap-3 flex-wrap">
-                            <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
+                            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                                 <p>Card Number</p>
                                 <div className="relative">
                                     <input
@@ -539,7 +539,7 @@ const BookingPayment: React.FC<{
                                 </div>
                             </div>
 
-                            <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
+                            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                                 <p>Cardholder's Name</p>
                                 <input
                                     value={formInputs.payment.cardholder}
@@ -560,7 +560,7 @@ const BookingPayment: React.FC<{
                                 />
                             </div>
 
-                            <div className="flex flex-col gap-1 relative w-[calc(25%-9px)]">
+                            <div className="flex flex-col gap-1 relative md:w-[calc(25%-9px)] w-[calc(50%-6px)]">
                                 <p>Expiry Date</p>
                                 <input
                                     onKeyDown={(
@@ -624,7 +624,7 @@ const BookingPayment: React.FC<{
                                 />
                             </div>
 
-                            <div className="flex flex-col gap-1 relative w-[calc(25%-9px)]">
+                            <div className="flex flex-col gap-1 relative md:w-[calc(25%-9px)] w-[calc(50%-6px)]">
                                 <div className="flex flex-row justify-between items-center">
                                     <p>CVC/CVV</p>
                                     <div className="relative">
@@ -674,6 +674,7 @@ const BookingPayment: React.FC<{
                             </div>
                             <div className="flex flex-row gap-1 items-center w-full">
                                 <input
+                                    className="md:mr-0 mr-2"
                                     onChange={() =>
                                         handleInputChange(
                                             "payment",

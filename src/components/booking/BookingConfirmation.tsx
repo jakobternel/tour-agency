@@ -17,7 +17,7 @@ const BookingConfirmation: React.FC = () => {
                     Thank you for booking with JetSet
                 </p>
             </div>
-            <p className="text-xs">
+            <p className="text-xs text-center">
                 We will be in touch shortly with a comprehensive trip plan and
                 tickets
             </p>

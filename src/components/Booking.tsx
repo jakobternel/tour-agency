@@ -130,6 +130,7 @@ const Booking: React.FC<{
 
     useEffect(() => {
         setFormInputs(defaultFormInput);
+        setCurrentBookingComponent(0);
     }, [bookingContent]);
 
     useEffect(() => {

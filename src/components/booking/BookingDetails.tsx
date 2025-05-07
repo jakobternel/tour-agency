@@ -23,7 +23,7 @@ const BookingDetails: React.FC<{
     const [activitiesSurcharge, setActivitiesSurcharge] = useState<number>(0);
     const [mobileExpanded, setMobileExpanded] = useState<boolean>(false);
 
-    const tourLength = Object.values(itineraryContent).length;
+    const tourLength = Object.values(itineraryContent.itinerary).length;
 
     useEffect(() => {
         setRoomSurcharge(

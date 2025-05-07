@@ -16,8 +16,8 @@ const BookingContact: React.FC<{
     const [codeSelectActive, setCodeSelectActive] = useState<boolean>(false);
 
     return (
-        <div className="flex flex-row w-full py-3 flex-wrap gap-6 pr-6">
-            <div className="flex flex-col gap-1 relative w-[calc(50%-12px)]">
+        <div className="flex flex-row w-full py-3 flex-wrap gap-6 md:pr-6">
+            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                 <p>
                     First Name <sup className="text-red-500">*</sup>
                 </p>
@@ -39,7 +39,7 @@ const BookingContact: React.FC<{
                     }`}
                 />
             </div>
-            <div className="flex flex-col gap-1 relative w-[calc(50%-12px)]">
+            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                 <p>
                     Surname <sup className="text-red-500">*</sup>
                 </p>
@@ -57,7 +57,7 @@ const BookingContact: React.FC<{
                     }`}
                 />
             </div>
-            <div className="flex flex-col gap-1 relative w-[calc(50%-12px)]">
+            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                 <p>
                     Email Address <sup className="text-red-500">*</sup>
                 </p>
@@ -75,7 +75,7 @@ const BookingContact: React.FC<{
                     }`}
                 />
             </div>
-            <div className="flex flex-col gap-1 relative w-[calc(50%-12px)]">
+            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                 <p>
                     Confirm Email Address <sup className="text-red-500">*</sup>
                 </p>
@@ -97,7 +97,7 @@ const BookingContact: React.FC<{
                     }`}
                 />
             </div>
-            <div className="flex flex-col gap-1 relative w-[calc(50%-12px)]">
+            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                 <p>
                     Phone Number <sup className="text-red-500">*</sup>
                 </p>
@@ -185,7 +185,7 @@ const BookingContact: React.FC<{
                     )}
                 </div>
             </div>
-            <div className="flex flex-col gap-1 relative w-[calc(50%-12px)]">
+            <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                 <p>
                     Country <sup className="text-red-500">*</sup>
                 </p>
