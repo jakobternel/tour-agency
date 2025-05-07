@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/tour-agency/static/css/main.3ecc342e.css",
-    "main.js": "/tour-agency/static/js/main.e298bafe.js",
+    "main.js": "/tour-agency/static/js/main.3580615b.js",
     "static/media/japan_layer1.png": "/tour-agency/static/media/japan_layer1.847b49b0bad62b79363f.png",
     "static/media/japan_layer2.png": "/tour-agency/static/media/japan_layer2.8b8068a06defb6e6dd64.png",
     "static/media/japan_layer3.png": "/tour-agency/static/media/japan_layer3.a27e87de656a9f4f33e2.png",
@@ -45,10 +45,10 @@
     "static/media/DS-DIGII.TTF": "/tour-agency/static/media/DS-DIGII.67d08007d2306de93eb0.TTF",
     "index.html": "/tour-agency/index.html",
     "main.3ecc342e.css.map": "/tour-agency/static/css/main.3ecc342e.css.map",
-    "main.e298bafe.js.map": "/tour-agency/static/js/main.e298bafe.js.map"
+    "main.3580615b.js.map": "/tour-agency/static/js/main.3580615b.js.map"
   },
   "entrypoints": [
     "static/css/main.3ecc342e.css",
-    "static/js/main.e298bafe.js"
+    "static/js/main.3580615b.js"
   ]
 }
