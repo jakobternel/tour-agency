@@ -16,7 +16,7 @@ Additionally, I also set this project as a goal to learn the basics of Tailwind 
 I also wanted to build something fully customizable, so instead of hard-coding static pages, all content is dynamically generated from a single .json file. This approach makes the site easy to scale and maintain while keeping the structure clean and consistent.
 
 ## 🚀 Live Demo
-[Click here to view the live project](jakobternel.github.io/tour-agency/)
+[Click here to view the live project](https://jakobternel.github.io/tour-agency/)
 
 ## ✨ Features
 - Parallax hero scrolling effect when viewed on desktop
