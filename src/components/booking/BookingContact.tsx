@@ -102,7 +102,7 @@ const BookingContact: React.FC<{
                     Phone Number <sup className="text-red-500">*</sup>
                 </p>
                 <div className="relative w-full">
-                    <div className="flex flex-row w-full">
+                    <div className="flex flex-row w-full min-w-0">
                         <div
                             className={`border-2 border-r-0 ${
                                 codeSelectActive
@@ -122,7 +122,7 @@ const BookingContact: React.FC<{
                         </div>
                         <input
                             type="tel"
-                            className={`border-2 py-1 focus:outline-none overflow-ellipsis pl-2 flex-grow outline-none transition-all focus:border-primary ${
+                            className={`border-2 py-1 focus:outline-none overflow-ellipsis pl-2 flex-grow min-w-0 outline-none transition-all focus:border-primary ${
                                 codeSelectActive ||
                                 formInputs.contact.phoneNumber
                                     ? "border-primary"

@@ -98,6 +98,7 @@ const Hero: React.FC<{
         return (
             <span
                 className="cursor-pointer bg-none border-white rounded-full border-2 h-4 w-4 relative"
+                key={`node-${index}`}
                 onClick={() => {
                     changePage(index, true);
                 }}
@@ -110,12 +111,15 @@ const Hero: React.FC<{
         );
     };
 
-    const connection = (
-        <span className="bg-white w-4 h-0.5 rounded-full"></span>
-    );
-    const parallaxElement = (image: any, index: number, pageId: number) => {
+    const parallaxElement = (
+        image: any,
+        index: number,
+        pageId: number,
+        key: string
+    ) => {
         return (
             <div
+                key={key}
                 className={`w-full h-screen flex-shrink-0 absolute ${
                     pageId !== currentPage ? "overflow-hidden" : ""
                 }`}
@@ -148,6 +152,7 @@ const Hero: React.FC<{
             return (
                 <div
                     className="absolute w-full h-screen overflow-hidden transition-transform duration-500 ease-in-out"
+                    key={`image-${locationIndex}`}
                     style={{
                         transform: `translateX(${
                             (locationIndex - currentPage) * 100
@@ -161,7 +166,8 @@ const Hero: React.FC<{
                                     parallaxElement(
                                         imageSrc,
                                         parallaxImages.length - index,
-                                        locationIndex
+                                        locationIndex,
+                                        `${locationIndex}-${index}`
                                     )
                             )}
                     </div>
@@ -260,7 +266,13 @@ const Hero: React.FC<{
                 <div className="absolute left-1/2 -translate-x-1/2 top-7 md:top-12 flex gap-2 items-center">
                     {data.map((_, index) => {
                         if (index + 1 !== data.length) {
-                            return [node(index), connection];
+                            return [
+                                node(index),
+                                <span
+                                    className="bg-white w-4 h-0.5 rounded-full"
+                                    key={`connection-${index}`}
+                                ></span>,
+                            ];
                         } else {
                             return node(index);
                         }

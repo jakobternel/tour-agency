@@ -320,7 +320,7 @@ const Map: React.FC<{ data: ItineraryContent; mapCentrePoint: number[] }> = ({
     return (
         <div
             ref={mapContainerRef}
-            className="map-container h-[calc(100vh/2)] md:h-full rounded-b-xl md:rounded-r-xl"
+            className="map-container h-[calc(100vh/2)] md:h-full rounded-tr-none rounded-bl-xl rounded-br-xl md:rounded-tr-xl md:rounded-br-xl md:rounded-bl-none"
         />
     );
 };

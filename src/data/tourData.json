@@ -133,7 +133,7 @@
                         "Group Dinner"
                     ],
                     "suggestions": ["BMW Museum Tour", "Bar Crawl"],
-                    "accomodation": "Private Room in 4* Bavaria Luxe Retreat",
+                    "accommodation": "Private Room in 4* Bavaria Luxe Retreat",
                     "meals": "Breakfast, Lunch, Dinner",
                     "budget": "$50-$75"
                 },
@@ -149,7 +149,7 @@
                         "Visit to an Artisan Workshop"
                     ],
                     "suggestions": ["Bavarian Cooking Class", "Football Match"],
-                    "accomodation": "Private Room in 4* Bavaria Luxe Retreat",
+                    "accommodation": "Private Room in 4* Bavaria Luxe Retreat",
                     "meals": "Breakfast, Dinner",
                     "budget": "$50-$75"
                 },
@@ -164,7 +164,7 @@
                         "Lunch at a Local Cafe"
                     ],
                     "suggestions": ["Brewery Tour", "Horse Drawn Carriage"],
-                    "accomodation": "Private Room in 4* Bavaria Luxe Retreat",
+                    "accommodation": "Private Room in 4* Bavaria Luxe Retreat",
                     "meals": "Breakfast, Lunch",
                     "budget": "$75-$100"
                 },
@@ -184,7 +184,7 @@
                         "Boat Tour on the River Pegnitz",
                         "Visit Nuremberg Zoo"
                     ],
-                    "accomodation": "Private Room in 4* Bavaria Luxe Retreat",
+                    "accommodation": "Private Room in 4* Bavaria Luxe Retreat",
                     "meals": "Breakfast",
                     "budget": "$75-$100"
                 },
@@ -409,7 +409,7 @@
                         "Group Dinner"
                     ],
                     "suggestions": ["Robot Restaurant Experience"],
-                    "accomodation": "Private Room in 4* Hoshizora Ryokan",
+                    "accommodation": "Private Room in 4* Hoshizora Ryokan",
                     "meals": "Lunch, Dinner",
                     "budget": "$50-$100"
                 },
@@ -420,7 +420,7 @@
                     ],
                     "inclusions": ["Japanese Bar Crawl", "Karaoke"],
                     "suggestions": ["Samurai or Ninja Experience"],
-                    "accomodation": "Private Room in 4* Hoshizora Ryokan",
+                    "accommodation": "Private Room in 4* Hoshizora Ryokan",
                     "meals": "Breakfast, Lunch",
                     "budget": "$50-$75"
                 },
@@ -435,7 +435,7 @@
                         "Teppanyaki Grill"
                     ],
                     "suggestions": ["Japanese Whisky Tasting", "Brewery Tour"],
-                    "accomodation": "Private Room in 4* Hoshizora Ryokan",
+                    "accommodation": "Private Room in 4* Hoshizora Ryokan",
                     "meals": "Breakfast",
                     "budget": "$100-$125"
                 },
@@ -446,7 +446,7 @@
                     ],
                     "inclusions": ["Private Geisha Dinner & Performance"],
                     "suggestions": ["Kimono Rental & Photoshoot"],
-                    "accomodation": "Private Room in 4* Sakuragawa Hotel",
+                    "accommodation": "Private Room in 4* Sakuragawa Hotel",
                     "meals": "Breakfast, Dinner",
                     "budget": "$75-$100"
                 },
@@ -457,7 +457,7 @@
                     ],
                     "inclusions": ["Night Walking Tour of Gion"],
                     "suggestions": ["Spa Experience"],
-                    "accomodation": "Private Room in 4* Sakuragawa Hotel",
+                    "accommodation": "Private Room in 4* Sakuragawa Hotel",
                     "meals": "Breakfast, Dinner",
                     "budget": "$50"
                 },
@@ -474,7 +474,7 @@
                         "Samurai & Ninja Training",
                         "Hozugawa River Boat Ride"
                     ],
-                    "accomodation": "Private Room in 4* Sakuragawa Hotel",
+                    "accommodation": "Private Room in 4* Sakuragawa Hotel",
                     "meals": "Breakfast",
                     "budget": ""
                 },
@@ -488,7 +488,7 @@
                         "Nara National Museum Visit"
                     ],
                     "suggestions": ["Sake Brewery Tour & Tasting"],
-                    "accomodation": "Private Room in 4* Kaze no Mori",
+                    "accommodation": "Private Room in 4* Kaze no Mori",
                     "meals": "Breakfast, Lunch, Dinner",
                     "budget": ""
                 },
@@ -506,7 +506,7 @@
                         "Michelin-Starred Sushi Experience",
                         "Osaka Home Cooking Class"
                     ],
-                    "accomodation": "Private Room in 4* Tsukihikari Onsen",
+                    "accommodation": "Private Room in 4* Tsukihikari Onsen",
                     "meals": "Breakfast, Lunch",
                     "budget": ""
                 },
@@ -522,7 +522,7 @@
                         "Group Dinner"
                     ],
                     "suggestions": ["Real-Life Escape Room Samurai Experience"],
-                    "accomodation": "Private Room in 4* Akebono Hotel",
+                    "accommodation": "Private Room in 4* Akebono Hotel",
                     "meals": "Breakfast, Dinner",
                     "budget": ""
                 },
@@ -541,7 +541,7 @@
                         "Hida Beef Tasting",
                         "Handmade Noodle Making Class"
                     ],
-                    "accomodation": "Private Room in 4* Yukihana Ryokan",
+                    "accommodation": "Private Room in 4* Yukihana Ryokan",
                     "meals": "Breakfast",
                     "budget": ""
                 },
@@ -820,7 +820,7 @@
                         "Felucca Ride on the Nile",
                         "Zamalek Contemporary Art Gallery Ticket"
                     ],
-                    "accomodation": "Private Room in 4* Nile View Hotel",
+                    "accommodation": "Private Room in 4* Nile View Hotel",
                     "meals": "Dinner",
                     "budget": "$50-$70"
                 },
@@ -839,7 +839,7 @@
                         "Guided Tour of Al-Azhar Mosque",
                         "Museum of Islamic Art Entry"
                     ],
-                    "accomodation": "Private Room in 4* Nile View Hotel",
+                    "accommodation": "Private Room in 4* Nile View Hotel",
                     "meals": "Breakfast, Lunch",
                     "budget": "$50-$70"
                 },
@@ -858,7 +858,7 @@
                         "Private Guided Photography Tour",
                         "Coptic Cairo Guided Church Walk"
                     ],
-                    "accomodation": "Private Room in 4* Nile View Hotel",
+                    "accommodation": "Private Room in 4* Nile View Hotel",
                     "meals": "Breakfast, Lunch",
                     "budget": "$60-$80"
                 },
@@ -872,7 +872,7 @@
                         "Catacombs of Kom El Shoqafa Entry with Audio Guide",
                         "Roman Amphitheater Guided Tour"
                     ],
-                    "accomodation": "Private Room in 4* Mediterranean View Hotel",
+                    "accommodation": "Private Room in 4* Mediterranean View Hotel",
                     "meals": "Breakfast, Lunch",
                     "budget": "$40-$60"
                 },
@@ -891,7 +891,7 @@
                         "Glass-Bottom Boat Ride from Alexandria Marina",
                         "Bibliotheca Exhibition Ticket (Science or Antiquities Wing)"
                     ],
-                    "accomodation": "Private Room in 4* Mediterranean View Hotel",
+                    "accommodation": "Private Room in 4* Mediterranean View Hotel",
                     "meals": "Breakfast, Dinner",
                     "budget": "$50-$75"
                 },
@@ -910,7 +910,7 @@
                         "Nubian Cultural Workshop (Music or Dance)",
                         "Henna Body Art Experience"
                     ],
-                    "accomodation": "Private Room in Nile-View Guesthouse",
+                    "accommodation": "Private Room in Nile-View Guesthouse",
                     "meals": "Breakfast, Dinner",
                     "budget": "$60-$80"
                 },
@@ -930,7 +930,7 @@
                         "Guided Visit to Aswan High Dam",
                         "Sound & Light Show at Philae Temple"
                     ],
-                    "accomodation": "Private Room in Nile-View Guesthouse",
+                    "accommodation": "Private Room in Nile-View Guesthouse",
                     "meals": "Breakfast, Lunch",
                     "budget": "$50-$70"
                 },
@@ -950,7 +950,7 @@
                         "Horse Carriage Tour through Luxor",
                         "Luxor Mummification Museum Entry"
                     ],
-                    "accomodation": "Private Room in 4* Nile-Side Hotel",
+                    "accommodation": "Private Room in 4* Nile-Side Hotel",
                     "meals": "Breakfast, Dinner",
                     "budget": "$60-$85"
                 },
@@ -970,7 +970,7 @@
                         "Tomb of Tutankhamun Entry",
                         "Colossi of Memnon Guided Photography Tour"
                     ],
-                    "accomodation": "Private Room in 4* Nile-Side Hotel",
+                    "accommodation": "Private Room in 4* Nile-Side Hotel",
                     "meals": "Breakfast, Lunch",
                     "budget": "$65-$90"
                 },
@@ -989,7 +989,7 @@
                         "Snorkeling Boat Trip with Instructor",
                         "Guided El Quseer Castle Access"
                     ],
-                    "accomodation": "Private Room in 4* Nile-Side Hotel",
+                    "accommodation": "Private Room in 4* Nile-Side Hotel",
                     "meals": "Breakfast, Lunch",
                     "budget": "$40-$65"
                 },
@@ -1008,7 +1008,7 @@
                         "Sunset Beach Yoga Session",
                         "Luxury Dinner Cruise"
                     ],
-                    "accomodation": "4* Red Sea Beach Resort",
+                    "accommodation": "4* Red Sea Beach Resort",
                     "meals": "Breakfast, Dinner",
                     "budget": "$60-$90"
                 },
@@ -1028,7 +1028,7 @@
                         "Scuba Dive for Certified Divers",
                         "Jet Ski Ride at Ras Mohammed Lagoon"
                     ],
-                    "accomodation": "5* Red Sea Beach Resort",
+                    "accommodation": "5* Red Sea Beach Resort",
                     "meals": "Breakfast, Lunch",
                     "budget": "$80-$100"
                 },
@@ -1046,7 +1046,7 @@
                         "Camel Trek with Bedouin Camp Dinner",
                         "Sunset Jeep Safari Adventure"
                     ],
-                    "accomodation": "5* Red Sea Beach Resort",
+                    "accommodation": "5* Red Sea Beach Resort",
                     "meals": "Breakfast",
                     "budget": "$30-$80"
                 },
@@ -1060,7 +1060,7 @@
                         "Khan El Khalili Souvenir Shopping Tour with Local Guide",
                         "Farewell Dinner at Nile View Restaurant"
                     ],
-                    "accomodation": "Day-Use Room in 4* Cairo Hotel (subject to flight time)",
+                    "accommodation": "Day-Use Room in 4* Cairo Hotel (subject to flight time)",
                     "meals": "Breakfast",
                     "budget": "$25-$50"
                 }

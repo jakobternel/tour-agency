@@ -38,7 +38,7 @@ const Itinerary: React.FC<{
             className="p-6 md:px-20 md:pt-20 flex flex-col md:flex-row w-full h-full md:h-screen"
             ref={itineraryRef}
         >
-            <div className="h-screen md:h-full w-full md:w-1/2 bg-white shadow-lg rounded-t-xl md:rounded-l-xl p-6 md:p-10 flex flex-col">
+            <div className="h-screen md:h-full w-full md:w-1/2 bg-white shadow-lg p-6 md:p-10 flex flex-col rounded-tr-xl rounded-tl-xl rounded-br-none md:rounded-tr-none md:rounded-br-none md:rounded-bl-xl">
                 <div className="flex justify-between items-center mb-10">
                     <p className="font-lobster text-3xl">Itinerary</p>
                     <p className="font-montserrat font-semibold">
@@ -53,7 +53,7 @@ const Itinerary: React.FC<{
                                 description: string[];
                                 inclusions?: string[];
                                 suggestions?: string[];
-                                accomodation?: string;
+                                accommodation?: string;
                                 meals?: string;
                                 budget?: string;
                             },
@@ -97,10 +97,10 @@ const Itinerary: React.FC<{
                                                     "Suggested Activities",
                                                     data.suggestions
                                                 )}
-                                            {data.accomodation &&
+                                            {data.accommodation &&
                                                 generateInlineSection(
-                                                    "Accomodation",
-                                                    data.accomodation
+                                                    "Accommodation",
+                                                    data.accommodation
                                                 )}
                                             {data.meals &&
                                                 generateInlineSection(
@@ -124,7 +124,7 @@ const Itinerary: React.FC<{
                     </div>
                 </div>
             </div>
-            <div className="h-[calc(100vh/2)] md:h-full w-full md:w-1/2 shadow-lg rounded-b-xl md:rounded-r-xl">
+            <div className="h-[calc(100vh/2)] md:h-full w-full md:w-1/2 shadow-lg rounded-tr-none rounded-bl-xl rounded-br-xl md:rounded-tr-xl md:rounded-br-xl md:rounded-bl-none">
                 <Map data={data} mapCentrePoint={mapCentrePoint} />
             </div>
         </div>

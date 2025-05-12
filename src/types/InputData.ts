@@ -63,7 +63,7 @@ export type ItineraryContent = {
             description: string[];
             inclusions?: string[];
             suggestions?: string[];
-            accomodation?: string;
+            accommodation?: string;
             meals?: string;
             budget?: string;
         };

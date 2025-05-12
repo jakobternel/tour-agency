@@ -35,7 +35,7 @@ const Inclusions: React.FC = () => {
                         <div className="flex flex-row gap-5 items-center">
                             <img src={hotel} alt="hotel" className="h-10" />
                             <p className="font-montserrat font-semibold">
-                                4<sup>*</sup> Hotel Accomodation
+                                4<sup>*</sup> Hotel Accommodation
                             </p>
                         </div>
                         <p className="text-sm">

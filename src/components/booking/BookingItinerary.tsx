@@ -76,7 +76,7 @@ const BookingItinerary: React.FC<{
                 const daysSelected =
                     formInputs.itinerary.optionalActivities.flatMap((id) => {
                         return bookingContent.optionalActivities
-                            .filter((activity) => activity.id == id)
+                            .filter((activity) => activity.id === id)
                             .map((activity) => activity.day);
                     });
 
@@ -86,11 +86,11 @@ const BookingItinerary: React.FC<{
             return (
                 <div
                     className={`transition-all text-sm border-primary border-2 cursor-pointer px-2 py-1 rounded-full ${
-                        selectedDay == day ? "font-bold" : "font-normal"
+                        selectedDay === day ? "font-bold" : "font-normal"
                     } ${
                         activityOnDay(day)
                             ? "bg-red-100"
-                            : selectedDay == day
+                            : selectedDay === day
                             ? "bg-red-50"
                             : "bg-none"
                     }
@@ -266,7 +266,7 @@ const BookingItinerary: React.FC<{
 
             <div className="border-b-gray-200 border-b-2 py-3 md:pr-3 flex flex-col md:flex-row gap-3 md:gap-1 items-center relative">
                 <p className="w-full md:w-1/2">
-                    Step 3 - Select Accomodation Type
+                    Step 3 - Select Accommodation Type
                 </p>
                 <div className="w-full md:w-1/2 relative">
                     <select
