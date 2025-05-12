@@ -52,6 +52,7 @@ const BentoLayout: React.FC<{
         new Date().toTimeString().split(":").slice(0, 2) as [string, string]
     );
     const [carouselIndex, setCarouselIndex] = useState<number>(0);
+    const [isFlightLoading, setIsFlightLoading] = useState<boolean>(false);
 
     useEffect(() => {
         const futureDate = new Date();
@@ -59,6 +60,8 @@ const BentoLayout: React.FC<{
         const departureDate = futureDate.toISOString().split("T")[0];
 
         const getFlightData = async () => {
+            setIsFlightLoading(true);
+
             const flightData = await getTotalFlightCost(
                 closestAirport!,
                 data.arrAirport,
@@ -99,6 +102,8 @@ const BentoLayout: React.FC<{
                         },
                     },
                 }));
+
+                setIsFlightLoading(false);
             }
         };
 
@@ -112,9 +117,9 @@ const BentoLayout: React.FC<{
 
         if (existingPrice) {
             setStartingPrice(Math.trunc(basePrice + existingPrice));
-        }
-
-        if (closestAirport && !(existingPrice || existingFlightData)) {
+            setIsFlightLoading(false);
+            return;
+        } else if (closestAirport && !existingFlightData) {
             getFlightData();
         }
     }, [data.arrAirport, closestAirport]);
@@ -315,33 +320,40 @@ const BentoLayout: React.FC<{
                         <div className="hidden md:flex justify-center flex-col">
                             <i className="fi fi-ss-plane text-3xl text-primary"></i>
                         </div>
-                        <div className="text-sm">
-                            <div className="text-sm flex flex-row items-center gap-2">
-                                <span>{closestAirport}</span>
-                                <i className="fi fi-rr-arrow-right"></i>
-                                <span>{data.arrAirport}</span>
-                            </div>
+                        {isFlightLoading ? (
+                            <p className="self-center">Loading...</p>
+                        ) : (
+                            <div className="text-sm">
+                                <div className="text-sm flex flex-row items-center gap-2">
+                                    <span>{closestAirport}</span>
+                                    <i className="fi fi-rr-arrow-right"></i>
+                                    <span>{data.arrAirport}</span>
+                                </div>
 
-                            <p className="">
-                                {departFlightData
-                                    ? departFlightData.itineraries[0].duration.replace(
-                                          /PT(?:(\d+)H)?(?:(\d+)M)?/,
-                                          (_: string, h: string, m: string) =>
-                                              `${h || 0}hr ${m || 0}min`
-                                      )
-                                    : "0"}{" "}
-                                <span className="font-[r1em] text-gray-400">
-                                    ●
-                                </span>{" "}
-                                {departFlightData
-                                    ? `${
-                                          departFlightData.itineraries[0]
-                                              .segments.length - 1
-                                      } `
-                                    : `non-`}
-                                stop
-                            </p>
-                        </div>
+                                <p>
+                                    {departFlightData
+                                        ? departFlightData.itineraries[0].duration.replace(
+                                              /PT(?:(\d+)H)?(?:(\d+)M)?/,
+                                              (
+                                                  _: string,
+                                                  h: string,
+                                                  m: string
+                                              ) => `${h || 0}hr ${m || 0}min`
+                                          )
+                                        : "0"}{" "}
+                                    <span className="font-[r1em] text-gray-400">
+                                        ●
+                                    </span>{" "}
+                                    {departFlightData
+                                        ? `${
+                                              departFlightData.itineraries[0]
+                                                  .segments.length - 1
+                                          } `
+                                        : `non-`}
+                                    stop
+                                </p>
+                            </div>
+                        )}
                     </div>
                     <div className="flex flex-row justify-between items-center">
                         <p className="text-sm">

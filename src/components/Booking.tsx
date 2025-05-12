@@ -74,6 +74,7 @@ const Booking: React.FC<{
     const [completedBookingSections, setCompletedBookingSections] = useState<
         number[]
     >([]);
+    const [isFlightLoading, setIsFlightLoading] = useState<boolean>(false);
 
     const handleDateInput = (dateInput: string) => {
         const [day, month, year] = dateInput.split("/");
@@ -172,6 +173,8 @@ const Booking: React.FC<{
 
         const getFlightData = async () => {
             try {
+                setIsFlightLoading(true);
+
                 const flightData = await getTotalFlightCost(
                     departureAirport,
                     arrAirport,
@@ -205,6 +208,8 @@ const Booking: React.FC<{
                         },
                     }));
                 }
+
+                setIsFlightLoading(false);
             } catch (error) {
                 console.error("Error fetching flight data:", error);
             }
@@ -369,6 +374,7 @@ const Booking: React.FC<{
                         handleDateInput={handleDateInput}
                         flightSurcharge={flightSurcharge}
                         isMobile={isMobile}
+                        isFlightLoading={isFlightLoading}
                     />
                 </div>
             </div>

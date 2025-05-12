@@ -10,6 +10,7 @@ const BookingDetails: React.FC<{
     handleDateInput: (dateInput: string) => string;
     flightSurcharge: number;
     isMobile: boolean;
+    isFlightLoading: boolean;
 }> = ({
     itineraryContent,
     bookingContent,
@@ -18,10 +19,12 @@ const BookingDetails: React.FC<{
     handleDateInput,
     flightSurcharge,
     isMobile,
+    isFlightLoading,
 }) => {
     const [roomSurcharge, setRoomSurcharge] = useState<number>(0);
     const [activitiesSurcharge, setActivitiesSurcharge] = useState<number>(0);
     const [mobileExpanded, setMobileExpanded] = useState<boolean>(false);
+    const [loadingDots, setLoadingDots] = useState<string>("");
 
     const tourLength = Object.values(itineraryContent.itinerary).length;
 
@@ -32,6 +35,20 @@ const BookingDetails: React.FC<{
                 (tourLength - 1)
         );
     }, [formInputs.itinerary.roomSelection]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setLoadingDots((prev) => {
+                const count = (prev.match(/●/g) || []).length;
+                return count === 3
+                    ? "●"
+                    : Array(count + 2)
+                          .join("● ")
+                          .trim();
+            });
+        }, 500);
+        return () => clearInterval(interval);
+    }, [isFlightLoading]);
 
     useEffect(() => {
         let activitiesTotal = 0;
@@ -134,15 +151,19 @@ const BookingDetails: React.FC<{
                                                     )}
                                                 </p>
                                             </div>
-                                            {flightSurcharge > 0 && (
+                                            {(flightSurcharge > 0 ||
+                                                isFlightLoading) && (
                                                 <div className="flex flex-row justify-between">
                                                     <p className="font-montserrat">
                                                         Flight Surcharge
                                                     </p>
                                                     <p className="text-gray-500 font-mono">
-                                                        +{" "}
-                                                        {formatDollarAmount(
-                                                            flightSurcharge
+                                                        {isFlightLoading ? (
+                                                            <p>{loadingDots}</p>
+                                                        ) : (
+                                                            `+ ${formatDollarAmount(
+                                                                flightSurcharge
+                                                            )}`
                                                         )}
                                                     </p>
                                                 </div>
