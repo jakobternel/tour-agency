@@ -50,4 +50,4 @@ npm install
 npm run start
 ```
 
-To learn more about customising the data, please view the [documentation](jakobternel.github.io/tour-agency/) on tour data inputs
+To learn more about customising the data, please view the [documentation](https://github.com/jakobternel/tour-agency/blob/master/customisation.md) on tour data inputs
