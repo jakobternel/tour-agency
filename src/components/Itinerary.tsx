@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { ItineraryContent } from "../types/InputData";
 
 import Map from "./Map";
@@ -7,6 +8,8 @@ const Itinerary: React.FC<{
     mapCentrePoint: number[];
     itineraryRef: React.MutableRefObject<HTMLDivElement | null>;
 }> = ({ data, mapCentrePoint, itineraryRef }) => {
+    const headingRefs = useRef<(HTMLDivElement | null)[]>([]);
+
     const generateListSection = (listHeading: string, listData: string[]) => {
         return (
             <div className="text-sm">
@@ -61,20 +64,41 @@ const Itinerary: React.FC<{
                         ) => {
                             return (
                                 <div key={index} className="relative">
-                                    <div className="flex flex-row gap-3 sticky top-0 bg-white z-10">
+                                    <div className="flex flex-row gap-3 sticky top-0 bg-none z-10">
                                         <div className="relative">
-                                            <div className="h-6 w-6 bg-none border-primary border-2 rounded-full"></div>
+                                            <div className="h-6 w-6 bg-white border-primary border-2 rounded-full"></div>
                                             <div className="h-3 w-3 bg-primary rounded-full absolute left-1/2 top-3 -translate-x-1/2 -translate-y-1/2"></div>
                                         </div>
-                                        <div className="flex-grow font-montserrat">
-                                            Day {index + 1}: {data.title}
+                                        <div className="flex-grow z-10 h-6 overflow-y-visible w-full">
+                                            <div
+                                                ref={(element) =>
+                                                    (headingRefs.current[
+                                                        index
+                                                    ] = element)
+                                                }
+                                                className="absolute bg-white pb-2 w-[calc(100%-2.25rem)] text-wrap"
+                                            >
+                                                Day {index + 1}: {data.title}
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex flex-row gap-3">
                                         <div className="w-6 flex justify-around flex-shrink-0">
                                             <div className="h-full w-1 border-primary border-dashed border-2"></div>
                                         </div>
-                                        <div className="flex-grow py-4 flex flex-col gap-3">
+                                        <div
+                                            className="flex-grow pb-4 flex flex-col gap-3"
+                                            style={{
+                                                paddingTop: `${
+                                                    headingRefs.current[index]
+                                                        ? (headingRefs.current[
+                                                              index
+                                                          ]?.clientHeight ||
+                                                              32) - 24
+                                                        : 4
+                                                }px`,
+                                            }}
+                                        >
                                             {data.description.map(
                                                 (description, index) => {
                                                     return (
