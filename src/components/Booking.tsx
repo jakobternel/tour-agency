@@ -11,6 +11,19 @@ import { BookingContent, ItineraryContent } from "../types/InputData";
 import { APIResultsType } from "../types/ApiResults";
 import { getTotalFlightCost } from "../utils/flightCost";
 import { getAirportCodeList } from "../utils/airportSearch";
+import {
+    defaultFormErrors,
+    defaultFormInput,
+} from "../utils/bookingFormDefaults";
+import {
+    ErrorTypes,
+    ItineraryKeys,
+    ContactKeys,
+    PaymentKeys,
+} from "../types/FormValidation";
+
+type BookingKey = "itinerary" | "contact" | "payment";
+const bookingKeys: BookingKey[] = ["itinerary", "contact", "payment"];
 
 const Booking: React.FC<{
     itineraryContent: ItineraryContent;
@@ -29,41 +42,6 @@ const Booking: React.FC<{
     arrAirport,
     isMobile,
 }) => {
-    const defaultFormInput = {
-        itinerary: {
-            departureDate: "",
-            departureAirport: undefined,
-            departureAirportComplete: false,
-            roomSelection: String(bookingContent.defaultHotel),
-            optionalActivities: [],
-        },
-        contact: {
-            firstName: undefined,
-            lastName: undefined,
-            email: undefined,
-            emailConfirm: undefined,
-            countryCode: undefined,
-            phoneNumber: undefined,
-            country: undefined,
-            specialRequests: undefined,
-        },
-        payment: {
-            email: undefined,
-            phoneNumber: undefined,
-            addressLine1: undefined,
-            addressLine2: undefined,
-            postcode: undefined,
-            city: undefined,
-            country: undefined,
-            state: undefined,
-            cardNo: undefined,
-            cardholder: undefined,
-            expiry: undefined,
-            cvc: undefined,
-            consent: false,
-        },
-    };
-
     const [formInputs, setFormInputs] =
         useState<FormInputType>(defaultFormInput);
 
@@ -74,7 +52,30 @@ const Booking: React.FC<{
     const [completedBookingSections, setCompletedBookingSections] = useState<
         number[]
     >([]);
-    const [isFlightLoading, setIsFlightLoading] = useState<boolean>(false);
+    const [errors, setErrors] = useState<ErrorTypes>(defaultFormErrors);
+    const [errorCount, setErrorCount] = useState<Record<BookingKey, number>>({
+        itinerary: 1,
+        contact: 1,
+        payment: 1,
+    });
+
+    const handleErrorChange = (
+        section: keyof ErrorTypes,
+        fieldCode: ItineraryKeys | ContactKeys | PaymentKeys,
+        error: boolean,
+        message: string
+    ) => {
+        setErrors((prev) => ({
+            ...prev,
+            [section]: {
+                ...prev[section],
+                [fieldCode]: {
+                    withoutError: error,
+                    message: message,
+                },
+            },
+        }));
+    };
 
     const handleDateInput = (dateInput: string) => {
         const [day, month, year] = dateInput.split("/");
@@ -131,8 +132,34 @@ const Booking: React.FC<{
 
     useEffect(() => {
         setFormInputs(defaultFormInput);
+        setFormInputs((prev) => ({
+            ...prev,
+            itinerary: {
+                ...prev.itinerary,
+                roomSelection: String(bookingContent.defaultHotel),
+            },
+        }));
         setCurrentBookingComponent(0);
     }, [bookingContent]);
+
+    useEffect(() => {
+        Object.keys(errors).forEach((bookingPage) => {
+            const section = bookingPage as keyof ErrorTypes;
+
+            let errorCount = 0;
+
+            Object.values(errors[section]).forEach((field) => {
+                if (!field.withoutError) {
+                    errorCount++;
+                }
+            });
+
+            setErrorCount((prev) => ({
+                ...prev,
+                [bookingPage]: errorCount,
+            }));
+        });
+    }, [errors]);
 
     useEffect(() => {
         const getAirportCodes = async () => {
@@ -172,9 +199,9 @@ const Booking: React.FC<{
         }
 
         const getFlightData = async () => {
-            try {
-                setIsFlightLoading(true);
+            // handleErrorChange("itinerary", "flightPriceLoading", false, "");
 
+            try {
                 const flightData = await getTotalFlightCost(
                     departureAirport,
                     arrAirport,
@@ -209,9 +236,10 @@ const Booking: React.FC<{
                     }));
                 }
 
-                setIsFlightLoading(false);
+                handleErrorChange("itinerary", "flightPriceLoading", true, "");
             } catch (error) {
                 console.error("Error fetching flight data:", error);
+                handleErrorChange("itinerary", "flightPriceLoading", true, "");
             }
         };
 
@@ -241,16 +269,55 @@ const Booking: React.FC<{
             formInputs={formInputs}
             handleInputChange={handleInputChange}
             bookingContent={bookingContent}
+            updateErrors={(
+                withoutError: boolean,
+                fieldCode: string,
+                message: string
+            ): void => {
+                handleErrorChange(
+                    "itinerary",
+                    fieldCode as ItineraryKeys,
+                    withoutError,
+                    message
+                );
+            }}
+            errors={errors}
         />,
         <BookingContact
             formInputs={formInputs}
             handleInputChange={handleInputChange}
+            updateErrors={(
+                withoutError: boolean,
+                fieldCode: string,
+                message: string
+            ): void => {
+                handleErrorChange(
+                    "contact",
+                    fieldCode as ContactKeys,
+                    withoutError,
+                    message
+                );
+            }}
+            errors={errors}
         />,
         <BookingPayment
             formInputs={formInputs}
             handleInputChange={handleInputChange}
             completedBookingSections={completedBookingSections}
             setCompletedBookingSections={setCompletedBookingSections}
+            updateErrors={(
+                withoutError: boolean,
+                fieldCode: string,
+                message: string
+            ): void => {
+                handleErrorChange(
+                    "payment",
+                    fieldCode as PaymentKeys,
+                    withoutError,
+                    message
+                );
+            }}
+            errors={errors}
         />,
         <BookingConfirmation />,
     ];
@@ -339,7 +406,13 @@ const Booking: React.FC<{
                                 )}
 
                                 <p
-                                    className="px-6 py-2 bg-primary hover:bg-primaryOff transition-all rounded-lg text-white cursor-pointer"
+                                    className={`px-6 py-2 transition-all rounded-lg text-white ${
+                                        errorCount[
+                                            bookingKeys[currentBookingComponent]
+                                        ] > 0
+                                            ? "bg-gray-300 cursor-default"
+                                            : "bg-primary hover:bg-primaryOff cursor-pointer"
+                                    }`}
                                     onClick={() => {
                                         if (
                                             confirmFormInputsFilled(
@@ -365,18 +438,23 @@ const Booking: React.FC<{
                     )}
                 </div>
                 <div className="md:hidden block h-6"></div>
-                <div className="md:w-1/3 bg-white md:rounded-r-xl md:pr-6 md:py-10 md:pl-0 md:h-full shadow-xl md:shadow-none rounded-xl md:rounded-none">
-                    <BookingDetails
-                        itineraryContent={itineraryContent}
-                        bookingContent={bookingContent}
-                        formInputs={formInputs}
-                        currentBookingComponent={currentBookingComponent}
-                        handleDateInput={handleDateInput}
-                        flightSurcharge={flightSurcharge}
-                        isMobile={isMobile}
-                        isFlightLoading={isFlightLoading}
-                    />
-                </div>
+                {currentBookingComponent !== 3 && (
+                    <div className="md:w-1/3 bg-white md:rounded-r-xl md:pr-6 md:py-10 md:pl-0 md:h-full shadow-xl md:shadow-none rounded-xl md:rounded-none">
+                        <BookingDetails
+                            itineraryContent={itineraryContent}
+                            bookingContent={bookingContent}
+                            formInputs={formInputs}
+                            currentBookingComponent={currentBookingComponent}
+                            handleDateInput={handleDateInput}
+                            flightSurcharge={flightSurcharge}
+                            isMobile={isMobile}
+                            isFlightLoading={
+                                !errors.itinerary.flightPriceLoading
+                                    .withoutError
+                            }
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );

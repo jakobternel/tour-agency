@@ -8,6 +8,9 @@ import getUnicodeFlagIcon from "country-flag-icons/unicode";
 
 import { FormInputType } from "../../types/FormInput";
 import { BookingContent } from "../../types/InputData";
+import { ErrorTypes } from "../../types/FormValidation";
+
+import { validationSchemas } from "../../utils/validation";
 
 const BookingItinerary: React.FC<{
     formInputs: FormInputType;
@@ -17,7 +20,19 @@ const BookingItinerary: React.FC<{
         value: FormInputType[T][keyof FormInputType[T]]
     ) => void;
     bookingContent: BookingContent;
-}> = ({ formInputs, handleInputChange, bookingContent }) => {
+    updateErrors: (
+        withoutError: boolean,
+        fieldCode: string,
+        message: string
+    ) => void;
+    errors: ErrorTypes;
+}> = ({
+    formInputs,
+    handleInputChange,
+    bookingContent,
+    updateErrors,
+    errors,
+}) => {
     const [searchActive, setSearchActive] = useState<boolean>(false);
     const [fuzzySearchResults, setFuzzySearchResults] = useState<
         { code: string; city: string; country: string }[]
@@ -26,6 +41,7 @@ const BookingItinerary: React.FC<{
         []
     );
     const [selectedDay, setSelectedDay] = useState<number>(0);
+    const [prevDateInput, setPrevDateInput] = useState<string>("");
 
     const minDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
         .toISOString()
@@ -36,6 +52,95 @@ const BookingItinerary: React.FC<{
     )
         .toISOString()
         .split("T")[0];
+
+    const formatDateString = (
+        input: string,
+        isDeleting: boolean = false
+    ): string => {
+        let cleaned = input.replace(/[^\d/]/g, "");
+
+        const slashCount = (cleaned.match(/\//g) || []).length;
+        if (slashCount > 2) {
+            const parts = cleaned.split("/").filter(Boolean);
+            cleaned = parts.slice(0, 3).join("/");
+        }
+
+        const parts = cleaned.split("/");
+
+        let day = parts[0] || "";
+        let month = parts[1] || "";
+        let year = parts[2] || "";
+
+        day = day.replace(/\D/g, "").slice(0, 2);
+        month = month.replace(/\D/g, "").slice(0, 2);
+        year = year.replace(/\D/g, "").slice(0, 4);
+
+        let formatted = day;
+
+        if ((day.length === 2 && !isDeleting) || parts.length > 1) {
+            formatted += "/";
+        }
+
+        if (month) {
+            formatted += month;
+            if ((month.length === 2 && !isDeleting) || parts.length > 2) {
+                formatted += "/";
+            }
+        }
+
+        if (year) {
+            formatted += year;
+        }
+
+        return formatted;
+    };
+
+    const normalizeDate = (date: string): string => {
+        const [day, month, year] = date.split("/");
+        return `${(day || "").padStart(2, "0")}/${(month || "").padStart(
+            2,
+            "0"
+        )}/${year || ""}`;
+    };
+
+    const parseDate = (date: string): string | null => {
+        const [day, month, year] = date.split("/");
+        if (
+            day &&
+            month &&
+            year &&
+            /^\d{1,2}$/.test(day) &&
+            /^\d{1,2}$/.test(month) &&
+            /^\d{4}$/.test(year)
+        ) {
+            const isoDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+                2,
+                "0"
+            )}`;
+            const parsed = new Date(isoDate);
+            return isNaN(parsed.getTime()) ? null : isoDate;
+        }
+        return null;
+    };
+
+    const formatToDate = (isoDate: string): string => {
+        const [year, month, day] = isoDate.split("-");
+        return `${day}/${month}/${year}`;
+    };
+
+    const adjustDate = (date: string, min: string, max: string): string => {
+        const isoDate = parseDate(date);
+        if (!isoDate) return date;
+
+        const input = new Date(isoDate);
+        const minDateObj = new Date(min);
+        const maxDateObj = new Date(max);
+
+        if (input < minDateObj) return formatToDate(min);
+        if (input > maxDateObj) return formatToDate(max);
+
+        return date;
+    };
 
     useEffect(() => {
         const getAirportCodes = async () => {
@@ -106,91 +211,114 @@ const BookingItinerary: React.FC<{
 
     return (
         <div>
-            <div className="border-b-gray-200 border-b-2 py-3 md:pr-3 flex flex-col md:flex-row gap-3 md:gap-1 items-center relative">
-                <p className="w-full md:w-1/2">
-                    Step 1 - Select Departure Airport
-                </p>
-                <div className="relative w-full md:w-1/2">
-                    <input
-                        type="text"
-                        className={`w-full border-2 py-1 focus:outline-none outline-none overflow-ellipsis pr-6 pl-2 transition-all focus:border-primary ${
-                            formInputs.itinerary.departureAirport
-                                ? "border-primary"
-                                : "border-red-200"
-                        }`}
-                        onFocus={() => setSearchActive(true)}
-                        onBlur={() => {
-                            setTimeout(() => setSearchActive(false), 150);
-                        }}
-                        onChange={(e) => {
-                            handleInputChange(
-                                "itinerary",
-                                "departureAirport",
-                                e.target.value
-                            );
+            <div className="border-b-gray-200 border-b-2 py-3">
+                <div className="flex flex-col md:pr-3 md:flex-row gap-3 md:gap-1 items-center relative">
+                    <p className="w-full md:w-1/2">
+                        Step 1 - Select Departure Airport
+                        <sup className="text-red-500">*</sup>
+                    </p>
+                    <div className="relative w-full md:w-1/2">
+                        <input
+                            type="text"
+                            className={`w-full border-2 py-1 focus:outline-none outline-none overflow-ellipsis pr-6 pl-2 transition-all focus:border-primary ${
+                                formInputs.itinerary.departureAirport
+                                    ? "border-primary"
+                                    : "border-red-200"
+                            }`}
+                            onFocus={() => setSearchActive(true)}
+                            onBlur={() => {
+                                setTimeout(() => setSearchActive(false), 150);
+                            }}
+                            onChange={(e) => {
+                                handleInputChange(
+                                    "itinerary",
+                                    "departureAirport",
+                                    e.target.value
+                                );
 
-                            if (airportCodeNameList.includes(e.target.value)) {
                                 handleInputChange(
                                     "itinerary",
                                     "departureAirportComplete",
-                                    true
+                                    airportCodeNameList.includes(e.target.value)
                                 );
-                            } else {
-                                handleInputChange(
-                                    "itinerary",
-                                    "departureAirportComplete",
-                                    false
+
+                                updateErrors(
+                                    airportCodeNameList.includes(
+                                        e.target.value
+                                    ),
+                                    "departureAirport",
+                                    !airportCodeNameList.includes(
+                                        e.target.value
+                                    )
+                                        ? "Please enter a valid departure airport."
+                                        : ""
                                 );
-                            }
-                        }}
-                        value={formInputs.itinerary.departureAirport || ""}
-                    />
-                    {searchActive &&
-                        !formInputs.itinerary.departureAirportComplete &&
-                        fuzzySearchResults.length !== 0 && (
-                            <div className="bg-red-50 w-full absolute z-10 border-2 border-primary border-t-0 flex flex-col">
-                                {fuzzySearchResults.map(
-                                    (searchResult, index) => {
-                                        return (
-                                            <span
-                                                key={index}
-                                                onClick={() => {
-                                                    handleInputChange(
-                                                        "itinerary",
-                                                        "departureAirportComplete",
-                                                        true
-                                                    );
-                                                    handleInputChange(
-                                                        "itinerary",
-                                                        "departureAirport",
-                                                        `${searchResult.code} - ${searchResult.city}, ${searchResult.country}`
-                                                    );
-                                                }}
-                                                className="bg-red-50 hover:bg-red-100 p-1 font-montserrat text-sm border-red-200 cursor-pointer [&:not(:last-child)]:border-b-2 flex flex-row justify-between"
-                                            >
-                                                <p>
-                                                    {`${searchResult.code} - ${searchResult.city}, ${searchResult.country}`}
-                                                </p>
-                                                <p>
-                                                    {getUnicodeFlagIcon(
-                                                        searchResult.country
-                                                    )}
-                                                </p>
-                                            </span>
-                                        );
-                                    }
-                                )}
-                            </div>
-                        )}
-                    <i className="fi fi-br-search absolute top-1/2 -translate-y-1/2 right-2 text-primary"></i>
+                            }}
+                            value={formInputs.itinerary.departureAirport || ""}
+                        />
+                        {searchActive &&
+                            !formInputs.itinerary.departureAirportComplete &&
+                            fuzzySearchResults.length !== 0 && (
+                                <div className="bg-red-50 w-full absolute z-10 border-2 border-primary border-t-0 flex flex-col">
+                                    {fuzzySearchResults.map(
+                                        (searchResult, index) => {
+                                            return (
+                                                <span
+                                                    key={index}
+                                                    onClick={() => {
+                                                        handleInputChange(
+                                                            "itinerary",
+                                                            "departureAirportComplete",
+                                                            true
+                                                        );
+                                                        handleInputChange(
+                                                            "itinerary",
+                                                            "departureAirport",
+                                                            `${searchResult.code} - ${searchResult.city}, ${searchResult.country}`
+                                                        );
+
+                                                        updateErrors(
+                                                            true,
+                                                            "departureAirport",
+                                                            ""
+                                                        );
+                                                    }}
+                                                    className="bg-red-50 hover:bg-red-100 p-1 font-montserrat text-sm border-red-200 cursor-pointer [&:not(:last-child)]:border-b-2 flex flex-row justify-between"
+                                                >
+                                                    <p>
+                                                        {`${searchResult.code} - ${searchResult.city}, ${searchResult.country}`}
+                                                    </p>
+                                                    <p>
+                                                        {getUnicodeFlagIcon(
+                                                            searchResult.country
+                                                        )}
+                                                    </p>
+                                                </span>
+                                            );
+                                        }
+                                    )}
+                                </div>
+                            )}
+                        <i className="fi fi-br-search absolute top-1/2 -translate-y-1/2 right-2 text-primary"></i>
+                    </div>
                 </div>
+                {errors.itinerary.departureAirport.message && (
+                    <p className="text-red-500 text-xs pt-1 h-6 mt-1">
+                        {errors.itinerary.departureAirport.message}
+                    </p>
+                )}
             </div>
-            <div className="border-b-gray-200 border-b-2 py-3 md:pr-3 flex flex-col md:flex-row gap-3 md:gap-1 items-center relative">
-                <p className="w-full md:w-1/2">Step 2 - Select Arrival Date</p>
-                <div className="w-full md:w-1/2 relative">
-                    <input
-                        type="text"
-                        className={`w-full border-2 py-1 pl-2 focus:outline-none outline-none transition-all focus:border-primary ${
+            <div className="border-b-gray-200 border-b-2 py-3">
+                <div className="flex flex-col md:pr-3 md:flex-row gap-3 md:gap-1 items-center relative">
+                    <p className="w-full md:w-1/2">
+                        Step 2 - Select Arrival Date
+                        <sup className="text-red-500">*</sup>
+                    </p>
+                    <div className="w-full md:w-1/2 relative">
+                        <input
+                            type="text"
+                            className={`w-full border-2 py-1 pl-2 focus:outline-none outline-none transition-all focus:border-primary
+                        ${
                             formInputs.itinerary.departureDate &&
                             !isNaN(
                                 new Date(
@@ -200,68 +328,67 @@ const BookingItinerary: React.FC<{
                                 ? "border-primary"
                                 : "border-red-200"
                         }`}
-                        placeholder="dd/mm/yyyy"
-                        value={formInputs.itinerary.departureDate}
-                        onChange={(e) => {
-                            let inputValue = e.target.value.replace(
-                                /[^0-9/]/g,
-                                ""
-                            );
+                            placeholder="dd/mm/yyyy"
+                            value={formInputs.itinerary.departureDate}
+                            onChange={(e) => {
+                                const rawInput = e.target.value;
+                                let adjusted = null;
 
-                            const [day, month, year] = inputValue.split("/");
+                                const isDeleting =
+                                    prevDateInput.length > rawInput.length;
 
-                            let slashCount = 0;
-                            inputValue = inputValue
-                                .split("")
-                                .filter((char) => {
-                                    if (char === "/") {
-                                        slashCount++;
-                                        return slashCount <= 2;
-                                    }
-                                    return true;
-                                })
-                                .join("");
+                                const formatted = formatDateString(
+                                    rawInput,
+                                    isDeleting
+                                );
+                                const slashCount = (
+                                    formatted.match(/\//g) || []
+                                ).length;
 
-                            if (
-                                (!day ||
-                                    (Number(day) >= 1 && Number(day) <= 31)) &&
-                                (!month ||
-                                    (Number(month) >= 1 &&
-                                        Number(month) <= 12)) &&
-                                (!year || year.length <= 4)
-                            ) {
-                                let formattedDate = inputValue;
-
-                                if (day && month && year && year.length === 4) {
-                                    const inputDate = new Date(
-                                        `${year}-${month}-${day}`
+                                if (formatted.length >= 8 && slashCount === 2) {
+                                    const normalized = normalizeDate(formatted);
+                                    adjusted = adjustDate(
+                                        normalized,
+                                        minDate,
+                                        maxDate
                                     );
-                                    const minDateObj = new Date(minDate);
-                                    const maxDateObj = new Date(maxDate);
-
-                                    if (inputDate < minDateObj) {
-                                        formattedDate = minDate
-                                            .split("-")
-                                            .reverse()
-                                            .join("/");
-                                    } else if (inputDate > maxDateObj) {
-                                        formattedDate = maxDate
-                                            .split("-")
-                                            .reverse()
-                                            .join("/");
-                                    }
+                                    handleInputChange(
+                                        "itinerary",
+                                        "departureDate",
+                                        adjusted
+                                    );
+                                } else {
+                                    handleInputChange(
+                                        "itinerary",
+                                        "departureDate",
+                                        formatted
+                                    );
                                 }
 
-                                handleInputChange(
-                                    "itinerary",
+                                const inputCheck =
+                                    validationSchemas.date.safeParse(
+                                        adjusted || formatted
+                                    );
+
+                                updateErrors(
+                                    inputCheck.success,
                                     "departureDate",
-                                    formattedDate
+                                    !inputCheck.success
+                                        ? inputCheck.error.issues[0].message
+                                        : ""
                                 );
-                            }
-                        }}
-                    />
-                    <i className="fi fi-br-calendar-day absolute top-[10px] right-2 text-primary"></i>
+
+                                setPrevDateInput(rawInput);
+                            }}
+                        />
+                        <i className="fi fi-br-calendar-day absolute top-[10px] right-2 text-primary"></i>
+                    </div>
                 </div>
+                {errors.itinerary.departureDate.message && (
+                    <p className="text-red-500 text-xs pt-1 h-6 mt-1">
+                        {errors.itinerary.departureDate.message}
+                    </p>
+                )}
             </div>
 
             <div className="border-b-gray-200 border-b-2 py-3 md:pr-3 flex flex-col md:flex-row gap-3 md:gap-1 items-center relative">

@@ -12,6 +12,13 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 import { FormInputType } from "../../types/FormInput";
+import {
+    ErrorTypes,
+    PaymentKeys,
+} from "../../types/FormValidation";
+import { ZodEffects, ZodString } from "zod";
+
+import { validationSchemas } from "../../utils/validation";
 
 const BookingPayment: React.FC<{
     formInputs: FormInputType;
@@ -22,11 +29,19 @@ const BookingPayment: React.FC<{
     ) => void;
     completedBookingSections: number[];
     setCompletedBookingSections: React.Dispatch<React.SetStateAction<number[]>>;
+    updateErrors: (
+        withoutError: boolean,
+        fieldCode: string,
+        message: string
+    ) => void;
+    errors: ErrorTypes;
 }> = ({
     formInputs,
     handleInputChange,
     completedBookingSections,
     setCompletedBookingSections,
+    updateErrors,
+    errors,
 }) => {
     const [openPaymentSection, setOpenPaymentSection] = useState<number | null>(
         0
@@ -114,12 +129,21 @@ const BookingPayment: React.FC<{
         }
 
         if (section === 1) {
+            const countryHasStates = formInputs.payment.country
+                ? State.getStatesOfCountry(formInputs.payment.country).length >
+                  0
+                : false;
+
+            const isStateValid = countryHasStates
+                ? !!formInputs.payment.state
+                : true;
+
             if (
                 !formInputs.payment.addressLine1 ||
                 !formInputs.payment.postcode ||
                 !formInputs.payment.city ||
                 !formInputs.payment.country ||
-                !formInputs.payment.state
+                !isStateValid
             ) {
                 removeCompletedSectionFromArray(1);
                 return false;
@@ -144,9 +168,29 @@ const BookingPayment: React.FC<{
         }
     };
 
+    const handleBlur = (
+        schema: ZodString | ZodEffects<any>,
+        input: string,
+        fieldCode: string
+    ): void => {
+        const inputCheck = schema.safeParse(input);
+        let message = "";
+
+        if (!inputCheck.success) {
+            message = inputCheck.error.issues[0].message;
+        }
+
+        updateErrors(inputCheck.success, fieldCode, message);
+    };
+
     useEffect(() => {
         if (formInputs.payment.email === undefined) {
             handleInputChange("payment", "email", formInputs.contact.email);
+            handleBlur(
+                validationSchemas.email,
+                formInputs.contact.email || "",
+                "email"
+            );
         }
 
         if (formInputs.payment.phoneNumber === undefined) {
@@ -155,8 +199,25 @@ const BookingPayment: React.FC<{
                 "phoneNumber",
                 formInputs.contact.phoneNumber
             );
+            handleBlur(
+                validationSchemas.phoneNumber,
+                formInputs.contact.phoneNumber || "",
+                "phoneNumber"
+            );
         }
     }, [formInputs.contact.email, formInputs.contact.phoneNumber]);
+
+    useEffect(() => {
+        const countryHasStates = State.getStatesOfCountry(
+            formInputs.payment.country
+        );
+
+        if (countryHasStates.length === 0) {
+            updateErrors(true, "state", "");
+        } else {
+            updateErrors(false, "state", "");
+        }
+    }, [formInputs.payment.country]);
 
     return (
         <div className="md:pr-6 py-3 flex flex-col gap-3">
@@ -184,7 +245,7 @@ const BookingPayment: React.FC<{
                     }`}
                 >
                     <div className="p-3 pt-0">
-                        <div className="flex flex-col md:flex-row gap-3 justify-between">
+                        <div className="flex flex-col md:flex-row justify-between">
                             <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                                 <p>Email Address</p>
                                 <input
@@ -196,6 +257,13 @@ const BookingPayment: React.FC<{
                                             e.target.value
                                         );
                                     }}
+                                    onBlur={(e) => {
+                                        handleBlur(
+                                            validationSchemas.email,
+                                            e.target.value,
+                                            "email"
+                                        );
+                                    }}
                                     type="email"
                                     className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
                                         formInputs.payment.email
@@ -203,6 +271,9 @@ const BookingPayment: React.FC<{
                                             : "border-red-200"
                                     }`}
                                 />
+                                <p className="text-red-500 text-xs pt-1 h-6">
+                                    {errors.payment.email.message}
+                                </p>
                             </div>
 
                             <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
@@ -216,6 +287,13 @@ const BookingPayment: React.FC<{
                                             e.target.value
                                         );
                                     }}
+                                    onBlur={(e) => {
+                                        handleBlur(
+                                            validationSchemas.phoneNumber,
+                                            e.target.value,
+                                            "phoneNumber"
+                                        );
+                                    }}
                                     type="tel"
                                     className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
                                         formInputs.payment.phoneNumber
@@ -223,10 +301,20 @@ const BookingPayment: React.FC<{
                                             : "border-red-200"
                                     }`}
                                 />
+                                <p className="text-red-500 text-xs pt-1 h-6">
+                                    {errors.payment.phoneNumber.message}
+                                </p>
                             </div>
                         </div>
                         <button
                             onClick={() => {
+                                if (
+                                    !errors.payment.email.withoutError ||
+                                    !errors.payment.phoneNumber.withoutError
+                                ) {
+                                    return;
+                                }
+
                                 if (confirmPaymentFieldsComplete(0)) {
                                     if (!completedBookingSections.includes(0)) {
                                         setCompletedBookingSections(
@@ -244,7 +332,7 @@ const BookingPayment: React.FC<{
                                     }
                                 }
                             }}
-                            className="border-2 border-primary rounded-lg text-sm px-3 py-2 transition-all hover:bg-red-100 mt-6"
+                            className="border-2 border-primary rounded-lg text-sm px-3 py-2 transition-all hover:bg-red-100 mt-3"
                         >
                             Confirm Details
                         </button>
@@ -279,7 +367,7 @@ const BookingPayment: React.FC<{
                     }`}
                 >
                     <div className="p-3 pt-0">
-                        <div className="flex flex-row flex-wrap gap-3 justify-between">
+                        <div className="flex flex-row flex-wrap justify-between">
                             <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
                                 <p>Address Line 1</p>
                                 <input
@@ -291,6 +379,13 @@ const BookingPayment: React.FC<{
                                             e.target.value
                                         );
                                     }}
+                                    onBlur={(e) => {
+                                        handleBlur(
+                                            validationSchemas.address,
+                                            e.target.value,
+                                            "address"
+                                        );
+                                    }}
                                     type="text"
                                     className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
                                         formInputs.payment.addressLine1
@@ -298,6 +393,9 @@ const BookingPayment: React.FC<{
                                             : "border-red-200"
                                     }`}
                                 />
+                                <p className="text-red-500 text-xs pt-1 h-6">
+                                    {errors.payment.address.message}
+                                </p>
                             </div>
 
                             <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
@@ -318,9 +416,10 @@ const BookingPayment: React.FC<{
                                             : "border-red-200"
                                     }`}
                                 />
+                                <p className="text-red-500 text-xs pt-1 h-6"></p>
                             </div>
 
-                            <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
+                            <div className="flex flex-col gap-1 relative w-[calc(50%-12px)]">
                                 <p>Postcode</p>
                                 <input
                                     value={formInputs.payment.postcode}
@@ -331,6 +430,13 @@ const BookingPayment: React.FC<{
                                             e.target.value
                                         );
                                     }}
+                                    onBlur={(e) => {
+                                        handleBlur(
+                                            validationSchemas.postcode,
+                                            e.target.value,
+                                            "postcode"
+                                        );
+                                    }}
                                     type="text"
                                     className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
                                         formInputs.payment.postcode
@@ -338,8 +444,11 @@ const BookingPayment: React.FC<{
                                             : "border-red-200"
                                     }`}
                                 />
+                                <p className="text-red-500 text-xs pt-1 h-6">
+                                    {errors.payment.postcode.message}
+                                </p>
                             </div>
-                            <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
+                            <div className="flex flex-col gap-1 relative w-[calc(50%-12px)]">
                                 <p>City</p>
                                 <input
                                     value={formInputs.payment.city}
@@ -350,6 +459,13 @@ const BookingPayment: React.FC<{
                                             e.target.value
                                         );
                                     }}
+                                    onBlur={(e) => {
+                                        handleBlur(
+                                            validationSchemas.city,
+                                            e.target.value,
+                                            "city"
+                                        );
+                                    }}
                                     type="text"
                                     className={`border-2 py-1 pl-2 focus:outline-none overflow-ellipsis flex-grow outline-none transition-all focus:border-primary ${
                                         formInputs.payment.city
@@ -357,8 +473,11 @@ const BookingPayment: React.FC<{
                                             : "border-red-200"
                                     }`}
                                 />
+                                <p className="text-red-500 text-xs pt-1 h-6">
+                                    {errors.payment.city.message}
+                                </p>
                             </div>
-                            <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
+                            <div className="flex flex-col gap-1 relative w-[calc(50%-12px)]">
                                 <p>Country</p>
                                 <div className="relative">
                                     <select
@@ -367,6 +486,15 @@ const BookingPayment: React.FC<{
                                                 ? "border-primary"
                                                 : "border-red-200"
                                         }`}
+                                        onBlur={(e) => {
+                                            updateErrors(
+                                                e.target.value !== "select",
+                                                "country",
+                                                e.target.value === "select"
+                                                    ? "Please select a country"
+                                                    : ""
+                                            );
+                                        }}
                                         defaultValue={
                                             formInputs.payment.country
                                                 ? formInputs.payment.country
@@ -398,8 +526,11 @@ const BookingPayment: React.FC<{
                                     </select>
                                     <i className="fi fi-br-angle-down absolute right-2 top-1/2 -translate-y-1/2 text-primary"></i>
                                 </div>
+                                <p className="text-red-500 text-xs pt-1 h-6">
+                                    {errors.payment.country.message}
+                                </p>
                             </div>
-                            <div className="flex flex-col gap-1 relative w-[calc(50%-6px)]">
+                            <div className="flex flex-col gap-1 relative w-[calc(50%-12px)]">
                                 <p>State/Province</p>
                                 <div className="relative">
                                     <select
@@ -413,6 +544,24 @@ const BookingPayment: React.FC<{
                                                 ? formInputs.payment.state
                                                 : "select"
                                         }
+                                        onBlur={(e) => {
+                                            const statesListCount =
+                                                State.getStatesOfCountry(
+                                                    formInputs.payment.country
+                                                ).length;
+
+                                            const isValid =
+                                                statesListCount === 0 ||
+                                                e.target.value !== "select";
+
+                                            updateErrors(
+                                                isValid,
+                                                "state",
+                                                isValid
+                                                    ? ""
+                                                    : "Please enter a state"
+                                            );
+                                        }}
                                         onChange={(e) => {
                                             handleInputChange(
                                                 "payment",
@@ -440,10 +589,30 @@ const BookingPayment: React.FC<{
                                     </select>
                                     <i className="fi fi-br-angle-down absolute right-2 top-1/2 -translate-y-1/2 text-primary"></i>
                                 </div>
+                                <p className="text-red-500 text-xs pt-1 h-6">
+                                    {errors.payment.state.message}
+                                </p>
                             </div>
                         </div>
                         <button
                             onClick={() => {
+                                const addressFields: PaymentKeys[] = [
+                                    "address",
+                                    "postcode",
+                                    "city",
+                                    "country",
+                                    "state",
+                                ];
+
+                                const addressHasErrors = addressFields.some(
+                                    (field) =>
+                                        !errors.payment[field].withoutError
+                                );
+
+                                if (addressHasErrors) {
+                                    return;
+                                }
+
                                 if (confirmPaymentFieldsComplete(1)) {
                                     if (!completedBookingSections.includes(1)) {
                                         setCompletedBookingSections(
@@ -461,7 +630,7 @@ const BookingPayment: React.FC<{
                                     }
                                 }
                             }}
-                            className="border-2 border-primary rounded-lg text-sm px-3 py-2 transition-all hover:bg-red-100 mt-6"
+                            className="border-2 border-primary rounded-lg text-sm px-3 py-2 transition-all hover:bg-red-100 mt-3"
                         >
                             Confirm Details
                         </button>
@@ -523,6 +692,13 @@ const BookingPayment: React.FC<{
                                                 )
                                             );
                                         }}
+                                        onBlur={(e) => {
+                                            handleBlur(
+                                                validationSchemas.cardNo,
+                                                e.target.value,
+                                                "cardNo"
+                                            );
+                                        }}
                                     />
                                     {cardType === "default" ? (
                                         <i className="fi fi-sr-credit-card absolute right-2 top-1/2 -translate-y-1/2 text-primary"></i>
@@ -537,6 +713,9 @@ const BookingPayment: React.FC<{
                                         />
                                     )}
                                 </div>
+                                <p className="text-red-500 text-xs pt-1 h-6">
+                                    {errors.payment.cardNo.message}
+                                </p>
                             </div>
 
                             <div className="flex flex-col gap-1 relative w-full md:w-[calc(50%-12px)]">
@@ -550,6 +729,13 @@ const BookingPayment: React.FC<{
                                             e.target.value
                                         );
                                     }}
+                                    onBlur={(e) => {
+                                        handleBlur(
+                                            validationSchemas.cardholder,
+                                            e.target.value,
+                                            "cardholder"
+                                        );
+                                    }}
                                     type="text"
                                     placeholder="John Smith"
                                     className={`border-2 py-1 focus:outline-none pl-2 w-full outline-none transition-all focus:border-primary ${
@@ -558,6 +744,9 @@ const BookingPayment: React.FC<{
                                             : "border-red-200"
                                     }`}
                                 />
+                                <p className="text-red-500 text-xs pt-1 h-6">
+                                    {errors.payment.cardholder.message}
+                                </p>
                             </div>
 
                             <div className="flex flex-col gap-1 relative md:w-[calc(25%-9px)] w-[calc(50%-6px)]">
@@ -569,6 +758,13 @@ const BookingPayment: React.FC<{
                                         e.key === "Backspace"
                                             ? setBackspacePressed(true)
                                             : setBackspacePressed(false);
+                                    }}
+                                    onBlur={(e) => {
+                                        handleBlur(
+                                            validationSchemas.expiry,
+                                            e.target.value,
+                                            "expiry"
+                                        );
                                     }}
                                     onChange={(
                                         e: React.ChangeEvent<HTMLInputElement>
@@ -585,6 +781,10 @@ const BookingPayment: React.FC<{
                                             return;
                                         }
 
+                                        if (value.length > 7) {
+                                            value = value.slice(0, 7);
+                                        }
+
                                         if (
                                             value.length === 3 &&
                                             backspacePressed
@@ -593,18 +793,24 @@ const BookingPayment: React.FC<{
                                         }
 
                                         if (
-                                            value.length >= 2 &&
-                                            !backspacePressed &&
-                                            !value.includes("/")
+                                            value.length === 2 &&
+                                            !value.includes("/") &&
+                                            !backspacePressed
                                         ) {
-                                            value = `${value.slice(
-                                                0,
-                                                2
-                                            )}/${value.slice(2)}`;
+                                            const month = parseInt(value, 10);
+                                            if (month >= 1 && month <= 12) {
+                                                value = `${value}/`;
+                                            }
                                         }
 
-                                        if (value.length > 7) {
-                                            value = value.slice(0, 7);
+                                        const [month, year] = value.split("/");
+
+                                        if (month && parseInt(month, 10) > 12) {
+                                            return;
+                                        }
+
+                                        if (year && year.length > 4) {
+                                            return;
                                         }
 
                                         handleInputChange(
@@ -651,6 +857,13 @@ const BookingPayment: React.FC<{
                                             : "border-red-200"
                                     }`}
                                     value={formInputs.payment.cvc}
+                                    onBlur={(e) => {
+                                        handleBlur(
+                                            validationSchemas.cvc,
+                                            e.target.value,
+                                            "cvc"
+                                        );
+                                    }}
                                     onChange={(e) => {
                                         const digits = e.target.value.replace(
                                             /\D+/g,
@@ -672,16 +885,37 @@ const BookingPayment: React.FC<{
                                     }}
                                 />
                             </div>
+                            {(errors.payment.expiry.message ||
+                                errors.payment.cvc.message) && (
+                                <div className="w-full">
+                                    <p className="text-red-500 text-xs pt-1 h-6 -mt-2">
+                                        {`${errors.payment.expiry.message}${
+                                            errors.payment.expiry.message &&
+                                            errors.payment.cvc.message
+                                                ? ". "
+                                                : ""
+                                        }${errors.payment.cvc.message}`}
+                                    </p>
+                                </div>
+                            )}
                             <div className="flex flex-row gap-1 items-center w-full">
                                 <input
                                     className="md:mr-0 mr-2"
-                                    onChange={() =>
+                                    onChange={(e) => {
                                         handleInputChange(
                                             "payment",
                                             "consent",
                                             !formInputs.payment.consent
-                                        )
-                                    }
+                                        );
+
+                                        updateErrors(
+                                            e.target.checked,
+                                            "consent",
+                                            e.target.checked
+                                                ? ""
+                                                : "Please consent to the above"
+                                        );
+                                    }}
                                     checked={formInputs.payment.consent}
                                     type="checkbox"
                                     name="consent"
@@ -692,9 +926,31 @@ const BookingPayment: React.FC<{
                                     and card details.
                                 </label>
                             </div>
+                            {errors.payment.consent.message && (
+                                <p className="text-red-500 text-xs pt-1 h-6 -mt-2">
+                                    {errors.payment.consent.message}
+                                </p>
+                            )}
                         </div>
                         <button
                             onClick={() => {
+                                const addressFields: PaymentKeys[] = [
+                                    "cardNo",
+                                    "cardholder",
+                                    "expiry",
+                                    "cvc",
+                                    "consent",
+                                ];
+
+                                const addressHasErrors = addressFields.some(
+                                    (field) =>
+                                        !errors.payment[field].withoutError
+                                );
+
+                                if (addressHasErrors) {
+                                    return;
+                                }
+
                                 if (confirmPaymentFieldsComplete(2)) {
                                     if (!completedBookingSections.includes(2)) {
                                         setCompletedBookingSections(
@@ -708,7 +964,7 @@ const BookingPayment: React.FC<{
                                     setOpenPaymentSection(null);
                                 }
                             }}
-                            className="border-2 border-primary rounded-lg text-sm px-3 py-2 transition-all hover:bg-red-100 mt-6"
+                            className="border-2 border-primary rounded-lg text-sm px-3 py-2 transition-all hover:bg-red-100 mt-3"
                         >
                             Confirm Details
                         </button>
