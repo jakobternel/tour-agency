@@ -366,7 +366,7 @@ const BookingContact: React.FC<{
                         handleInputChange(
                             "contact",
                             "specialRequests",
-                            e.target.value
+                            e.target.value.slice(0, 2000)
                         )
                     }
                     className={`border-2 focus:outline-none h-full p-2 resize-none outline-none transition-all focus:border-primary ${
@@ -375,6 +375,9 @@ const BookingContact: React.FC<{
                             : "border-red-200"
                     }`}
                 ></textarea>
+                <p className="self-end text-xs text-gray-500">
+                    {formInputs.contact.specialRequests?.length || "0"}/2000
+                </p>
             </div>
         </div>
     );
