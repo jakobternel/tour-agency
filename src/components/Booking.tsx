@@ -58,6 +58,8 @@ const Booking: React.FC<{
         contact: 1,
         payment: 1,
     });
+    const [loadingConfirmation, setLoadingConfirmation] =
+        useState<boolean>(false);
 
     const handleErrorChange = (
         section: keyof ErrorTypes,
@@ -419,42 +421,62 @@ const Booking: React.FC<{
                                                 currentBookingComponent
                                             )
                                         ) {
-                                            setCurrentBookingComponent(
-                                                (currentBookingComponent) =>
-                                                    (currentBookingComponent +
-                                                        1 +
-                                                        bookingComponents.length) %
-                                                    bookingComponents.length
-                                            );
+                                            if (currentBookingComponent === 2) {
+                                                setLoadingConfirmation(true);
+                                                setTimeout(() => {
+                                                    setLoadingConfirmation(
+                                                        false
+                                                    );
+                                                    setCurrentBookingComponent(
+                                                        3
+                                                    );
+                                                }, 3000);
+                                            } else {
+                                                setCurrentBookingComponent(
+                                                    (currentBookingComponent) =>
+                                                        (currentBookingComponent +
+                                                            1 +
+                                                            bookingComponents.length) %
+                                                        bookingComponents.length
+                                                );
+                                            }
                                         }
                                     }}
                                 >
-                                    {currentBookingComponent === 2
-                                        ? "Make Payment"
-                                        : "Next"}
+                                    {!loadingConfirmation
+                                        ? currentBookingComponent === 2
+                                            ? "Make Payment"
+                                            : "Next"
+                                        : ""}
+                                    {loadingConfirmation && (
+                                        <span className="flex justify-center h-[calc(40px-1rem)] w-[calc(154.27px-3rem)]">
+                                            <i className="fi fi-br-spinner animate-spin self-center"></i>
+                                        </span>
+                                    )}
                                 </p>
                             </div>
                         </>
                     )}
                 </div>
                 <div className="md:hidden block h-6"></div>
-                {currentBookingComponent !== 3 && (
-                    <div className="md:w-1/3 bg-white md:rounded-r-xl md:pr-6 md:py-10 md:pl-0 md:h-full shadow-xl md:shadow-none rounded-xl md:rounded-none">
-                        <BookingDetails
-                            itineraryContent={itineraryContent}
-                            bookingContent={bookingContent}
-                            formInputs={formInputs}
-                            currentBookingComponent={currentBookingComponent}
-                            handleDateInput={handleDateInput}
-                            flightSurcharge={flightSurcharge}
-                            isMobile={isMobile}
-                            isFlightLoading={
-                                !errors.itinerary.flightPriceLoading
-                                    .withoutError
-                            }
-                        />
-                    </div>
-                )}
+                <div
+                    className={`${
+                        currentBookingComponent !== 3 ? "md:w-1/3" : ""
+                    } bg-white md:rounded-r-xl md:pr-6 md:py-10 md:pl-0 md:h-full shadow-xl md:shadow-none rounded-xl md:rounded-none`}
+                >
+                    <BookingDetails
+                        itineraryContent={itineraryContent}
+                        bookingContent={bookingContent}
+                        formInputs={formInputs}
+                        currentBookingComponent={currentBookingComponent}
+                        handleDateInput={handleDateInput}
+                        flightSurcharge={flightSurcharge}
+                        isMobile={isMobile}
+                        isFlightLoading={
+                            !errors.itinerary.flightPriceLoading.withoutError
+                        }
+                    />
+                </div>
             </div>
         </div>
     );

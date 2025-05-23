@@ -1,6 +1,6 @@
 const BookingConfirmation: React.FC = () => {
     return (
-        <div className="w-full h-64 flex flex-col items-center justify-center">
+        <div className="md:pr-4 w-full h-64 flex flex-col items-center justify-center">
             <div className="relative size-32 flex justify-center items-center">
                 <div className="bg-primary size-16 flex items-center justify-center rounded-full">
                     <i className="fi fi-br-check text-3xl text-white"></i>
